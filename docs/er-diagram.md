@@ -6,6 +6,7 @@ event ||--o{ reservation : "1:N"
 member ||--o{ reservation : "1:N"
 reservation ||--o{ reservation_history : "1:N"
 recurring_rules ||--o{ event : "1:N"
+event ||--o{ event_history : "1:N"
 member ||--o{ event : "1:N"
 
 %% 멤버
