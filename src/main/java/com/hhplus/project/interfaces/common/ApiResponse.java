@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ApiResponse<T> {
 
-    private int status;
-    private String message;
+    private final int status;
+    private final String message;
     private T data;
 
     public ApiResponse(HttpStatus status, String message, T data) {
@@ -33,5 +33,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> ok(String message) {
         return of(HttpStatus.OK, message);
+    }
+
+    public static <T> ApiResponse<T> ok(T data) {
+        return of(HttpStatus.OK, "요청에 성공하였습니다.", data);
     }
 }
