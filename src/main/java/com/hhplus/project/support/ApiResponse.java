@@ -22,6 +22,10 @@ public record ApiResponse<T>(
         return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, new Error(errorCode, message));
     }
 
+    public static <T> ApiResponse<T> fail(ExceptionInterface exceptionInterface) {
+        return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, Error.create(exceptionInterface));
+    }
+
     public static <T> ApiResponse<T> fail(BaseException baseException) {
         return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, Error.create(baseException));
     }
@@ -33,6 +37,10 @@ public record ApiResponse<T>(
 
         private static Error create(String errorCode, String message) {
             return new Error(errorCode, message);
+        }
+
+        private static Error create(ExceptionInterface exceptionInterface) {
+            return create(exceptionInterface.getCode(), exceptionInterface.getMessage());
         }
 
         private static Error create(BaseException baseException) {

@@ -16,12 +16,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ApiResponse<Void> exceptionHandler(Exception e) {
-        return ApiResponse.fail(e.getMessage());
+        log.error(e.getMessage(), e);
+        return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ApiResponse<Void> runtimeExceptionHandler(RuntimeException e) {
-        return ApiResponse.fail(e.getMessage());
+        log.error(e.getMessage(), e);
+        return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -29,17 +31,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = (FieldError) bindingResult.getAllErrors().getFirst();
         String errorMessage = MessageFormat.format("{0} {1}", fieldError.getField(), fieldError.getDefaultMessage());
-
         // TODO: 공통 로그 포멧 적용
         log.warn(errorMessage);
-
-        return ApiResponse.fail(fieldError.getDefaultMessage());
+        return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED.getCode(), errorMessage);
     }
 
     public ApiResponse<Void> baseExceptionHandler(BaseException e) {
         // TODO: 공통 로그 포멧 적용
         log.warn(e.getMessage());
-
-        return ApiResponse.fail(e.getMessage());
+        return ApiResponse.fail(e);
     }
 }
