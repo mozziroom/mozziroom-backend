@@ -1,6 +1,6 @@
 package com.hhplus.project.interfaces.member;
 
-import com.hhplus.project.interfaces.common.ApiResponse;
+import com.hhplus.project.support.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
