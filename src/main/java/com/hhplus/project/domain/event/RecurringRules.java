@@ -22,8 +22,8 @@ public class RecurringRules {
     private RecurringRulesEnums.Type recurringType;
 
     /** 주기 */
-    @Column(name = "interval", nullable = false)
-    private int interval;
+    @Column(name = "repeat_interval", nullable = false)
+    private int repeatInterval;
 
     /** 반복 시작일 */
     @Column(name = "start_date", nullable = false)
