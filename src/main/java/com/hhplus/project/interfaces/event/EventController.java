@@ -32,7 +32,7 @@ public class EventController {
 
     @Operation(summary = "이벤트 수정 API", description = "이벤트 정보를 수정합니다.")
     @PatchMapping("/{eventId}")
-    public ApiResponse<Void> updateEvent(@Parameter(description = "이벤트ID") @PathVariable Long eventId, @Parameter(description = "이벤트 변경 정보") @RequestBody EventRequest.Update request) {
+    public ApiResponse<Void> updateEvent(@Parameter(description = "이벤트ID") @PathVariable Long eventId, @Parameter(description = "이벤트 변경 정보") @RequestBody UpdateEvent request) {
         return ApiResponse.ok();
     }
 
