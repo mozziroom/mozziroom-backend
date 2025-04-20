@@ -5,4 +5,10 @@ public class EventEnums {
     public enum SortType {
         POPULAR, MOST_APPLIED, NEW
     }
+
+    public enum ApproveType {
+        AUTO, MANUAL
+    }
+
+
 }
