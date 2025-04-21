@@ -13,9 +13,9 @@ public record FindEventList(
             @Schema(description = "검색어", example = "성수 모각코")
             String keyword,
             @Schema(description = "시작일시", example = "2025-04-11T18:40:00")
-            LocalDateTime startedAt,
+            LocalDateTime startAt,
             @Schema(description = "종료일시", example = "2025-04-12T18:00:00")
-            LocalDateTime endedAt,
+            LocalDateTime endAt,
             // TODO: 정렬 타입같은 Enum 위치 어디에 둘지 정하기
             @Schema(description = "정렬 기준", example = "인기순, 정원순, 최신순 등등.. (POPULAR, MOST_APPLIED, NEW)")
             EventEnums.SortType sortType
@@ -35,7 +35,7 @@ public record FindEventList(
             @Schema(description = "장소", example = "성수 29cm 앞")
             String place,
             @Schema(description = "시작일시", example = "2025-04-11T18:30:00")
-            LocalDateTime startedAt
+            LocalDateTime startAt
     ) {
 
         public static Response create() {

@@ -8,8 +8,8 @@ public interface EventApiDto {
 
     record RegisterRequest(
             String event_name,
-            LocalDateTime startedAt,
-            LocalDateTime endedAt,
+            LocalDateTime startAt,
+            LocalDateTime endAt,
             int capacity,
             String place,
             String approveType, // ENUM
@@ -33,7 +33,7 @@ public interface EventApiDto {
 
     record RecurringRulesRegister(
             String recurringType, // ENUM
-            int interval,
+            int recurring_interval,
             String startDate,
             String endDate
     ) {

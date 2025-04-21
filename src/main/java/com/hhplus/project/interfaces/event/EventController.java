@@ -32,7 +32,7 @@ public class EventController {
 
     @Operation(summary = "이벤트 수정 API", description = "이벤트 정보를 수정합니다.")
     @PatchMapping("/{eventId}")
-    public ApiResponse<Void> updateEvent(@Parameter(description = "이벤트ID") @PathVariable Long eventId, @Parameter(description = "이벤트 변경 정보") @RequestBody EventRequest.Update request) {
+    public ApiResponse<Void> updateEvent(@Parameter(description = "이벤트ID") @PathVariable Long eventId, @Parameter(description = "이벤트 변경 정보") @RequestBody UpdateEvent request) {
         return ApiResponse.ok();
     }
 
@@ -41,8 +41,8 @@ public class EventController {
     public ResponseEntity<ApiResponse<EventApiDto.RegisterResponse>> register(@RequestBody EventApiDto.RegisterRequest request) {
         String eventNm = request.event_name();
         int registerCount = request.capacity();
-        LocalDateTime startAt = request.startedAt();
-        LocalDateTime endedAt = request.endedAt();
+        LocalDateTime startAt = request.startAt();
+        LocalDateTime endAt = request.endAt();
         HttpStatus status = HttpStatus.CREATED;
 
         if (eventNm.equals("虑好了")) {
@@ -63,7 +63,7 @@ public class EventController {
                             EventApiDto.RegisterResponse.error("Only 10 time")), status);
         }
 
-        if (startAt.isAfter(endedAt)) {
+        if (startAt.isAfter(endAt)) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(
                     ApiResponse.of(
