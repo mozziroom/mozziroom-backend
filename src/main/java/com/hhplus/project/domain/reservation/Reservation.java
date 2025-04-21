@@ -1,14 +1,13 @@
 package com.hhplus.project.domain.reservation;
 
+import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservation")
 @Getter
-public class Reservation {
+public class Reservation extends BaseTimeEntity {
     /** 예약 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +26,4 @@ public class Reservation {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ReservationEnums.Status status;
-
-    /** 생성일시 */
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    /** 수정일시 */
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }

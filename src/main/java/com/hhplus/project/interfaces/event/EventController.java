@@ -41,8 +41,8 @@ public class EventController {
     public ResponseEntity<ApiResponse<EventApiDto.RegisterResponse>> register(@RequestBody EventApiDto.RegisterRequest request) {
         String eventNm = request.event_name();
         int registerCount = request.capacity();
-        LocalDateTime startAt = request.startedAt();
-        LocalDateTime endedAt = request.endedAt();
+        LocalDateTime startAt = request.startAt();
+        LocalDateTime endAt = request.endAt();
         HttpStatus status = HttpStatus.CREATED;
 
         if (eventNm.equals("虑好了")) {
@@ -63,7 +63,7 @@ public class EventController {
                             EventApiDto.RegisterResponse.error("Only 10 time")), status);
         }
 
-        if (startAt.isAfter(endedAt)) {
+        if (startAt.isAfter(endAt)) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(
                     ApiResponse.of(

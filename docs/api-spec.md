@@ -17,8 +17,8 @@
 | 파라미터      | 타입       | 설명                |  
 |-----------|----------|-------------------|  
 | keyword   | string   | 검색어               |  
-| startedAt | datetime | 시작일시              |
-| endedAt   | datetime | 종료일시              |
+| startAt | datetime | 시작일시              |
+| endAt   | datetime | 종료일시              |
 | sort      | string   | 정렬 기준(인기순, 정원순 등) |  
 | page      | number   | 페이지 번호            |
 | size      | number   | 페이지 사이즈           |
@@ -33,7 +33,7 @@
     "currentCapacity": 1,
     "capacity": 10,
     "place": "성수 29cm 앞",
-    "startedAt": "2025-04-11T18:40:00"
+    "startAt": "2025-04-11T18:40:00"
   },
   {
     "eventId": 102,
@@ -41,7 +41,7 @@
     "currentCapacity": 3,
     "capacity": 8,
     "place": "팀스파르타",
-    "startedAt": "2025-04-30T18:40:00"
+    "startAt": "2025-04-30T18:40:00"
   }
 ]  
 ```  
@@ -53,7 +53,7 @@
 | applicantCount | number   | 신청인원    |
 | capacity       | number   | 정원      |
 | place          | string   | 장소      |
-| startedAt      | datetime | 시작일시    |
+| startAt      | datetime | 시작일시    |
 
 ## 이벤트 상세조회
 
@@ -71,8 +71,8 @@
 ```json  
 {
   "eventDate": "2025-04-05",
-  "startedAt": "16:00",
-  "endedAt": "22:00",
+  "startAt": "16:00",
+  "endAt": "22:00",
   "place": "건대입구역",
   "content": "너와 함께라서 따뜻한 봄날이었다,,",
   "participants": [
@@ -104,7 +104,7 @@
   "recurringRules": {
     "recurringRulesId": 5,
     "recurringType": "주간",
-    "interval": 1,
+    "recurring_interval": 1,
     "startDate": "2025-04-10",
     "endDate": "2025-06-10"
   }
@@ -113,8 +113,8 @@
 
 | 필드명                | 타입       | 설명          |  
 |--------------------|----------|-------------|
-| startedAt          | datetime | 이벤트 시작 일시   |
-| endedAt            | datetime | 이벤트 종료 일시   |
+| startAt          | datetime | 이벤트 시작 일시   |
+| endAt            | datetime | 이벤트 종료 일시   |
 | place              | string   | 장소          |
 | content            | string   | 내용          |
 | participants       | object   | 참여자         |
@@ -123,7 +123,7 @@
 | recurringRules     | object   | 반복 일정       |
 | ⎿ recurringRulesId | number   | 반복 규칙 식별자   |
 | ⎿ recurringType    | string   | 반복 타입       |
-| ⎿ interval         | number   | 반복 횟수       |
+| ⎿ recurring_interval         | number   | 반복 횟수       |
 | ⎿ startDate        | date     | 시작일         |
 | ⎿ endDate          | date     | 종료일         |
 
@@ -144,14 +144,14 @@
 ```json
 {
   "event_name": "서각코 모집",
-  "startedAt": "2025-04-10T14:00:00",
-  "endedAt": "2025-04-10T16:00:00",
+  "startAt": "2025-04-10T14:00:00",
+  "endAt": "2025-04-10T16:00:00",
   "capacity": 30,
   "place": "서울 강남구 스타벅스",
   "approveType": "자동 -> enum (AUTO, MANUAL)",
   "recurringRules": {
     "recurringType": "WEEK -> enum (YEAR, MON, WEEK, DAY)",
-    "interval": 1,
+    "recurring_interval": 1,
     "startDate": "2025-04-10",
     "endDate": "2025-06-10"
   }
@@ -228,8 +228,8 @@
 ```json  
 {
   "name": "서각코 모집",
-  "startedAt": "2025-04-10T14:00:00",
-  "endedAt": "2025-04-10T16:00:00",
+  "startAt": "2025-04-10T14:00:00",
+  "endAt": "2025-04-10T16:00:00",
   "host_id": 1002,
   "capacity": 30,
   "place": "서울 강남구 스타벅스",
@@ -237,9 +237,9 @@
   "recurringRules": {
     "recurringRulesId": 5,
     "recurringType": "주간 -> enum (YEAR, MON, WEEK, DAY)",
-    "interval": 1,
-    "startedAt": "2025-04-10",
-    "endedAt": "2025-06-10"
+    "recurring_interval": 1,
+    "startAt": "2025-04-10",
+    "endAt": "2025-06-10"
   }
 }
 ```  
@@ -247,8 +247,8 @@
 | 필드명                | 타입       | 설명        |  
 |--------------------|----------|-----------|
 | name               | string   | 이벤트 명     |
-| startedAt          | datetime | 시작일시      |
-| endedAt            | datetime | 종료일시      |
+| startAt          | datetime | 시작일시      |
+| endAt            | datetime | 종료일시      |
 | host_id            | number   | 주최자 식별자   |
 | capacity           | number   | 정원        |
 | place              | string   | 장소        |
@@ -256,9 +256,9 @@
 | recurringRules     | object   | 반복 규칙     |
 | ⎿ recurringRulesId | number   | 반복 규칙 식별자 |
 | ⎿ recurringType    | string   | 반복 타입     |
-| ⎿ interval         | number   | 반복 횟수     |
-| ⎿ startedAt        | date     | 시작일       |
-| ⎿ endedAt          | date     | 종료일       |
+| ⎿ recurring_interval         | number   | 반복 횟수     |
+| ⎿ startAt        | date     | 시작일       |
+| ⎿ endAt          | date     | 종료일       |
 
 ## 이벤트 예약/예약취소
 

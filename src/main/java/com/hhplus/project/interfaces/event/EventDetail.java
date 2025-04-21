@@ -54,7 +54,7 @@ public class EventDetail {
             @Schema(description = "반복 타입", example = "WEEKLY")
             String recurringType,
             @Schema(description = "주기", example = "1")
-            int interval,
+            int recurring_interval,
             @Schema(description = "반복 시작일자", example = "2025-06-01")
             LocalDate startDate,
             @Schema(description = "반복 종료일자", example = "2025-12-31")

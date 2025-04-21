@@ -1,5 +1,6 @@
 package com.hhplus.project.domain.event;
 
+import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "recurring_rules")
 @Getter
-public class RecurringRules {
+public class RecurringRules extends BaseTimeEntity {
     /** 스터디 반복 규칙 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +23,8 @@ public class RecurringRules {
     private RecurringRulesEnums.Type recurringType;
 
     /** 주기 */
-    @Column(name = "repeat_interval", nullable = false)
-    private int repeatInterval;
+    @Column(name = "recurring_interval", nullable = false)
+    private int recurringInterval;
 
     /** 반복 시작일 */
     @Column(name = "start_date", nullable = false)
@@ -32,14 +33,6 @@ public class RecurringRules {
     /** 반복 종료일 */
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
-
-    /** 생성일시 */
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    /** 수정일시 */
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     /** 삭제일시 */
     @Column(name = "deleted_at")

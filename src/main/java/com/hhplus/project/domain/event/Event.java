@@ -1,5 +1,6 @@
 package com.hhplus.project.domain.event;
 
+import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "event")
 @Getter
-public class Event {
+public class Event extends BaseTimeEntity {
     /** 스터디 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +24,12 @@ public class Event {
     private String content;
 
     /** 스터디 시작시간 */
-    @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt;
+    @Column(name = "start_at", nullable = false)
+    private LocalDateTime startAt;
 
     /** 스터디 종료시간 */
-    @Column(name = "ended_at", nullable = false)
-    private LocalDateTime endedAt;
+    @Column(name = "end_at", nullable = false)
+    private LocalDateTime endAt;
 
     /** 스터디 주최자 (member_id) */
     @Column(name = "host_id", nullable = false)
@@ -49,16 +50,8 @@ public class Event {
 
     /** 스터디 반복 규칙 */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recurring_rules_id")
+    @JoinColumn(name = "recurring_rules_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private RecurringRules recurringRules;
-
-    /** 생성일시 */
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    /** 수정일시 */
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     /** 삭제일시 */
     @Column(name = "deleted_at")
