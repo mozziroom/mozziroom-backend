@@ -36,42 +36,9 @@ public class EventController {
         return ApiResponse.ok();
     }
 
-    // TODO: BO API 분리?
+    @Operation(summary = "이벤트 생성 API", description = "이벤트를 생성합니다.")
     @PostMapping("")
-    public ResponseEntity<ApiResponse<EventApiDto.RegisterResponse>> register(@RequestBody EventApiDto.RegisterRequest request) {
-        String eventNm = request.event_name();
-        int registerCount = request.capacity();
-        LocalDateTime startAt = request.startAt();
-        LocalDateTime endAt = request.endAt();
-        HttpStatus status = HttpStatus.CREATED;
-
-        if (eventNm.equals("虑好了")) {
-            status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>(
-                    ApiResponse.of(
-                            status,
-                            "Invalid Event Title",
-                            EventApiDto.RegisterResponse.error("The title contains invalid characters or does not match the required format.")), status);
-        }
-
-        if (registerCount > 10) {
-            status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>(
-                    ApiResponse.of(
-                            status,
-                            "The maximum number of creatable rooms has been exceeded.",
-                            EventApiDto.RegisterResponse.error("Only 10 time")), status);
-        }
-
-        if (startAt.isAfter(endAt)) {
-            status = HttpStatus.BAD_REQUEST;
-            return new ResponseEntity<>(
-                    ApiResponse.of(
-                            status,
-                            "Date Error",
-                            EventApiDto.RegisterResponse.error("The start date cannot be later than the end date.")), status);
-        }
-
-        return new ResponseEntity<>(ApiResponse.of(status, "Event Create Successfully", EventApiDto.RegisterResponse.success(1L)), status);
+    public ApiResponse<CreateEvent.Response> createEvent(@Parameter(description = "이벤트 생성 정보") @RequestBody CreateEvent.Request request) {
+        return ApiResponse.ok(CreateEvent.Response.create());
     }
 }
