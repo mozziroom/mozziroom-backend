@@ -104,6 +104,8 @@ class EventControllerTest {
         ExtractableResponse<Response> response = RestAssured
                 .given()
                 .port(port)
+                .body(request)
+                .contentType(ContentType.JSON)
                 .when()
                 .post("/events")
                 .then()

@@ -10,7 +10,7 @@ public record Update() {
             @Schema(description = "닉네임", example = "kapsoo0428")
             Optional<String> nick,
 
-            @Schema(description = "프로필 URL", example = "/users/101/testImageJPG.jpg")
+            @Schema(description = "프로필 URL", example = "/users/member/101/adfafadsfdasfadsf.jpg")
             Optional<String> profileUrl
     ){}
 
