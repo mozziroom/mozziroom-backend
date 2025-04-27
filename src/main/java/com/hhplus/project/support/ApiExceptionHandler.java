@@ -12,7 +12,9 @@ import java.text.MessageFormat;
 
 @Slf4j
 @RestControllerAdvice
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandler
+//        extends ResponseEntityExceptionHandler
+{
 
     @ExceptionHandler(Exception.class)
     public ApiResponse<Void> exceptionHandler(Exception e) {
