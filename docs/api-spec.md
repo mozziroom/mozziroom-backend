@@ -108,12 +108,17 @@
     "startDate": "2025-04-10",
     "endDate": "2025-06-10"
   },
-  "categoryName": "투어",
+  "category": {
+    "mainCategory": "체험/투어",
+    "subCategory": "투어"
+  },
   "isOnline": "N",
-  "city": "서울시",
-  "district": "성동구",
-  "neighborhood": "성수동",
-  "locationDetail": "성수 29cm",
+  "location": {
+    "city": "서울시",
+    "district": "성동구",
+    "neighborhood": "성수동",
+    "locationDetail": "성수 29cm",
+  },
   "eventImages": [
     {
       "eventImageId": 1,
@@ -146,18 +151,21 @@
 | ⎿ recurring_interval | number   | 반복 횟수       |
 | ⎿ startDate          | date     | 시작일         |
 | ⎿ endDate            | date     | 종료일         |
-| categoryName       | string   | 카테고리명      |
-| isOnline           | string   | 반복 일정      |
-| city               | string   | 시          |
-| district           | string   | 구          |
-| neighborhood       | string   | 동          |
-| locationDetail     | string   | 상세 주소      |
-| eventImages        | object   | 반복 일정      |
-| ⎿ eventImageId     | number   | 이미지 ID     |
-| ⎿ eventImagePath   | string   | 이미지 경로     |
-| ⎿ sort             | number   | 정렬 순서      |
-| isHost             | string   | 호스트 여부     |
-| reservationStatus  | string   | 예약 상태      |
+| category             | object   | 카테고리        |
+| ⎿mainCategory        | string   | 메인 카테고리     |
+| ⎿subCategory         | string   | 서브 카테고리     |
+| isOnline             | string   | 반복 일정       |
+| location             | object   | 장소          |
+| ⎿city                 | string   | 시           |
+| ⎿district             | string   | 구           |
+| ⎿neighborhood         | string   | 동           |
+| ⎿locationDetail       | string   | 상세 주소       |
+| eventImages          | object   | 반복 일정       |
+| ⎿ eventImageId       | number   | 이미지 ID      |
+| ⎿ eventImagePath     | string   | 이미지 경로      |
+| ⎿ sort               | number   | 정렬 순서       |
+| isHost               | string   | 호스트 여부      |
+| reservationStatus    | string   | 예약 상태       |
 
 ## 이벤트 등록
 
