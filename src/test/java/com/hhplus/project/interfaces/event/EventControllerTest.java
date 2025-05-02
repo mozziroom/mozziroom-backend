@@ -82,13 +82,19 @@ class EventControllerTest extends BaseIntegrationTest {
     void updateEvent() {
         // given
         long eventId = 1L;
+        UpdateEvent.EventImage eventImage = new UpdateEvent.EventImage(234L, "sample.jpg");
         UpdateEvent.Request request = new UpdateEvent.Request(
+                123L,
                 "서각코 모집",
+                "스타벅스에서 모각코 하실 분!",
                 LocalDateTime.of(2025, 4, 10, 14, 0),
                 LocalDateTime.of(2025, 4, 10, 16, 0),
                 30,
-                "서울 강남구 스타벅스",
                 EventEnums.ApproveType.AUTO,
+                false,
+                12L,
+                "스타벅스 XX지점",
+                eventImage,
                 null
         );
 
