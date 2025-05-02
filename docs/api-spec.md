@@ -208,7 +208,7 @@
 
 ## 이벤트 수정
 
-- **Endpoint**: `PATCH /events/{studyId}`
+- **Endpoint**: `PATCH /events/{eventId}`
 - **Description**: 특정 이벤트를 수정한다.
 
 #### Header
@@ -227,16 +227,24 @@
 
 ```json  
 {
+  "categoryId" : 123,
   "name": "서각코 모집",
+  "content": "스타벅스에서 모각코 하실 분!",
   "startAt": "2025-04-10T14:00:00",
   "endAt": "2025-04-10T16:00:00",
   "host_id": 1002,
   "capacity": 30,
-  "place": "서울 강남구 스타벅스",
-  "approveType": "자동 -> enum (AUTO, MANUAL)",
+  "approveType": "AUTO",
+  "isOnline": false,
+  "locationId": 12,
+  "locationDetail": "스타벅스 XX지점",
+  "eventImage": {
+    "eventImageId": 234,
+    "imagePath": "sample.jpg"
+  },
   "recurringRules": {
     "recurringRulesId": 5,
-    "recurringType": "주간 -> enum (YEAR, MON, WEEK, DAY)",
+    "recurringType": "WEEK",
     "recurring_interval": 1,
     "startAt": "2025-04-10",
     "endAt": "2025-06-10"
@@ -244,21 +252,35 @@
 }
 ```  
 
-| 필드명                | 타입       | 설명        |  
-|--------------------|----------|-----------|
-| name               | string   | 이벤트 명     |
-| startAt          | datetime | 시작일시      |
-| endAt            | datetime | 종료일시      |
-| host_id            | number   | 주최자 식별자   |
-| capacity           | number   | 정원        |
-| place              | string   | 장소        |
-| approveType        | string   | 승인 타입     |
-| recurringRules     | object   | 반복 규칙     |
-| ⎿ recurringRulesId | number   | 반복 규칙 식별자 |
-| ⎿ recurringType    | string   | 반복 타입     |
-| ⎿ recurring_interval         | number   | 반복 횟수     |
-| ⎿ startAt        | date     | 시작일       |
-| ⎿ endAt          | date     | 종료일       |
+| 필드명                  | 타입       | 설명        |  
+|----------------------|----------|-----------|
+| categoryId           | number   | 카테고리 id     |
+| name                 | string   | 이벤트 명     |
+| content              | string   | 스터디 내용     |
+| startAt              | datetime | 시작일시      |
+| endAt                | datetime | 종료일시      |
+| host_id              | number   | 주최자 식별자   |
+| capacity             | number   | 정원        |
+| approveType          | string   | 승인 타입     |
+| isOnline             | boolean  | 온라인 여부     |
+| locationId           | number   | 지역 id     |
+| locationDetail       | string   | 상세 장소     |
+| recurringRules       | object   | 반복 규칙     |
+| ⎿ recurringRulesId   | number   | 반복 규칙 식별자 |
+| ⎿ recurringType      | string   | 반복 타입     |
+| ⎿ recurring_interval | number   | 반복 횟수     |
+| ⎿ startAt            | date     | 시작일       |
+| ⎿ endAt              | date     | 종료일       |
+
+#### Response Body
+
+```json
+{
+  "status": "200",
+  "data": null,
+  "error": null
+}
+```
 
 ## 이벤트 예약/예약취소
 
