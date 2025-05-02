@@ -24,6 +24,7 @@ public class Event extends BaseTimeEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    /** 스터디 내용 */
     @Column(name = "content", nullable = false)
     private String content;
 
@@ -43,10 +44,6 @@ public class Event extends BaseTimeEntity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    /** 장소 */
-    @Column(name = "place", nullable = false)
-    private String place;
-
     /** 이벤트 승인 타입 */
     @Column(name = "approve_type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -58,7 +55,7 @@ public class Event extends BaseTimeEntity {
 
     /** 지역 id */
     @Column(name = "location_id")
-    private int locationId;
+    private Long locationId;
 
     /** 상세 장소 */
     @Column(name = "location_detail", nullable = false)

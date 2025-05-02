@@ -1,6 +1,5 @@
 package com.hhplus.project.domain.event;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class EventImage extends BaseTimeEntity {
     /** 이미지 타입 */
     @Column(name = "image_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private EventEnums.ImageType image_type;
+    private EventEnums.ImageType imageType;
 
     /** 원본 파일 PATH */
     @Column(name = "origin_image_path", nullable = false)

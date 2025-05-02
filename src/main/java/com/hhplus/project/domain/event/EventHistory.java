@@ -20,6 +20,10 @@ public class EventHistory extends BaseTimeEntity {
     @Column(name = "event_id", nullable = false)
     private Long eventId;
 
+    /** 카테고리 id */
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId;
+
     /** 스터디명 */
     @Column(name = "name", nullable = false)
     private String name;
@@ -44,14 +48,22 @@ public class EventHistory extends BaseTimeEntity {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    /** 장소 */
-    @Column(name = "place", nullable = false)
-    private String place;
-
     /** 이벤트 승인 타입 */
     @Column(name = "approve_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private EventEnums.ApproveType approveType;
+
+    /** 온라인 여부 */
+    @Column(name = "is_online", nullable = false)
+    private boolean isOnline;
+
+    /** 지역 id */
+    @Column(name = "location_id")
+    private Long locationId;
+
+    /** 상세 장소 */
+    @Column(name = "location_detail", nullable = false)
+    private String locationDetail;
 
     /** 스터디 반복 규칙 id */
     @Column(name = "recurring_rules_id")
