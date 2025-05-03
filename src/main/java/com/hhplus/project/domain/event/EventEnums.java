@@ -10,5 +10,9 @@ public class EventEnums {
         AUTO, MANUAL
     }
 
+    public enum ImageType {
+        THUMBNAIL, OTHER
+    }
+
 
 }

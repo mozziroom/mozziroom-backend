@@ -19,9 +19,13 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;
 
-    /** 프로필 사진 URL */
-    @Column(name = "profile_img_url")
-    private String profileImgUrl;
+    /** 닉네임 */
+    @Column(name = "닉네임", nullable = false)
+    private String nickname;
+
+    /** 프로필 사진 PATH */
+    @Column(name = "profile_img_path")
+    private String profileImgPath;
 
     /** 이메일 */
     @Column(name = "email", nullable = false)
