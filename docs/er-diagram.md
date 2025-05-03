@@ -8,12 +8,16 @@ reservation ||--o{ reservation_history : "1:N"
 recurring_rules ||--o{ event : "1:N"
 event ||--o{ event_history : "1:N"
 member ||--o{ event : "1:N"
+event ||--o{ category : "1:1"
+event ||--o{ location : "1:1"
+event ||--o{ eventImage : "1:1"
 
 %% 멤버
 member {
 	bigint member_id PK "멤버 id"
 	varchar name "이름"
-	varchar profile_img_url "프로필 사진 URL"
+	varchar nickname "닉네임"
+	varchar profile_img_path "프로필 사진 PATH"
 	varchar email "이메일"
 	datetime created_at "생성일"
 	datetime updated_at "수정일"
@@ -22,13 +26,16 @@ member {
 %% 스터디 모임
 event {
 	bigint event_id PK "스터디 id"
+	bigint category_id "카테고리 id"
 	varchar name "스터디명"
 	longtext content "스터디 내용"
 	datetime start_at "스터디 시작시간"
 	datetime end_at "스터디 종료시간"
 	bigint host_id "스터디 주최자 (member_id)"
 	int capacity "정원"
-	varchar place "장소"
+	varchar is_online "온라인 여부"
+	bigint location_id "지역 id"
+	varchar location_detail "상세 장소"
 	varchar approve_type "이벤트 승인 타입"
 	bigint recurring_rules_id "스터디 반복 규칙 id"
 	datetime created_at "생성일시"
@@ -36,17 +43,32 @@ event {
 	datetime deleted_at "삭제일시"
 }
 
+%% 이벤트 이미지
+event_image {
+    bigint event_image_id PK "이미지 id"
+    bigint event_id "이벤트 id"
+    varchar image_type "이미지 타입 (대표이미지 등등..)"
+    varchar origin_image_path "원본 파일 PATH"
+    varchar image_path "파일 PATH"
+    int sort "정렬 순서"
+    datetime created_at "생성일"
+    datetime updated_at "수정일"
+}
+
 %% 이벤트 히스토리
 event_history {
 	bigint event_history_id PK "이벤트 히스토리 id"
 	bigint event_id "스터디 id"
+	bigint category_id "카테고리 id"
 	varchar name "스터디명"
 	longtext content "스터디 내용"
 	datetime start_at "스터디 시작시간"
 	datetime end_at "스터디 종료시간"
 	bigint host_id "스터디 주최자 (member_id)"
 	int capacity "정원"
-	varchar place "장소"
+	varchar is_online "온라인 여부"
+	bigint location_id "지역 id"
+	varchar location_detail "상세 장소"
 	varchar approve_type "이벤트 승인 타입"
 	bigint recurring_rules_id "스터디 반복 규칙 id"
 	datetime created_at "생성일시"
@@ -64,6 +86,28 @@ recurring_rules {
 	datetime created_at "생성일시"
 	datetime updated_at "수정일시"
 	datetime deleted_at "삭제일시"
+}
+
+%% 카테고리	
+category {
+    bigint category_id PK "카테고리 id"
+    varchar name "카테고리명"
+    varchar is_active "사용 여부"
+    bigint parent_id "상위 Depth id"
+    int sort "정렬 순서"
+    datetime created_at "생성일"
+    datetime updated_at "수정일"
+}
+
+%% 지역
+location {
+    bigint location_id PK "장소 id"
+    varchar region_code UK "행정구역 코드"
+    varchar city "시"
+    varchar district "구"
+    varchar neighborhood "동"
+    datetime created_at "생성일"
+    datetime updated_at "수정일"
 }
 
 %% 예약
