@@ -33,7 +33,7 @@ public record FindEventList(
     public record Response(
             @Schema(description = "이벤트 Id", example = "101")
             Long eventId,
-            @Schema(description = "이벤트 썸네일 이미지")
+            @Schema(description = "이벤트 썸네일 이미지 경로")
             String thumbnailImagePath,
             @Schema(description = "이벤트명", example = "백엔드 스터디 모집")
             String name,

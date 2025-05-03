@@ -14,14 +14,18 @@
 
 #### Query Parameters
 
-| 파라미터      | 타입       | 설명                |  
-|-----------|----------|-------------------|  
-| keyword   | string   | 검색어               |  
-| startAt | datetime | 시작일시              |
-| endAt   | datetime | 종료일시              |
-| sort      | string   | 정렬 기준(인기순, 정원순 등) |  
-| page      | number   | 페이지 번호            |
-| size      | number   | 페이지 사이즈           |
+| 파라미터        | 타입       | 설명                |  
+|-------------|----------|-------------------|  
+| keyword     | string   | 검색어               |  
+| startAt     | datetime | 시작일시              |
+| endAt       | datetime | 종료일시              |
+| locationId  | number   | 지역 Id             |
+| minCapacity | number   | 최소 정원             |
+| maxCapacity | number   | 최대 정원             |
+| categoryId  | number   | 카테고리 Id           |
+| sort        | string   | 정렬 기준(인기순, 정원순 등) |  
+| page        | number   | 페이지 번호            |
+| size        | number   | 페이지 사이즈           |
 
 #### Response Body
 
@@ -29,31 +33,59 @@
 [
   {
     "eventId": 101,
+    "thumbnailImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
     "name": "백엔드 스터디 모집",
     "currentCapacity": 1,
     "capacity": 10,
-    "place": "성수 29cm 앞",
-    "startAt": "2025-04-11T18:40:00"
+    "location": {
+      "city": "서울시",
+      "district": "성동구",
+      "neighborhood": "성수동",
+      "locationDetail": "성수 29cm"
+    },
+    "category": {
+      "fullName": "스터디 > 개발 > 백엔드"
+    },
+    "startAt": "2025-04-11T18:40:00",
+    "endAt": "2025-04-22T18:40:00"
   },
   {
     "eventId": 102,
+    "thumbnailImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
     "name": "영어회화 스터디 모집",
     "currentCapacity": 3,
     "capacity": 8,
-    "place": "팀스파르타",
-    "startAt": "2025-04-30T18:40:00"
+    "location": {
+      "city": "서울시",
+      "district": "강남구",
+      "neighborhood": "역삼동",
+      "locationDetail": "팀스파르타"
+    },
+    "category": {
+      "fullName": "스터디 > 언어 > 영어"
+    },
+    "startAt": "2025-04-30T18:40:00",
+    "endAt": "2025-04-31T18:40:00"
   }
 ]  
 ```  
 
-| 필드명            | 타입       | 설명      |  
-|----------------|----------|---------|  
-| eventId        | number   | 이벤트 식별자 |
-| name           | string   | 이벤트명    |
-| applicantCount | number   | 신청인원    |
-| capacity       | number   | 정원      |
-| place          | string   | 장소      |
-| startAt      | datetime | 시작일시    |
+| 필드명                | 타입       | 설명             |  
+|--------------------|----------|----------------|  
+| eventId            | number   | 이벤트 식별자        |
+| thumbnailImagePath | string   | 이벤트 썸네일 이미지 경로 |
+| name               | string   | 이벤트명           |
+| currentCapacity    | number   | 신청인원           |
+| capacity           | number   | 정원             |
+| location           | object   | 장소             |
+| ⎿ city             | string   | 시              |
+| ⎿ district         | string   | 구              |
+| ⎿ neighborhood     | string   | 동              |
+| ⎿ locationDetail   | string   | 상세 주소          |
+| category           | object   | 카테고리           |
+| ⎿ fullName         | string   | 카테고리 명         |
+| startAt            | datetime | 시작일시           |
+| endAt              | datetime | 종료일시           |
 
 ## 이벤트 상세조회
 
@@ -117,7 +149,7 @@
     "city": "서울시",
     "district": "성동구",
     "neighborhood": "성수동",
-    "locationDetail": "성수 29cm",
+    "locationDetail": "성수 29cm"
   },
   "eventImages": [
     {
@@ -156,10 +188,10 @@
 | ⎿subCategory         | string   | 서브 카테고리     |
 | isOnline             | string   | 반복 일정       |
 | location             | object   | 장소          |
-| ⎿city                 | string   | 시           |
-| ⎿district             | string   | 구           |
-| ⎿neighborhood         | string   | 동           |
-| ⎿locationDetail       | string   | 상세 주소       |
+| ⎿city                | string   | 시           |
+| ⎿district            | string   | 구           |
+| ⎿neighborhood        | string   | 동           |
+| ⎿locationDetail      | string   | 상세 주소       |
 | eventImages          | object   | 반복 일정       |
 | ⎿ eventImageId       | number   | 이미지 ID      |
 | ⎿ eventImagePath     | string   | 이미지 경로      |
@@ -267,7 +299,7 @@
 
 ```json  
 {
-  "categoryId" : 123,
+  "categoryId": 123,
   "name": "서각코 모집",
   "content": "스타벅스에서 모각코 하실 분!",
   "startAt": "2025-04-10T14:00:00",
@@ -294,15 +326,15 @@
 
 | 필드명                  | 타입       | 설명        |  
 |----------------------|----------|-----------|
-| categoryId           | number   | 카테고리 id     |
+| categoryId           | number   | 카테고리 id   |
 | name                 | string   | 이벤트 명     |
-| content              | string   | 스터디 내용     |
+| content              | string   | 스터디 내용    |
 | startAt              | datetime | 시작일시      |
 | endAt                | datetime | 종료일시      |
 | host_id              | number   | 주최자 식별자   |
 | capacity             | number   | 정원        |
 | approveType          | string   | 승인 타입     |
-| isOnline             | boolean  | 온라인 여부     |
+| isOnline             | boolean  | 온라인 여부    |
 | locationId           | number   | 지역 id     |
 | locationDetail       | string   | 상세 장소     |
 | recurringRules       | object   | 반복 규칙     |
