@@ -2,6 +2,7 @@ package com.hhplus.project.interfaces.event;
 
 import com.hhplus.project.BaseIntegrationTest;
 import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.event.RecurringRulesEnums;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
@@ -9,6 +10,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +97,6 @@ class EventControllerTest extends BaseIntegrationTest {
         // when
         ExtractableResponse<Response> response = RestAssured
                 .given()
-//                .port(port)
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
@@ -107,5 +108,42 @@ class EventControllerTest extends BaseIntegrationTest {
         // then
         String status = response.jsonPath().getString("status");
         assertEquals("200", status);
+    }
+
+    @Test
+    @DisplayName("🟢 이벤트 생성 API 호출 시, HTTP 200 상태코드가 리턴된다.")
+    void createEvent(){
+        // given
+        CreateEvent.RecurringRules rules = new CreateEvent.RecurringRules(
+                RecurringRulesEnums.Type.DAY,
+                7,
+                LocalDate.of(2025, 4, 22),
+                LocalDate.of(2025, 4, 29)
+        );
+
+        CreateEvent.Request request = new CreateEvent.Request(
+                "서각코 모집",
+                LocalDateTime.of(2025, 4, 22, 14, 0),
+                LocalDateTime.of(2025, 4, 29, 16, 0),
+                30,
+                "온라인",
+                EventEnums.ApproveType.AUTO,
+                rules
+        );
+
+        //when
+        ExtractableResponse<Response> response = RestAssured
+                .given()
+                .body(request)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/events")
+                .then()
+                .log().all()
+                .extract();
+
+        // then
+        assertNotNull(response);
+        assertEquals(200, response.statusCode());
     }
 }
