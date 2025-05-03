@@ -16,7 +16,7 @@ public class ReservationController {
     @Operation(summary = "이벤트 예약 API", description = "이벤트를 예약하고, 상태를 반환합니다.")
     @PostMapping("/{eventId}")
     public ApiResponse<Void> doReservation(
-            @Parameter(description = "이벤트ID") @PathVariable long eventId
+            @Parameter(description = "이벤트ID") @PathVariable Long eventId
     ) {
         return ApiResponse.ok();
     }
@@ -24,7 +24,7 @@ public class ReservationController {
     @Operation(summary = "이벤트 예약취소 API", description = "이벤트 예약을 취소하고, 상태를 반환합니다.")
     @PatchMapping("/{eventId}")
     public ApiResponse<Void> cancelReservation(
-            @Parameter(description = "이벤트ID") @PathVariable long eventId
+            @Parameter(description = "이벤트ID") @PathVariable Long eventId
     ) {
         return ApiResponse.ok();
     }
