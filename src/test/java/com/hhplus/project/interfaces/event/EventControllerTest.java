@@ -97,7 +97,6 @@ class EventControllerTest extends BaseIntegrationTest {
         // when
         ExtractableResponse<Response> response = RestAssured
                 .given()
-                .port(port)
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
@@ -135,7 +134,6 @@ class EventControllerTest extends BaseIntegrationTest {
         //when
         ExtractableResponse<Response> response = RestAssured
                 .given()
-                .port(port)
                 .body(request)
                 .contentType(ContentType.JSON)
                 .when()
