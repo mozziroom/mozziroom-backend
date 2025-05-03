@@ -29,13 +29,27 @@ public class EventDetail {
             List<MemberResponse> participants,
             @Schema(description = "반복규칙")
             RecurringRule recurringRule,
-            // TODO 고민! 회원이 이벤트를 조회하면 참석여부에 따라 '참석' 또는 '참석취소' 버튼이 보여야 한다고 생각하는데 이것을 이 API 에서 내리는 게 맞는지 고민...
-            @Schema(description = "참석신청여부", example = "true")
-            boolean isReserved
+            @Schema(description = "카테고리")
+            Category category,
+            // TODO 장소의 존재여부에 따라 온라인여부 체크하는 것은 별로인가?
+            @Schema(description = "온라인 여부")
+            String isOnline,
+            @Schema(description = "장소")
+            Location location,
+            @Schema(description = "이벤트 이미지 목록")
+            List<EventImage> eventImages,
+            @Schema(description = "호스트 여부")
+            String isHost,
+            @Schema(description = "예약상태", example = "PENDING")
+            String reservationStatus
     ) {
         public static EventDetail.Response create() {
             List<MemberResponse> participants = new ArrayList<>();
             participants.add(new MemberResponse("오은경", "응경", "https://imageurl.com/12345"));
+
+            List<EventImage> eventImages = new ArrayList<>();
+            eventImages.add(new EventImage(1L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg", 1));
+            eventImages.add(new EventImage(2L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123955.jpg", 2));
 
             return new EventDetail.Response(
                     LocalDateTime.of(2025, 5, 5, 15, 0),
@@ -44,7 +58,12 @@ public class EventDetail {
                     "갓재와 함께하는 29투어",
                     participants,
                     EventDetail.RecurringRule.create(),
-                    false
+                    Category.create(),
+                    "N",
+                    Location.create(),
+                    eventImages,
+                    "N",
+                    "PENDING"
             );
         }
     }
@@ -54,7 +73,7 @@ public class EventDetail {
             @Schema(description = "반복 타입", example = "WEEKLY")
             String recurringType,
             @Schema(description = "주기", example = "1")
-            int recurring_interval,
+            int recurringInterval,
             @Schema(description = "반복 시작일자", example = "2025-06-01")
             LocalDate startDate,
             @Schema(description = "반복 종료일자", example = "2025-12-31")
@@ -65,4 +84,43 @@ public class EventDetail {
                     "주간", 1, LocalDate.of(2025, 5, 12), LocalDate.of(2025, 6, 30));
         }
     }
+
+    @Schema(description = "카테고리 Response")
+    public record Category (
+            @Schema(description = "메인 카테고리", example = "스터디")
+            String mainCategory,
+            @Schema(description = "서브 카테고리", example = "개발")
+            String subCategory
+    ) {
+        public static Category create() {
+            return new EventDetail.Category(
+                    "체험/투어", "투어");
+        }
+    }
+
+    @Schema(description = "장소 Response")
+    public record Location (
+            @Schema(description = "시/도", example = "서울시")
+            String city,
+            @Schema(description = "구", example = "성동구")
+            String district,
+            @Schema(description = "동", example = "성수동")
+            String neighborhood,
+            @Schema(description = "상세 주소", example = "29cm 앞")
+            String locationDetail
+    ) {
+        public static Location create() {
+            return new EventDetail.Location(
+                    "서울시", "성동구", "성수동", "29cm 앞");
+        }
+    }
+
+    public record EventImage (
+            @Schema(description = "이벤트 이미지 ID")
+            Long eventImageId,
+            @Schema(description = "이벤트 이미지 경로")
+            String eventImagePath,
+            @Schema(description = "정렬 순서")
+            int sort
+    ) {}
 }

@@ -78,27 +78,27 @@
   "participants": [
     {
       "profile": "https://sample.com/12345",
-      "username": "웅경"
+      "nickname": "웅경"
     },
     {
       "profile": "https://sample.com/12346",
-      "username": "지누"
+      "nickname": "지누"
     },
     {
       "profile": "https://sample.com/12346",
-      "username": "시욱"
+      "nickname": "시욱"
     },
     {
       "profile": "https://sample.com/12346",
-      "username": "지츄"
+      "nickname": "지츄"
     },
     {
       "profile": "https://sample.com/12346",
-      "username": "쑤현"
+      "nickname": "쑤현"
     },
     {
       "profile": "https://sample.com/12346",
-      "username": "히진"
+      "nickname": "히진"
     }
   ],
   "recurringRules": {
@@ -107,25 +107,65 @@
     "recurring_interval": 1,
     "startDate": "2025-04-10",
     "endDate": "2025-06-10"
-  }
+  },
+  "category": {
+    "mainCategory": "체험/투어",
+    "subCategory": "투어"
+  },
+  "isOnline": "N",
+  "location": {
+    "city": "서울시",
+    "district": "성동구",
+    "neighborhood": "성수동",
+    "locationDetail": "성수 29cm",
+  },
+  "eventImages": [
+    {
+      "eventImageId": 1,
+      "eventImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
+      "sort": 1
+    },
+    {
+      "eventImageId": 2,
+      "eventImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123955.jpg",
+      "sort": 2
+    }
+  ],
+  "isHost": "N",
+  "reservationStatus": "PENDING"
 }
 ```  
 
-| 필드명                | 타입       | 설명          |  
-|--------------------|----------|-------------|
-| startAt          | datetime | 이벤트 시작 일시   |
-| endAt            | datetime | 이벤트 종료 일시   |
-| place              | string   | 장소          |
-| content            | string   | 내용          |
-| participants       | object   | 참여자         |
-| ⎿ profile          | string   | 프로필 이미지 URL |
-| ⎿ username         | string   | 참석자 명       |
-| recurringRules     | object   | 반복 일정       |
-| ⎿ recurringRulesId | number   | 반복 규칙 식별자   |
-| ⎿ recurringType    | string   | 반복 타입       |
-| ⎿ recurring_interval         | number   | 반복 횟수       |
-| ⎿ startDate        | date     | 시작일         |
-| ⎿ endDate          | date     | 종료일         |
+| 필드명                  | 타입       | 설명          |  
+|----------------------|----------|-------------|
+| startAt              | datetime | 이벤트 시작 일시   |
+| endAt                | datetime | 이벤트 종료 일시   |
+| place                | string   | 장소          |
+| content              | string   | 내용          |
+| participants         | object   | 참여자         |
+| ⎿ profile            | string   | 프로필 이미지 URL |
+| ⎿ nickname           | string   | 참석자 닉네임     |
+| recurringRules       | object   | 반복 일정       |
+| ⎿ recurringRulesId   | number   | 반복 규칙 식별자   |
+| ⎿ recurringType      | string   | 반복 타입       |
+| ⎿ recurring_interval | number   | 반복 횟수       |
+| ⎿ startDate          | date     | 시작일         |
+| ⎿ endDate            | date     | 종료일         |
+| category             | object   | 카테고리        |
+| ⎿mainCategory        | string   | 메인 카테고리     |
+| ⎿subCategory         | string   | 서브 카테고리     |
+| isOnline             | string   | 반복 일정       |
+| location             | object   | 장소          |
+| ⎿city                 | string   | 시           |
+| ⎿district             | string   | 구           |
+| ⎿neighborhood         | string   | 동           |
+| ⎿locationDetail       | string   | 상세 주소       |
+| eventImages          | object   | 반복 일정       |
+| ⎿ eventImageId       | number   | 이미지 ID      |
+| ⎿ eventImagePath     | string   | 이미지 경로      |
+| ⎿ sort               | number   | 정렬 순서       |
+| isHost               | string   | 호스트 여부      |
+| reservationStatus    | string   | 예약 상태       |
 
 ## 이벤트 등록
 
