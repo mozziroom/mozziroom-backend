@@ -12,23 +12,21 @@ import java.text.MessageFormat;
 
 @Slf4j
 @RestControllerAdvice
-public class ApiExceptionHandler
-//        extends ResponseEntityExceptionHandler
-{
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(value = Exception.class)
     public ApiResponse<Void> exceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
         return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(value = RuntimeException.class)
     public ApiResponse<Void> runtimeExceptionHandler(RuntimeException e) {
         log.error(e.getMessage(), e);
         return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ApiResponse<Void> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         FieldError fieldError = (FieldError) bindingResult.getAllErrors().getFirst();
@@ -38,6 +36,7 @@ public class ApiExceptionHandler
         return ApiResponse.fail(BaseExceptionEnum.EXCEPTION_ISSUED.getCode(), errorMessage);
     }
 
+    @ExceptionHandler(value = BaseException.class)
     public ApiResponse<Void> baseExceptionHandler(BaseException e) {
         // TODO: 공통 로그 포멧 적용
         log.warn(e.getMessage());

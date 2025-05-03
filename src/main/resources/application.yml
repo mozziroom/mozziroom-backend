@@ -1,4 +1,8 @@
 spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
     url: jdbc:mysql://localhost:3306/mozziroom?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: mozzi

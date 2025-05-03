@@ -1,5 +1,6 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.BaseIntegrationTest;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import io.restassured.RestAssured;
@@ -8,20 +9,17 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EventControllerTest {
-
-    @LocalServerPort
-    int port;
+class EventControllerTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("이벤트 상세 조회 API 호출 시 정상적으로 응답이 오는지 확인한다.")
@@ -43,8 +41,42 @@ class EventControllerTest {
 
         // then
         assertNotNull(response);
-        assertEquals(status, "200");
+        assertEquals("200", status);
         assertEquals(expectedResponse, eventDetailResponse);
+    }
+
+    @Test
+    @DisplayName("이벤트 목록 조회 API 호출 시 정상적으로 응답이 오는지 확인한다.")
+    void getEventList() {
+        // given
+        HashMap<String, Object> parametersMap = new HashMap<>();
+        parametersMap.put("page", 0);
+        parametersMap.put("size", 10);
+
+        // when
+        ExtractableResponse<Response> response = RestAssured
+                .given()
+                .queryParams(parametersMap)
+                .when()
+                .get("/events/list")
+                .then()
+                .log().all().extract();
+
+        String status = response.jsonPath().getString("status");
+        List<FindEventList.Response> content = response.jsonPath().getList("data.content", FindEventList.Response.class);
+
+        // then
+        assertEquals("200", status);
+        assertNotNull(response);
+        assertThat(content).hasSize(1)
+                .first().satisfies(r -> {
+                    assertEquals(1L, r.eventId());
+                    assertEquals("백엔드 스터디 모집", r.name());
+                });
+        assertEquals(0, response.jsonPath().getInt("data.number"));
+        assertEquals(10, response.jsonPath().getInt("data.size"));
+        assertEquals(1, response.jsonPath().getInt("data.totalElements"));
+        assertEquals(1, response.jsonPath().getInt("data.totalPages"));
     }
 
     @Test
