@@ -2,6 +2,8 @@ package com.hhplus.project.interfaces.event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hhplus.project.BaseIntegrationTest;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
@@ -141,7 +143,10 @@ class EventControllerTest extends BaseIntegrationTest {
                 rules
         );
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         String json = objectMapper.writeValueAsString(request);
 
         //when

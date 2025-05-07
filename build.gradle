@@ -41,6 +41,9 @@ dependencies {
 
 	// rest-assured
 	testImplementation 'io.rest-assured:rest-assured:5.3.1'
+
+	// json datetime mapping
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 tasks.named('test') {
