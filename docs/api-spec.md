@@ -172,6 +172,7 @@
 - **Endpoint**: `POST /events`
 - **Description**:
     - 이벤트를 등록한다.
+    - JSON 형식의 이벤트 정보와 이미지 파일(image)을 함께 multipart/form-data로 전송
 
 #### Header
 
@@ -183,17 +184,22 @@
 
 ```json
 {
-  "event_name": "서각코 모집",
+  "categoryId": 1,
+  "name": "서각코 모집",
+  "content": "서각코 모집을 위한 이벤트입니다.",
   "startAt": "2025-04-10T14:00:00",
   "endAt": "2025-04-10T16:00:00",
+  "host_id": 100,
   "capacity": 30,
-  "place": "서울 강남구 스타벅스",
-  "approveType": "자동 -> enum (AUTO, MANUAL)",
+  "approveType": "AUTO",
+  "isOnline": false,
+  "locationId": 2,
+  "locationDetail": "서울 강남구 스타벅스",
   "recurringRules": {
-    "recurringType": "WEEK -> enum (YEAR, MON, WEEK, DAY)",
+    "recurringType": "WEEK",
     "recurring_interval": 1,
-    "startDate": "2025-04-10",
-    "endDate": "2025-06-10"
+    "startAt": "2025-04-10",
+    "endAt": "2025-06-10"
   }
 }
 ```
@@ -245,6 +251,27 @@
   }
 }
 ```
+| 필드명             | 타입       | 설명                                    |
+|--------------------|------------|-----------------------------------------|
+| categoryId         | number     | 카테고리 ID                            |
+| name               | string     | 이벤트 이름                            |
+| content            | string     | 스터디 내용                            |
+| startAt            | datetime   | 시작 일시 (2025-04-10T14:00:00)        |
+| endAt              | datetime   | 종료 일시 (2025-04-10T16:00:00)        |
+| host_id            | number     | 주최자 식별자                          |
+| capacity           | number     | 정원                                  |
+| approveType        | string     | 승인 타입 (AUTO, MANUAL)              |
+| isOnline           | boolean    | 온라인 여부 (true or false)           |
+| locationId         | number     | 지역 ID                              |
+| locationDetail     | string     | 상세 장소 (선택)                      |
+| recurringRules     | object     | 반복 규칙 정보 (없을 경우 null)        |
+| ⎿ recurringRulesId | number     | 반복 규칙 식별자 (기등록된 반복 ID 사용 시) |
+| ⎿ recurringType    | string     | 반복 타입 (YEAR, MON, WEEK, DAY)      |
+| ⎿ recurring_interval | number   | 반복 주기 (예: 매주 → 1)             |
+| ⎿ startAt          | date       | 반복 시작일 (2025-04-10)             |
+| ⎿ endAt            | date       | 반복 종료일 (2025-06-10)             |
+| image              | file       | 썸네일 이미지 파일 (image/png, image/jpeg 등, 선택) |
+
 
 ## 이벤트 수정
 
