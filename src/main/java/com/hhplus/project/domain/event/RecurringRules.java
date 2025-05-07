@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "recurring_rules")
@@ -37,4 +38,17 @@ public class RecurringRules extends BaseTimeEntity {
     /** 삭제일시 */
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecurringRules that = (RecurringRules) o;
+        return Objects.equals(recurringRulesId, that.recurringRulesId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recurringRulesId);
+    }
 }

@@ -1,9 +1,10 @@
-package com.hhplus.project.interfaces.member;
+package com.hhplus.project.domain.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "member")
@@ -38,4 +39,17 @@ public class Member {
     /** 수정일 */
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(memberId, member.memberId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(memberId);
+    }
 }

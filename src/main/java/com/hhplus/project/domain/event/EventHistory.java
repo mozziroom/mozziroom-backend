@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "event_history")
@@ -72,4 +73,17 @@ public class EventHistory extends BaseTimeEntity {
     /** 삭제일시 */
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventHistory that = (EventHistory) o;
+        return Objects.equals(eventHistoryId, that.eventHistoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventHistoryId);
+    }
 }

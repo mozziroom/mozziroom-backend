@@ -4,6 +4,8 @@ import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "location")
 @Getter
@@ -29,4 +31,17 @@ public class Location extends BaseTimeEntity {
     /** 동 */
     @Column(name = "neighborhood")
     private String neighborhood;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return Objects.equals(locationId, location.locationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(locationId);
+    }
 }
