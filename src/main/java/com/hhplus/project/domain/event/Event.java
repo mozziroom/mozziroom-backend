@@ -20,12 +20,17 @@ public class Event extends BaseTimeEntity {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    /** 지역 id */
+    @Column(name = "location_id")
+    private Long locationId;
+
     /** 스터디명 */
     @Column(name = "name", nullable = false)
     private String name;
 
     /** 스터디 내용 */
-    @Column(name = "content", nullable = false)
+    @Lob
+    @Column(name = "content", nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     /** 스터디 시작시간 */
@@ -52,11 +57,7 @@ public class Event extends BaseTimeEntity {
     /** 온라인 여부 */
     @Column(name = "is_online", nullable = false)
     private boolean isOnline;
-
-    /** 지역 id */
-    @Column(name = "location_id")
-    private Long locationId;
-
+    
     /** 상세 장소 */
     @Column(name = "location_detail", nullable = false)
     private String locationDetail;
