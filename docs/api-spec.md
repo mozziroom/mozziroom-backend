@@ -141,8 +141,7 @@
     "endDate": "2025-06-10"
   },
   "category": {
-    "mainCategory": "체험/투어",
-    "subCategory": "투어"
+    "name": "투어"
   },
   "isOnline": "N",
   "location": {
@@ -155,12 +154,14 @@
     {
       "eventImageId": 1,
       "eventImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
-      "sort": 1
+      "sort": 1,
+      "imageType": "MAIN"
     },
     {
       "eventImageId": 2,
       "eventImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123955.jpg",
-      "sort": 2
+      "sort": 2,
+      "imageType": "OTHER"
     }
   ],
   "isHost": "N",
@@ -168,24 +169,23 @@
 }
 ```  
 
-| 필드명                  | 타입       | 설명          |  
-|----------------------|----------|-------------|
-| startAt              | datetime | 이벤트 시작 일시   |
-| endAt                | datetime | 이벤트 종료 일시   |
-| place                | string   | 장소          |
-| content              | string   | 내용          |
-| participants         | object   | 참여자         |
-| ⎿ profile            | string   | 프로필 이미지 URL |
-| ⎿ nickname           | string   | 참석자 닉네임     |
-| recurringRules       | object   | 반복 일정       |
-| ⎿ recurringRulesId   | number   | 반복 규칙 식별자   |
-| ⎿ recurringType      | string   | 반복 타입       |
+| 필드명                 | 타입       | 설명          |  
+|---------------------|----------|-------------|
+| startAt             | datetime | 이벤트 시작 일시   |
+| endAt               | datetime | 이벤트 종료 일시   |
+| place               | string   | 장소          |
+| content             | string   | 내용          |
+| participants        | object   | 참여자         |
+| ⎿ profile           | string   | 프로필 이미지 URL |
+| ⎿ nickname          | string   | 참석자 닉네임     |
+| recurringRules      | object   | 반복 일정       |
+| ⎿ recurringRulesId  | number   | 반복 규칙 식별자   |
+| ⎿ recurringType     | string   | 반복 타입       |
 | ⎿ recurring_interval | number   | 반복 횟수       |
-| ⎿ startDate          | date     | 시작일         |
-| ⎿ endDate            | date     | 종료일         |
-| category             | object   | 카테고리        |
-| ⎿mainCategory        | string   | 메인 카테고리     |
-| ⎿subCategory         | string   | 서브 카테고리     |
+| ⎿ startDate         | date     | 시작일         |
+| ⎿ endDate           | date     | 종료일         |
+| category            | object   | 카테고리        |
+| ⎿name               | string   | 카테고리명     |
 | isOnline             | string   | 반복 일정       |
 | location             | object   | 장소          |
 | ⎿city                | string   | 시           |

@@ -48,8 +48,8 @@ public class EventDetail {
             participants.add(new MemberResponse("오은경", "응경", "https://imageurl.com/12345"));
 
             List<EventImage> eventImages = new ArrayList<>();
-            eventImages.add(new EventImage(1L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg", 1));
-            eventImages.add(new EventImage(2L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123955.jpg", 2));
+            eventImages.add(new EventImage(1L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg", 1, "MAIN"));
+            eventImages.add(new EventImage(2L, "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123955.jpg", 2, "OTHER"));
 
             return new EventDetail.Response(
                     LocalDateTime.of(2025, 5, 5, 15, 0),
@@ -87,14 +87,11 @@ public class EventDetail {
 
     @Schema(description = "카테고리 Response")
     public record Category (
-            @Schema(description = "메인 카테고리", example = "스터디")
-            String mainCategory,
-            @Schema(description = "서브 카테고리", example = "개발")
-            String subCategory
+            @Schema(description = "카테고리명", example = "스터디")
+            String name
     ) {
         public static Category create() {
-            return new EventDetail.Category(
-                    "체험/투어", "투어");
+            return new EventDetail.Category("투어");
         }
     }
 
@@ -121,6 +118,8 @@ public class EventDetail {
             @Schema(description = "이벤트 이미지 경로")
             String eventImagePath,
             @Schema(description = "정렬 순서")
-            int sort
+            int sort,
+            @Schema(description = "이미지 타입")
+            String imageType
     ) {}
 }
