@@ -100,7 +100,7 @@ public class Event extends BaseTimeEntity {
         event.endAt = command.endAt();
         event.hostId = command.hostId();
         event.capacity = command.capacity();
-        event.approveType = command.isApprove() != null && command.isApprove()
+        event.approveType = command.approveType() != null && command.approveType().equals("A")
                 ? EventEnums.ApproveType.AUTO
                 : EventEnums.ApproveType.MANUAL;
         event.isOnline = command.isOnline();

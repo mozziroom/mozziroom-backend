@@ -125,21 +125,23 @@ class EventControllerTest extends BaseIntegrationTest {
     void createEvent() throws JsonProcessingException {
         // given
         CreateEvent.RecurringRules rules = new CreateEvent.RecurringRules(
-                RecurringRulesEnums.Type.DAY,
+                "D",
                 7,
                 LocalDate.of(2025, 4, 22),
                 LocalDate.of(2025, 4, 29)
         );
 
         CreateEvent.Request request = new CreateEvent.Request(
-                "서각코 모집",
                 1L,
-                1L,
-                LocalDateTime.of(2025, 4, 22, 14, 0),
-                LocalDateTime.of(2025, 4, 29, 16, 0),
+                2L,
+                "9번출구 앞 스타벅스",
+                "테스트용",
+                "테스트용 설명",
+                LocalDateTime.now(),
+                LocalDateTime.now(),
                 30,
-                "온라인",
-                EventEnums.ApproveType.AUTO,
+                "N",
+                "A",
                 rules
         );
 

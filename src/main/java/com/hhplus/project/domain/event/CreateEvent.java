@@ -40,7 +40,7 @@ public record CreateEvent() {
             Integer capacity,
 
             @NotNull(message = "Approve type is required")
-            Boolean isApprove,
+            String approveType,
 
             @NotNull(message = "Online status is required")
             Boolean isOnline,
@@ -64,7 +64,7 @@ public record CreateEvent() {
                 LocalDateTime endAt,
                 Long hostId,
                 Integer capacity,
-                Boolean isApprove,
+                String approveType,
                 Boolean isOnline,
                 String locationDetail,
                 RecurringRules rule
@@ -87,7 +87,7 @@ public record CreateEvent() {
                     endAt,
                     hostId,
                     capacity,
-                    isApprove,
+                    approveType,
                     isOnline,
                     locationDetail,
                     rule
