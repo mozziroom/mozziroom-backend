@@ -1,15 +1,13 @@
-package com.hhplus.project.domain.event;
+package com.hhplus.project.infra.event.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "category")
-@Getter
-public class Category extends BaseTimeEntity {
+public class CategoryEntity extends BaseTimeEntity {
     /** 카테고리 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +33,7 @@ public class Category extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
+        CategoryEntity category = (CategoryEntity) o;
         return Objects.equals(categoryId, category.categoryId);
     }
 

@@ -1,15 +1,13 @@
-package com.hhplus.project.domain.event;
+package com.hhplus.project.infra.event.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "location")
-@Getter
-public class Location extends BaseTimeEntity {
+public class LocationEntity extends BaseTimeEntity {
     /** 장소 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,7 @@ public class Location extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Location location = (Location) o;
+        LocationEntity location = (LocationEntity) o;
         return Objects.equals(locationId, location.locationId);
     }
 

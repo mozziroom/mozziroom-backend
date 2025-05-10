@@ -1,15 +1,14 @@
-package com.hhplus.project.domain.reservation;
+package com.hhplus.project.infra.reservation.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.domain.reservation.ReservationEnums;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "reservation")
-@Getter
-public class Reservation extends BaseTimeEntity {
+public class ReservationEntity extends BaseTimeEntity {
     /** 예약 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +32,7 @@ public class Reservation extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
+        ReservationEntity that = (ReservationEntity) o;
         return Objects.equals(reservationId, that.reservationId);
     }
 
