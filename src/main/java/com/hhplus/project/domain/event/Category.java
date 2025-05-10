@@ -4,6 +4,8 @@ import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "category")
 @Getter
@@ -28,4 +30,17 @@ public class Category extends BaseTimeEntity {
     /** 정렬 순서 */
     @Column(name = "sort", nullable = false)
     private int sort;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(categoryId, category.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryId);
+    }
 }

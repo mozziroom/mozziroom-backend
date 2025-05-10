@@ -4,6 +4,8 @@ import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "notification")
 @Getter
@@ -29,4 +31,17 @@ public class Notification extends BaseTimeEntity {
     /** 알림 구분 (예약 승인, 예약 취소 등) */
     @Column(name = "type", nullable = false)
     private NotificationEnums.Type type;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notification that = (Notification) o;
+        return Objects.equals(notificationId, that.notificationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(notificationId);
+    }
 }

@@ -4,6 +4,8 @@ import com.hhplus.project.domain.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "reservation")
 @Getter
@@ -26,4 +28,17 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ReservationEnums.Status status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return Objects.equals(reservationId, that.reservationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reservationId);
+    }
 }
