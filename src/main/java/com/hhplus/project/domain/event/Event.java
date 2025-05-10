@@ -86,39 +86,26 @@ public class Event extends BaseTimeEntity {
     }
 
 
-    public CreateEventDomain toDomain() {
-        return new CreateEventDomain(
-                this.categoryId,
-                this.locationId,
-                this.name,
-                this.content,
-                this.startAt,
-                this.endAt,
-                this.hostId,
-                this.capacity,
-                this.approveType == EventEnums.ApproveType.AUTO,
-                this.isOnline,
-                this.locationDetail,
-                this.recurringRules != null ? this.recurringRules : null
-        );
+    public CreateEvent.Domain toDomain(){
+        return new CreateEvent.Domain(this.eventId);
     }
 
-    public static Event toEntity(CreateEventDomain dto){
+    public static Event toEntity(CreateEvent.Command command){
         Event event = new Event();
-        event.categoryId = dto.getCategoryId();
-        event.locationId = dto.getLocationId();
-        event.name = dto.getName();
-        event.content = dto.getContent();
-        event.startAt = dto.getStartAt();
-        event.endAt = dto.getEndAt();
-        event.hostId = dto.getHostId();
-        event.capacity = dto.getCapacity();
-        event.approveType = dto.getIsApprove() != null && dto.getIsApprove()
+        event.categoryId = command.categoryId();
+        event.locationId = command.locationId();
+        event.name = command.name();
+        event.content = command.content();
+        event.startAt = command.startAt();
+        event.endAt = command.endAt();
+        event.hostId = command.hostId();
+        event.capacity = command.capacity();
+        event.approveType = command.isApprove() != null && command.isApprove()
                 ? EventEnums.ApproveType.AUTO
                 : EventEnums.ApproveType.MANUAL;
-        event.isOnline = dto.getIsOnline();
-        event.locationDetail = dto.getLocationDetail();
-        event.recurringRules = dto.getRule();
+        event.isOnline = command.isOnline();
+        event.locationDetail = command.locationDetail();
+        event.recurringRules = command.rule();
         return event;
     }
 }
