@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EventException implements ExceptionInterface {
 
+// CREATE EVENT EXCEPTION
+    TITLE_REGEX("EVENT.TITLE.REGEX","제목의 조건에 만족하지 않습니다. 조건 : 한글,영문 대소문자, 숫자, 이모지, 특수기호(@,#,$,%,^,(,),[,],!,?)"),
+    WRONG_TIME_SETTING("EVENT.WRONG.TIME.SET","이벤트의 시간 설정이 잘못 되었습니다."),
     SAMPLE("EVENT.EXCEPTION.SAMPLE", "에러 샘플"),
     ;
 

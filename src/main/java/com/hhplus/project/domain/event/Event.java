@@ -84,4 +84,41 @@ public class Event extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(eventId);
     }
+
+
+    public CreateEventDomain toDomain() {
+        return new CreateEventDomain(
+                this.categoryId,
+                this.locationId,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity,
+                this.approveType == EventEnums.ApproveType.AUTO,
+                this.isOnline,
+                this.locationDetail,
+                this.recurringRules != null ? this.recurringRules : null
+        );
+    }
+
+    public static Event toEntity(CreateEventDomain dto){
+        Event event = new Event();
+        event.categoryId = dto.getCategoryId();
+        event.locationId = dto.getLocationId();
+        event.name = dto.getName();
+        event.content = dto.getContent();
+        event.startAt = dto.getStartAt();
+        event.endAt = dto.getEndAt();
+        event.hostId = dto.getHostId();
+        event.capacity = dto.getCapacity();
+        event.approveType = dto.getIsApprove() != null && dto.getIsApprove()
+                ? EventEnums.ApproveType.AUTO
+                : EventEnums.ApproveType.MANUAL;
+        event.isOnline = dto.getIsOnline();
+        event.locationDetail = dto.getLocationDetail();
+        event.recurringRules = dto.getRule();
+        return event;
+    }
 }
