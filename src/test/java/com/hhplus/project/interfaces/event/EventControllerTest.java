@@ -46,7 +46,7 @@ class EventControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("이벤트 목록 조회 API 호출 시 정상적으로 응답이 오는지 확인한다.")
+    @DisplayName("이벤트 목록 조회 API 호출 시 정상적으로 응답이 반환되는지 확인한다.")
     void getEventList() {
         // given
         HashMap<String, Object> parametersMap = new HashMap<>();

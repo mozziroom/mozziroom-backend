@@ -7,6 +7,30 @@
 - [이벤트 예약/예약취소](#이벤트-예약예약취소)
 
 ## 이벤트 목록 조회
+```mermaid
+flowchart TD
+    요청([요청]) --> 파라미터{파라미터 체크}
+
+    subgraph FACETS["검색 조건/패싯 생성"]
+        direction TB
+        파라미터 -->|키워드| F1[키워드 패싯]
+        파라미터 -->|기간| F2[기간 패싯]
+        파라미터 -->|지역| F3[지역 패싯]
+        파라미터 -->|정원| F4[정원 패싯]
+        파라미터 -->|카테고리| F5[카테고리 패싯]
+    end
+
+    subgraph ORDER/PAGING["정렬/페이징"]
+        direction TB
+        파라미터 -->|정렬| ORDER[ORDER BY]
+        파라미터 -->|page/size| PAGING[OFFSET/LIMIT]
+    end
+
+    FACETS ---> 목록검색[목록 검색 실행]
+    ORDER/PAGING --> 목록검색
+    목록검색 --> 목록반환([이벤트 목록 반환])
+```
+
 
 ## 이벤트 상세 조회
 ```mermaid
