@@ -1,16 +1,15 @@
-package com.hhplus.project.domain.event;
+package com.hhplus.project.infra.event.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "event_history")
-@Getter
-public class EventHistory extends BaseTimeEntity {
+public class EventHistoryEntity extends BaseTimeEntity {
     /** 이벤트 히스토리 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,7 +77,7 @@ public class EventHistory extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EventHistory that = (EventHistory) o;
+        EventHistoryEntity that = (EventHistoryEntity) o;
         return Objects.equals(eventHistoryId, that.eventHistoryId);
     }
 

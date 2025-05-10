@@ -1,8 +1,8 @@
-package com.hhplus.project.domain.event;
+package com.hhplus.project.infra.event.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.domain.event.RecurringRulesEnums;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,8 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "recurring_rules")
-@Getter
-public class RecurringRules extends BaseTimeEntity {
+public class RecurringRulesEntity extends BaseTimeEntity {
     /** 스터디 반복 규칙 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +42,7 @@ public class RecurringRules extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RecurringRules that = (RecurringRules) o;
+        RecurringRulesEntity that = (RecurringRulesEntity) o;
         return Objects.equals(recurringRulesId, that.recurringRulesId);
     }
 
