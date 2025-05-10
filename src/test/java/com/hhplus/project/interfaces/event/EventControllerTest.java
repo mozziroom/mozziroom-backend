@@ -1,5 +1,9 @@
 package com.hhplus.project.interfaces.event;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hhplus.project.BaseIntegrationTest;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
@@ -118,7 +122,7 @@ class EventControllerTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("🟢 이벤트 생성 API 호출 시, HTTP 200 상태코드가 리턴된다.")
-    void createEvent(){
+    void createEvent() throws JsonProcessingException {
         // given
         CreateEvent.RecurringRules rules = new CreateEvent.RecurringRules(
                 RecurringRulesEnums.Type.DAY,
@@ -129,6 +133,8 @@ class EventControllerTest extends BaseIntegrationTest {
 
         CreateEvent.Request request = new CreateEvent.Request(
                 "서각코 모집",
+                1L,
+                1L,
                 LocalDateTime.of(2025, 4, 22, 14, 0),
                 LocalDateTime.of(2025, 4, 29, 16, 0),
                 30,
@@ -137,11 +143,19 @@ class EventControllerTest extends BaseIntegrationTest {
                 rules
         );
 
+        ObjectMapper objectMapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        String json = objectMapper.writeValueAsString(request);
+
         //when
         ExtractableResponse<Response> response = RestAssured
                 .given()
                 .body(request)
-                .contentType(ContentType.JSON)
+                .multiPart("request", "request.json", json, "application/json")
+                .contentType(ContentType.MULTIPART)
+                .header("Authorization", "Bearer 테스트토큰")
                 .when()
                 .post("/events")
                 .then()

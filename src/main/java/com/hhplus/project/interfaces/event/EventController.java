@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,8 +41,11 @@ public class EventController {
     }
 
     @Operation(summary = "이벤트 생성 API", description = "이벤트를 생성합니다.")
-    @PostMapping("")
-    public ApiResponse<CreateEvent.Response> createEvent(@Parameter(description = "이벤트 생성 정보") @RequestBody CreateEvent.Request request) {
+    @PostMapping(value = "",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<CreateEvent.Response> createEvent(
+            @RequestHeader("Authorization") String token,
+            @Parameter(description = "이벤트 생성 정보")    @RequestPart CreateEvent.Request request,
+            @Parameter(description = "이벤트 썸네일 파일")  @RequestPart(value = "image",required = false) MultipartFile imageFile) {
         return ApiResponse.ok(CreateEvent.Response.create());
     }
 }
