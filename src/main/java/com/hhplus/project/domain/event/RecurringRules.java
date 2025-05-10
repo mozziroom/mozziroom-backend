@@ -51,4 +51,13 @@ public class RecurringRules extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(recurringRulesId);
     }
+
+    public CreateRecurringRules.Domain toDomain(){
+        return new CreateRecurringRules.Domain(this,
+                CreateRecurringRules.Domain.createEventDate(
+                        this.recurringType,
+                        this.recurringInterval,
+                        this.startDate,
+                        this.endDate));
+    }
 }

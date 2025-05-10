@@ -4,6 +4,8 @@ import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
@@ -13,5 +15,10 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public Event create(Event event) {
         return jpaRepository.save(event);
+    }
+
+    @Override
+    public List<Event> createList(List<Event> eventList) {
+        return jpaRepository.saveAll(eventList);
     }
 }
