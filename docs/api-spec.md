@@ -169,23 +169,23 @@
 }
 ```  
 
-| 필드명                 | 타입       | 설명          |  
-|---------------------|----------|-------------|
-| startAt             | datetime | 이벤트 시작 일시   |
-| endAt               | datetime | 이벤트 종료 일시   |
-| place               | string   | 장소          |
-| content             | string   | 내용          |
-| participants        | object   | 참여자         |
-| ⎿ profile           | string   | 프로필 이미지 URL |
-| ⎿ nickname          | string   | 참석자 닉네임     |
-| recurringRules      | object   | 반복 일정       |
-| ⎿ recurringRulesId  | number   | 반복 규칙 식별자   |
-| ⎿ recurringType     | string   | 반복 타입       |
+| 필드명                  | 타입       | 설명          |  
+|----------------------|----------|-------------|
+| startAt              | datetime | 이벤트 시작 일시   |
+| endAt                | datetime | 이벤트 종료 일시   |
+| place                | string   | 장소          |
+| content              | string   | 내용          |
+| participants         | object   | 참여자         |
+| ⎿ profile            | string   | 프로필 이미지 URL |
+| ⎿ nickname           | string   | 참석자 닉네임     |
+| recurringRules       | object   | 반복 일정       |
+| ⎿ recurringRulesId   | number   | 반복 규칙 식별자   |
+| ⎿ recurringType      | string   | 반복 타입       |
 | ⎿ recurring_interval | number   | 반복 횟수       |
-| ⎿ startDate         | date     | 시작일         |
-| ⎿ endDate           | date     | 종료일         |
-| category            | object   | 카테고리        |
-| ⎿name               | string   | 카테고리명     |
+| ⎿ startDate          | date     | 시작일         |
+| ⎿ endDate            | date     | 종료일         |
+| category             | object   | 카테고리        |
+| ⎿name                | string   | 카테고리명       |
 | isOnline             | string   | 반복 일정       |
 | location             | object   | 장소          |
 | ⎿city                | string   | 시           |
