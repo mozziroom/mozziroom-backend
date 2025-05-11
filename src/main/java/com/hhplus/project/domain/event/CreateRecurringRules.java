@@ -11,7 +11,7 @@ import static com.hhplus.project.domain.event.RecurringRulesEnums.Type.*;
 
 public record CreateRecurringRules() {
     public record Command(
-            String recurringType,
+            RecurringRulesEnums.Type type,
             Integer interval,
             LocalDate startDate,
             LocalDate endDate
@@ -27,7 +27,13 @@ public record CreateRecurringRules() {
                 throw new BaseException(EventException.WRONG_TIME_SETTING);
             }
 
-            return new Command(recurringType,interval,startDate,endDate);
+            try{
+                RecurringRulesEnums.Type ruleType = RecurringRulesEnums.Type.valueOf(recurringType.toUpperCase());
+                return new Command(ruleType, interval, startDate, endDate);
+            }
+            catch (Exception e){
+                throw new BaseException(EventException.RECURRING_TYPE);
+            }
         }
     }
     public record Domain( RecurringRules  recurringRules, List<LocalDate> eventDates){

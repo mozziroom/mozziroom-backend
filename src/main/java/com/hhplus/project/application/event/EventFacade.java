@@ -32,7 +32,9 @@ public class EventFacade {
         categoryService.find(criteria.categoryId());
 
         // image valid check
-        eventImageService.checkImage(criteria.thumbNail());
+        if( !criteria.thumbNail().isEmpty() ){
+            eventImageService.checkImage(criteria.thumbNail());
+        }
 
         // RecurringRules
         List<Long> createEventIds = new ArrayList<>();
