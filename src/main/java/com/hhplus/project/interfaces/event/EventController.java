@@ -1,22 +1,23 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.application.event.EventFacade;
+import com.hhplus.project.application.event.EventResult;
 import com.hhplus.project.support.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/events")
 public class EventController {
+
+    private final EventFacade eventFacade;
 
     @Operation(summary = "이벤트 상세조회 API", description = "이벤트 상세 정보를 반환합니다.")
     @GetMapping("/{eventId}")
@@ -29,9 +30,8 @@ public class EventController {
     @Operation(summary = "이벤트 목록 조회", description = "이벤트 목록을 반환 합니다.")
     @GetMapping("/list")
     public ApiResponse<Page<FindEventList.Response>> findEventList(FindEventList.Request request, Pageable pageable) {
-        FindEventList.Response response = FindEventList.Response.create();
-        List<FindEventList.Response> responseList = List.of(response);
-        return ApiResponse.ok(new PageImpl<>(responseList, pageable, responseList.size()));
+        Page<EventResult.Events> events = eventFacade.findEventList(request.toCriteria(pageable));
+        return ApiResponse.ok(events.map(FindEventList.Response::from));
     }
 
     @Operation(summary = "이벤트 수정 API", description = "이벤트 정보를 수정합니다.")
