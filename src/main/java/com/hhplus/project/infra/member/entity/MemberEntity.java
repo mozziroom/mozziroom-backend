@@ -1,15 +1,13 @@
-package com.hhplus.project.domain.member;
+package com.hhplus.project.infra.member.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "member")
-@Getter
-public class Member {
+public class MemberEntity {
     /** 멤버 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +42,7 @@ public class Member {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Member member = (Member) o;
+        MemberEntity member = (MemberEntity) o;
         return Objects.equals(memberId, member.memberId);
     }
 

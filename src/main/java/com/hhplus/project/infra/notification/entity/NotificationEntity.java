@@ -1,15 +1,14 @@
-package com.hhplus.project.domain.notification;
+package com.hhplus.project.infra.notification.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.domain.notification.NotificationEnums;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "notification")
-@Getter
-public class Notification extends BaseTimeEntity {
+public class NotificationEntity extends BaseTimeEntity {
     /** 알림 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +35,7 @@ public class Notification extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Notification that = (Notification) o;
+        NotificationEntity that = (NotificationEntity) o;
         return Objects.equals(notificationId, that.notificationId);
     }
 

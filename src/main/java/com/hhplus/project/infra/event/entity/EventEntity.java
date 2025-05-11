@@ -1,16 +1,15 @@
-package com.hhplus.project.domain.event;
+package com.hhplus.project.infra.event.entity;
 
-import com.hhplus.project.domain.common.BaseTimeEntity;
+import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "event")
-@Getter
-public class Event extends BaseTimeEntity {
+public class EventEntity extends BaseTimeEntity {
     /** 스터디 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,7 +65,7 @@ public class Event extends BaseTimeEntity {
     /** 스터디 반복 규칙 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recurring_rules_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private RecurringRules recurringRules;
+    private RecurringRulesEntity recurringRules;
 
     /** 삭제일시 */
     @Column(name = "deleted_at")
@@ -76,7 +75,7 @@ public class Event extends BaseTimeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
+        EventEntity event = (EventEntity) o;
         return Objects.equals(eventId, event.eventId);
     }
 
