@@ -56,7 +56,7 @@ public class EventService {
         String contentType = file.getContentType();
         return contentType.startsWith("image/");
     }
-    public List<Event> createEvents(CreateEvent.Command command, RecurringRules recurringRules){
+    private List<Event>     createEvents(CreateEvent.Command command, RecurringRules recurringRules){
         return calculateDates(command.recurringRules()).stream()
                 .map(date -> {
                     LocalDateTime startAt = LocalDateTime.of(date,command.startAt().toLocalTime());
@@ -79,7 +79,6 @@ public class EventService {
         }
         return result;
     }
-
     private void getCategory(Long categoryId){
     }
     private void getLocation(Long locationId){

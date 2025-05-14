@@ -1,0 +1,17 @@
+# application-local.yml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mozziroom?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: mozzi
+    password: mozzi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.timezone.default_storage: NORMALIZE_UTC
+      hibernate.jdbc.time_zone: UTC
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect

@@ -4,7 +4,10 @@ import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.domain.event.RecurringRulesRepository;
 import com.hhplus.project.infra.event.entity.RecurringRulesEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 @RequiredArgsConstructor
 public class RecurringRulesRepositoryImpl implements RecurringRulesRepository {
     private final RecurringRulesJpaRepository jpaRepository;
