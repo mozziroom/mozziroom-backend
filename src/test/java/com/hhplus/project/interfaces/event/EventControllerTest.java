@@ -88,7 +88,7 @@ class EventControllerTest extends BaseIntegrationTest {
     void updateEvent() {
         // given
         long eventId = 1L;
-        UpdateEvent.EventImage eventImage = new UpdateEvent.EventImage(234L, "sample.jpg");
+
         UpdateEvent.Request request = new UpdateEvent.Request(
                 123L,
                 "서각코 모집",
@@ -100,14 +100,13 @@ class EventControllerTest extends BaseIntegrationTest {
                 false,
                 12L,
                 "스타벅스 XX지점",
-                eventImage,
                 null
         );
 
         // when
         ExtractableResponse<Response> response = RestAssured
                 .given()
-                .contentType(ContentType.JSON)
+                .contentType(ContentType.MULTIPART)
                 .body(request)
                 .when()
                 .patch("/events/" + eventId)

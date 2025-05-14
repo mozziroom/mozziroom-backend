@@ -1,5 +1,6 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.domain.event.EventService;
 import com.hhplus.project.support.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,6 +19,8 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
+    private final EventService eventService;
+
     @Operation(summary = "이벤트 상세조회 API", description = "이벤트 상세 정보를 반환합니다.")
     @GetMapping("/{eventId}")
     public ApiResponse<EventDetail.Response> getEventDetail(@Parameter(description = "이벤트ID") @PathVariable long eventId
@@ -35,8 +38,12 @@ public class EventController {
     }
 
     @Operation(summary = "이벤트 수정 API", description = "이벤트 정보를 수정합니다.")
-    @PatchMapping("/{eventId}")
-    public ApiResponse<Void> updateEvent(@Parameter(description = "이벤트ID") @PathVariable Long eventId, @Parameter(description = "이벤트 변경 정보") @RequestBody UpdateEvent.Request request) {
+    @PatchMapping(path = "/{eventId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<Void> updateEvent(
+            @Parameter(description = "이벤트ID") @PathVariable Long eventId
+          , @Parameter(description = "이벤트 변경 정보") @RequestBody UpdateEvent.Request request
+          , @Parameter(description = "이벤트 썸네일 파일")  @RequestPart(value = "image",required = false) MultipartFile imageFile) {
+        eventService.update(request.toCriteria(eventId), imageFile);
         return ApiResponse.ok();
     }
 

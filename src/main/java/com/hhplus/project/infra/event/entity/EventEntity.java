@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
@@ -7,8 +8,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "event")
 public class EventEntity extends BaseTimeEntity {
     /** 스터디 id */
     @Id
@@ -71,6 +70,71 @@ public class EventEntity extends BaseTimeEntity {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    private EventEntity(Long eventId,
+                       Long categoryId,
+                       Long locationId,
+                       String name,
+                       String content,
+                       LocalDateTime startAt,
+                       LocalDateTime endAt,
+                       Long hostId,
+                       int capacity,
+                       EventEnums.ApproveType approveType,
+                       boolean isOnline,
+                       String locationDetail,
+                       RecurringRulesEntity recurringRules,
+                       LocalDateTime deletedAt
+    ) {
+        this.eventId = eventId;
+        this.categoryId = categoryId;
+        this.locationId = locationId;
+        this.name = name;
+        this.content = content;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.hostId = hostId;
+        this.capacity = capacity;
+        this.approveType = approveType;
+        this.isOnline = isOnline;
+        this.locationDetail = locationDetail;
+        this.recurringRules = recurringRules;
+        this.deletedAt = deletedAt;
+    }
+
+    public static EventEntity create(
+            Long eventId,
+            Long categoryId,
+            Long locationId,
+            String name,
+            String content,
+            LocalDateTime startAt,
+            LocalDateTime endAt,
+            Long hostId,
+            int capacity,
+            EventEnums.ApproveType approveType,
+            boolean isOnline,
+            String locationDetail,
+            RecurringRulesEntity recurringRules,
+            LocalDateTime deletedAt
+    ) {
+        return new EventEntity(
+                eventId,
+                categoryId,
+                locationId,
+                name,
+                content,
+                startAt,
+                endAt,
+                hostId,
+                capacity,
+                approveType,
+                isOnline,
+                locationDetail,
+                recurringRules,
+                deletedAt
+        );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,5 +146,43 @@ public class EventEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(eventId);
+    }
+
+    public Event toDomain() {
+        return Event.create(
+                this.eventId,
+                this.categoryId,
+                this.locationId,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity,
+                this.approveType,
+                this.isOnline,
+                this.locationDetail,
+                this.recurringRules,
+                this.deletedAt
+        );
+    }
+
+    public static EventEntity fromDomain(Event event) {
+        return EventEntity.create(
+                event.getEventId(),
+                event.getCategoryId(),
+                event.getLocationId(),
+                event.getName(),
+                event.getContent(),
+                event.getStartAt(),
+                event.getEndAt(),
+                event.getHostId(),
+                event.getCapacity(),
+                event.getApproveType(),
+                event.isOnline(),
+                event.getLocationDetail(),
+                event.getRecurringRules(),
+                event.getDeletedAt()
+        );
     }
 }

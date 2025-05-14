@@ -1,4 +1,4 @@
-package com.hhplus.project.interfaces.event;
+package com.hhplus.project.domain.event.dto;
 
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public record UpdateEvent(
-
-) {
-    public record Request(
+public record UpdateEvent() {
+    public record Criteria(
+            @Schema(description = "이벤트 id", example = "1")
+            Long eventId,
             @Schema(description = "카테고리 id", example = "123")
             Long categoryId,
             @Schema(description = "이벤트명", example = "서각코 모집")
@@ -34,17 +34,21 @@ public record UpdateEvent(
             @Schema(description = "반복 설정 정보")
             RecurringRules recurringRules
     ) {
-        public com.hhplus.project.domain.event.dto.UpdateEvent.Criteria toCriteria(Long eventId) {
-            com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules rules =
-                    com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules.create(
-                            recurringRules.recurringRulesId,
-                            recurringRules.recurringType,
-                            recurringRules.recurringInterval,
-                            recurringRules.startAt,
-                            recurringRules.endAt
-                    );
-
-            return com.hhplus.project.domain.event.dto.UpdateEvent.Criteria.create(
+        public static Criteria create(
+                Long eventId,
+                Long categoryId,
+                String name,
+                String content,
+                LocalDateTime startAt,
+                LocalDateTime endAt,
+                int capacity,
+                EventEnums.ApproveType approveType,
+                boolean isOnline,
+                Long locationId,
+                String locationDetail,
+                RecurringRules recurringRules
+        ) {
+            return new Criteria(
                     eventId,
                     categoryId,
                     name,
@@ -56,9 +60,10 @@ public record UpdateEvent(
                     isOnline,
                     locationId,
                     locationDetail,
-                    rules
-                    );
+                    recurringRules
+            );
         }
+
     }
 
     public record RecurringRules(
@@ -72,5 +77,21 @@ public record UpdateEvent(
             LocalDate startAt,
             @Schema(description = "반복 종료일", example = "2025-06-10")
             LocalDate endAt
-    ) {}
+    ) {
+        public static RecurringRules create(
+                Long recurringRulesId,
+                RecurringRulesEnums.Type recurringType,
+                int recurringInterval,
+                LocalDate startAt,
+                LocalDate endAt
+        ) {
+            return new RecurringRules(
+                    recurringRulesId,
+                    recurringType,
+                    recurringInterval,
+                    startAt,
+                    endAt
+            );
+        }
+    }
 }
