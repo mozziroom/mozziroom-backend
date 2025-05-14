@@ -37,7 +37,7 @@ public class EventService {
         return CreateEvent.Domain.fromDomain(createdEvents);
     }
 
-    public void createEventImage(List<Event> createEvents, MultipartFile file) {
+    private void createEventImage(List<Event> createEvents, MultipartFile file) {
         if (!file.isEmpty() && isImage(file)) {
             String filePath = imageRepository.saveFile(file);
             imageRepository.saveAll(
@@ -80,9 +80,9 @@ public class EventService {
         return result;
     }
 
-    public void getCategory(Long categoryId){
+    private void getCategory(Long categoryId){
     }
-    public void getLocation(Long locationId){
+    private void getLocation(Long locationId){
     }
 }
 
