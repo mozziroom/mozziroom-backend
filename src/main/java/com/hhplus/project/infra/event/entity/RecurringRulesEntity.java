@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import jakarta.persistence.*;
@@ -49,5 +50,26 @@ public class RecurringRulesEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(recurringRulesId);
+    }
+
+
+    public RecurringRules toDomain() {
+        return new RecurringRules(recurringRulesId,
+                recurringType,
+                recurringInterval,
+                startDate,
+                endDate,
+                deletedAt);
+    }
+
+    public static RecurringRulesEntity fromDomain(RecurringRules recurringRules){
+        RecurringRulesEntity rulesEntity = new RecurringRulesEntity();
+        rulesEntity.recurringRulesId  = recurringRules.recurringRulesId();
+        rulesEntity.recurringType     = recurringRules.recurringType();
+        rulesEntity.recurringInterval = recurringRules.recurringInterval();
+        rulesEntity.startDate         = recurringRules.startDate();
+        rulesEntity.endDate           = recurringRules.endDate();
+        rulesEntity.deletedAt         = recurringRules.deletedAt();
+        return rulesEntity;
     }
 }

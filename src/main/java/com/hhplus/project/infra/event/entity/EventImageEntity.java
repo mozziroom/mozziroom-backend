@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.EventImage;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
@@ -49,4 +50,27 @@ public class EventImageEntity extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(eventImageId);
     }
+
+    public static EventImageEntity fromDomain(EventImage eventImage){
+        EventImageEntity eventImageEntity = new EventImageEntity();
+        eventImageEntity.eventImageId    = eventImage.eventImageId();
+        eventImageEntity.event           = EventEntity.fromDomain(eventImage.event());
+        eventImageEntity.imagePath       = eventImage.imagePath();
+        eventImageEntity.originImagePath = eventImage.originImagePath();
+        eventImageEntity.sort            = eventImage.sort();
+        eventImageEntity.imageType       = eventImage.imageType();
+        return eventImageEntity;
+    }
+
+    public EventImage toDomain(){
+        return new EventImage(
+                eventImageId,
+                event.toDomain(),
+                imageType,
+                originImagePath,
+                imagePath,
+                sort
+        );
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
@@ -82,5 +83,44 @@ public class EventEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(eventId);
+    }
+
+
+    public static EventEntity fromDomain(Event event){
+        EventEntity eventEntity = new EventEntity();
+
+        eventEntity.eventId     = event.eventId();
+        eventEntity.categoryId  = event.categoryId();
+        eventEntity.locationId  = event.locationId();
+        eventEntity.name        = event.name();
+        eventEntity.content     = event.content();
+        eventEntity.startAt     = event.startAt();
+        eventEntity.endAt       = event.endAt();
+        eventEntity.hostId      = event.hostId();
+        eventEntity.capacity    = event.capacity();
+        eventEntity.approveType = event.approveType();
+        eventEntity.isOnline    = event.isOnline();
+        eventEntity.locationDetail = event.locationDetail();
+        eventEntity.recurringRules = RecurringRulesEntity.fromDomain(event.recurringRules());
+
+        return eventEntity;
+    }
+
+    public Event toDomain() {
+        return new Event(
+                eventId,
+                categoryId,
+                locationId,
+                name,
+                content,
+                startAt,
+                endAt,
+                hostId,
+                capacity,
+                approveType,
+                isOnline,
+                locationDetail,
+                recurringRules.toDomain()
+        );
     }
 }
