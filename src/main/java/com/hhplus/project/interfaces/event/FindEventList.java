@@ -1,7 +1,10 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.application.event.EventCriteria;
+import com.hhplus.project.application.event.EventResult;
 import com.hhplus.project.domain.event.EventEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 
@@ -18,16 +21,15 @@ public record FindEventList(
             LocalDateTime endAt,
             @Schema(description = "지역 Id", example = "1")
             Long locationId,
-            @Schema(description = "최소 정원", example = "1")
-            Integer minCapacity,
-            @Schema(description = "최대 정원", example = "5")
-            Integer maxCapacity,
             @Schema(description = "카테고리 Id", example = "1")
-            String categoryId,
+            Long categoryId,
             @Schema(description = "정렬 기준", example = "인기순, 정원순, 최신순 등등.. (POPULAR, MOST_APPLIED, NEW)")
             EventEnums.SortType sortType
     ) {
 
+        public EventCriteria.Events toCriteria(Pageable pageable) {
+            return new EventCriteria.Events(keyword, startAt, endAt, locationId, categoryId, sortType, pageable);
+        }
     }
 
     public record Response(
@@ -37,10 +39,6 @@ public record FindEventList(
             String thumbnailImagePath,
             @Schema(description = "이벤트명", example = "백엔드 스터디 모집")
             String name,
-            @Schema(description = "신청인원", example = "1")
-            int currentCapacity,
-            @Schema(description = "정원", example = "10")
-            int capacity,
             @Schema(description = "장소")
             Location location,
             @Schema(description = "카테고리")
@@ -56,12 +54,22 @@ public record FindEventList(
                     1L,
                     "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
                     "백엔드 스터디 모집",
-                    1,
-                    10,
                     Location.create(),
                     Category.create(),
                     LocalDateTime.of(2025, 4, 11, 18, 30),
                     LocalDateTime.of(2025, 4, 22, 18, 30)
+            );
+        }
+
+        public static Response from(EventResult.Events events) {
+            return new Response(
+                    events.eventId(),
+                    null,
+                    events.name(),
+                    null,
+                    null,
+                    events.startAt(),
+                    events.endAt()
             );
         }
 
