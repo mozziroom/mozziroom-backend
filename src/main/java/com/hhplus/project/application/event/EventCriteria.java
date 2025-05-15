@@ -1,6 +1,6 @@
 package com.hhplus.project.application.event;
 
-import com.hhplus.project.domain.event.EventCommand;
+import com.hhplus.project.domain.event.EventList;
 import com.hhplus.project.domain.event.EventEnums;
 import org.springframework.data.domain.Pageable;
 
@@ -20,8 +20,8 @@ public record EventCriteria(
             Pageable pageable
     ) {
 
-        public EventCommand.Events toCommand() {
-            return new EventCommand.Events(keyword,
+        public EventList.Command toCommand() {
+            return new EventList.Command(keyword,
                     startAt,
                     endAt,
                     locationId,

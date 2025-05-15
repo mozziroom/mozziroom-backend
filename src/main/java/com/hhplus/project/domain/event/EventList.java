@@ -4,10 +4,11 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 
-public record EventCommand(
+public record EventList(
+
 ) {
 
-    public record Events(
+    public record Command(
             String keyword,
             LocalDateTime startAt,
             LocalDateTime endAt,

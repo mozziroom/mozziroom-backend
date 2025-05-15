@@ -1,7 +1,7 @@
 package com.hhplus.project.infra.event;
 
 import com.hhplus.project.domain.event.Event;
-import com.hhplus.project.domain.event.EventCommand;
+import com.hhplus.project.domain.event.EventList;
 import com.hhplus.project.infra.event.entity.EventEntity;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -24,7 +24,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Event> findEventList(EventCommand.Events command) {
+    public Page<Event> findEventList(EventList.Command command) {
         OrderSpecifier<?> order = null;
         if (command.sortType() != null) {
             order = switch (command.sortType()) {

@@ -10,7 +10,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    public Page<Event> findEventList(EventCommand.Events command) {
+    public Page<Event> findEventList(EventList.Command command) {
         return eventRepository.findEventList(command);
     }
 }

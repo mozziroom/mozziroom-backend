@@ -4,5 +4,5 @@ import org.springframework.data.domain.Page;
 
 public interface EventRepository {
 
-    Page<Event> findEventList(EventCommand.Events pageable);
+    Page<Event> findEventList(EventList.Command pageable);
 }
