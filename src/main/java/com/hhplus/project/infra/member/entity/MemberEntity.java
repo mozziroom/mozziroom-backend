@@ -1,10 +1,12 @@
 package com.hhplus.project.infra.member.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Builder
 @Entity
 @Table(name = "member")
 public class MemberEntity {
@@ -49,5 +51,9 @@ public class MemberEntity {
     @Override
     public int hashCode() {
         return Objects.hash(memberId);
+    }
+
+    public long getMemberId() {
+        return this.memberId;
     }
 }
