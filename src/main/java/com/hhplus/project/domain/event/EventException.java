@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EventException implements ExceptionInterface {
 
-    SAMPLE("EVENT.EXCEPTION.SAMPLE", "에러 샘플"),
+    EVENT_NOT_FOUND("EVENT.NOT.FOUND", "이벤트를 찾을 수 없습니다")
     ;
 
     private final String code;
