@@ -20,8 +20,6 @@
 | startAt     | datetime | 시작일시              |
 | endAt       | datetime | 종료일시              |
 | locationId  | number   | 지역 Id             |
-| minCapacity | number   | 최소 정원             |
-| maxCapacity | number   | 최대 정원             |
 | categoryId  | number   | 카테고리 Id           |
 | sort        | string   | 정렬 기준(인기순, 정원순 등) |  
 | page        | number   | 페이지 번호            |
@@ -35,8 +33,6 @@
     "eventId": 101,
     "thumbnailImagePath": "https://aws-djfalkdjfeipfj-dkfjaldj/event/images/123954.jpg",
     "name": "백엔드 스터디 모집",
-    "currentCapacity": 1,
-    "capacity": 10,
     "location": {
       "city": "서울시",
       "district": "성동구",
@@ -75,8 +71,6 @@
 | eventId            | number   | 이벤트 식별자        |
 | thumbnailImagePath | string   | 이벤트 썸네일 이미지 경로 |
 | name               | string   | 이벤트명           |
-| currentCapacity    | number   | 신청인원           |
-| capacity           | number   | 정원             |
 | location           | object   | 장소             |
 | ⎿ city             | string   | 시              |
 | ⎿ district         | string   | 구              |
