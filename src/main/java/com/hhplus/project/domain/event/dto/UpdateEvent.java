@@ -3,12 +3,13 @@ package com.hhplus.project.domain.event.dto;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record UpdateEvent() {
-    public record Criteria(
+    public record Command(
             @Schema(description = "이벤트 id", example = "1")
             Long eventId,
             @Schema(description = "카테고리 id", example = "123")
@@ -31,10 +32,12 @@ public record UpdateEvent() {
             Long locationId,
             @Schema(description = "상세 장소", example = "스타벅스 XX지점")
             String locationDetail,
+            @Schema(description = "이벤트 이미지", example = "파일 업로드 예: event.jpg")
+            MultipartFile imageFile,
             @Schema(description = "반복 설정 정보")
             RecurringRules recurringRules
     ) {
-        public static Criteria create(
+        public static Command create(
                 Long eventId,
                 Long categoryId,
                 String name,
@@ -46,9 +49,10 @@ public record UpdateEvent() {
                 boolean isOnline,
                 Long locationId,
                 String locationDetail,
+                MultipartFile imageFile,
                 RecurringRules recurringRules
         ) {
-            return new Criteria(
+            return new Command(
                     eventId,
                     categoryId,
                     name,
@@ -60,6 +64,7 @@ public record UpdateEvent() {
                     isOnline,
                     locationId,
                     locationDetail,
+                    imageFile,
                     recurringRules
             );
         }
@@ -74,23 +79,23 @@ public record UpdateEvent() {
             @Schema(description = "반복 주기 (몇 주마다 등)", example = "1")
             int recurringInterval,
             @Schema(description = "반복 시작일", example = "2025-04-10")
-            LocalDate startAt,
+            LocalDate startDate,
             @Schema(description = "반복 종료일", example = "2025-06-10")
-            LocalDate endAt
+            LocalDate endDate
     ) {
         public static RecurringRules create(
                 Long recurringRulesId,
                 RecurringRulesEnums.Type recurringType,
                 int recurringInterval,
-                LocalDate startAt,
-                LocalDate endAt
+                LocalDate startDate,
+                LocalDate endDate
         ) {
             return new RecurringRules(
                     recurringRulesId,
                     recurringType,
                     recurringInterval,
-                    startAt,
-                    endAt
+                    startDate,
+                    endDate
             );
         }
     }
