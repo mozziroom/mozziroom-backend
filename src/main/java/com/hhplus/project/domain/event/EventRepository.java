@@ -1,7 +1,8 @@
 package com.hhplus.project.domain.event;
 
 public interface EventRepository {
-    Event findById(Long eventId);
 
-    void save(Event event);
+    Event save(Event event);
+
+    Event getEvent(Long aLong);
 }

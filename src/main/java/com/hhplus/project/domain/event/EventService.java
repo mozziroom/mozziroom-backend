@@ -1,25 +1,26 @@
 package com.hhplus.project.domain.event;
 
 import com.hhplus.project.domain.event.dto.UpdateEvent;
-import com.hhplus.project.domain.utils.ImageUploadUtil;
-import jakarta.transaction.Transactional; 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final ImageUploadUtil imageUploadUtil;
 
     @Transactional
-    public void update(UpdateEvent.Criteria criteria, MultipartFile file) {
-        Event event = eventRepository.findById(criteria.eventId()); // 영속성 컨테스트 안에 없음
-        // TODO - MultipartFile -> File로 변환해야함
-        String imagePath = imageUploadUtil.upload(file);
-        event.updateChangeData(criteria, imagePath);
-        eventRepository.save(event);
+    public Event update(UpdateEvent.Command command) {
+        // 이벤트 조회
+        Event event = eventRepository.getEvent(command.eventId());
+        // 이벤트 도메인 모델 정보 변경
+        Event updatedEvent = event.update(command, null);
+
+        // TODO 반복룰 설계 수정 후 구현
+        // TODO 파사드에서 이미지 서비스 만들어서 처리하기
+
+        return eventRepository.save(updatedEvent);
     }
 }

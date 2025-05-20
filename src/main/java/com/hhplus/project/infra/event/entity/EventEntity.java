@@ -1,13 +1,20 @@
 package com.hhplus.project.infra.event.entity;
 
 import com.hhplus.project.domain.event.Event;
+import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.EventEnums;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "event")
 public class EventEntity extends BaseTimeEntity {
     /** 스터디 id */
     @Id
@@ -102,7 +109,6 @@ public class EventEntity extends BaseTimeEntity {
     }
 
     public static EventEntity create(
-            Long eventId,
             Long categoryId,
             Long locationId,
             String name,
@@ -118,7 +124,7 @@ public class EventEntity extends BaseTimeEntity {
             LocalDateTime deletedAt
     ) {
         return new EventEntity(
-                eventId,
+                null,
                 categoryId,
                 locationId,
                 name,
@@ -135,19 +141,6 @@ public class EventEntity extends BaseTimeEntity {
         );
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EventEntity event = (EventEntity) o;
-        return Objects.equals(eventId, event.eventId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(eventId);
-    }
-
     public Event toDomain() {
         return Event.create(
                 this.eventId,
@@ -162,27 +155,55 @@ public class EventEntity extends BaseTimeEntity {
                 this.approveType,
                 this.isOnline,
                 this.locationDetail,
-                this.recurringRules,
+                null,
                 this.deletedAt
         );
     }
 
-    public static EventEntity fromDomain(Event event) {
+    public static EventEntity fromDomain(Event event, RecurringRulesEntity recurringRulesEntity) {
         return EventEntity.create(
-                event.getEventId(),
-                event.getCategoryId(),
-                event.getLocationId(),
-                event.getName(),
-                event.getContent(),
-                event.getStartAt(),
-                event.getEndAt(),
-                event.getHostId(),
-                event.getCapacity(),
-                event.getApproveType(),
+                event.categoryId(),
+                event.locationId(),
+                event.name(),
+                event.content(),
+                event.startAt(),
+                event.endAt(),
+                event.hostId(),
+                event.capacity(),
+                event.approveType(),
                 event.isOnline(),
-                event.getLocationDetail(),
-                event.getRecurringRules(),
-                event.getDeletedAt()
+                event.locationDetail(),
+                recurringRulesEntity,
+                event.deletedAt()
         );
+    }
+
+    public void update(Event event, RecurringRules recurringRules) {
+        // 이벤트 업데이트
+        this.categoryId = event.categoryId();
+        this.locationId = event.locationId();
+        this.name = event.name();
+        this.content = event.content();
+        this.startAt = event.startAt();
+        this.endAt = event.endAt();
+        this.capacity = event.capacity();
+        this.approveType = event.approveType();
+        this.isOnline = event.isOnline();
+        this.locationDetail = event.locationDetail();
+        this.recurringRules = ObjectUtils.isEmpty(recurringRules) ?
+                null : RecurringRulesEntity.fromDomain(recurringRules);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventEntity event = (EventEntity) o;
+        return Objects.equals(eventId, event.eventId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventId);
     }
 }
