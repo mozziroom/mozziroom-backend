@@ -85,12 +85,12 @@ class EventControllerTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("이벤트 정보 수정 API 호출 시, 정상 응답(HTTP 200)이 반환되는지 확인한다.")
-    void updateEvent() {
+    void updateEvent() throws JsonProcessingException {
         // given
         long eventId = 1L;
 
         UpdateEvent.Request request = new UpdateEvent.Request(
-                123L,
+                1L,
                 "서각코 모집",
                 "스타벅스에서 모각코 하실 분!",
                 LocalDateTime.of(2025, 4, 10, 14, 0),
@@ -98,16 +98,22 @@ class EventControllerTest extends BaseIntegrationTest {
                 30,
                 EventEnums.ApproveType.AUTO,
                 false,
-                12L,
+                1L,
                 "스타벅스 XX지점",
                 null
         );
 
+        ObjectMapper objectMapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        String json = objectMapper.writeValueAsString(request);
+
         // when
         ExtractableResponse<Response> response = RestAssured
                 .given()
+                .multiPart("request", "request.json", json, "application/json")
                 .contentType(ContentType.MULTIPART)
-                .body(request)
                 .when()
                 .patch("/events/" + eventId)
                 .then()
