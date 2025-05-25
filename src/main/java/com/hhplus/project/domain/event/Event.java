@@ -1,11 +1,14 @@
 package com.hhplus.project.domain.event;
 
+import lombok.Builder;
 import java.time.LocalDateTime;
 
+@Builder
 public record Event(
         Long eventId,
         Long categoryId,
         Long locationId,
+        String locationDetail,
         String name,
         String content,
         LocalDateTime startAt,
@@ -14,7 +17,6 @@ public record Event(
         int capacity,
         EventEnums.ApproveType approveType,
         boolean isOnline,
-        String locationDetail,
         RecurringRules recurringRules
 ) {
 

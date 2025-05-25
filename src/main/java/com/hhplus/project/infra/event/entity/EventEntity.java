@@ -4,10 +4,15 @@ import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "event")
 public class EventEntity extends BaseTimeEntity {
@@ -115,19 +120,19 @@ public class EventEntity extends BaseTimeEntity {
 
     public Event toDomain() {
         return new Event(
-                eventId,
-                categoryId,
-                locationId,
-                name,
-                content,
-                startAt,
-                endAt,
-                hostId,
-                capacity,
-                approveType,
-                isOnline,
-                locationDetail,
-                recurringRules.toDomain()
+                this.eventId,
+                this.categoryId,
+                this.locationId,
+                this.locationDetail,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity,
+                this.approveType,
+                this.isOnline,
+                this.recurringRules != null ? this.recurringRules.toDomain() : null
         );
     }
 }
