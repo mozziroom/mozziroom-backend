@@ -11,4 +11,8 @@ public interface EventRepository {
     EventEntity save(EventEntity eventEntity);
 
     Page<Event> findEventList(EventList.Command pageable);
+    
+    Event save(Event event);
+
+    Event getEvent(Long eventId);
 }

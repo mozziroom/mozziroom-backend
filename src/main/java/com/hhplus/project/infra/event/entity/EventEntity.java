@@ -1,11 +1,14 @@
 package com.hhplus.project.infra.event.entity;
 
 import com.hhplus.project.domain.event.Event;
+import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.springframework.util.ObjectUtils;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -104,6 +107,123 @@ public class EventEntity extends BaseTimeEntity {
      */
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    private EventEntity(Long eventId,
+                       Long categoryId,
+                       Long locationId,
+                       String name,
+                       String content,
+                       LocalDateTime startAt,
+                       LocalDateTime endAt,
+                       Long hostId,
+                       int capacity,
+                       EventEnums.ApproveType approveType,
+                       boolean isOnline,
+                       String locationDetail,
+                       RecurringRulesEntity recurringRules,
+                       LocalDateTime deletedAt
+    ) {
+        this.eventId = eventId;
+        this.categoryId = categoryId;
+        this.locationId = locationId;
+        this.name = name;
+        this.content = content;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.hostId = hostId;
+        this.capacity = capacity;
+        this.approveType = approveType;
+        this.isOnline = isOnline;
+        this.locationDetail = locationDetail;
+        this.recurringRules = recurringRules;
+        this.deletedAt = deletedAt;
+    }
+
+    public static EventEntity create(
+            Long categoryId,
+            Long locationId,
+            String name,
+            String content,
+            LocalDateTime startAt,
+            LocalDateTime endAt,
+            Long hostId,
+            int capacity,
+            EventEnums.ApproveType approveType,
+            boolean isOnline,
+            String locationDetail,
+            RecurringRulesEntity recurringRules,
+            LocalDateTime deletedAt
+    ) {
+        return new EventEntity(
+                null,
+                categoryId,
+                locationId,
+                name,
+                content,
+                startAt,
+                endAt,
+                hostId,
+                capacity,
+                approveType,
+                isOnline,
+                locationDetail,
+                recurringRules,
+                deletedAt
+        );
+    }
+
+    public Event toDomain() {
+        return Event.create(
+                this.eventId,
+                this.categoryId,
+                this.locationId,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity,
+                this.approveType,
+                this.isOnline,
+                this.locationDetail,
+                null,
+                this.deletedAt
+        );
+    }
+
+    public static EventEntity fromDomain(Event event, RecurringRulesEntity recurringRulesEntity) {
+        return EventEntity.create(
+                event.categoryId(),
+                event.locationId(),
+                event.name(),
+                event.content(),
+                event.startAt(),
+                event.endAt(),
+                event.hostId(),
+                event.capacity(),
+                event.approveType(),
+                event.isOnline(),
+                event.locationDetail(),
+                recurringRulesEntity,
+                event.deletedAt()
+        );
+    }
+
+    public void update(Event event, RecurringRules recurringRules) {
+        // 이벤트 업데이트
+        this.categoryId = event.categoryId();
+        this.locationId = event.locationId();
+        this.name = event.name();
+        this.content = event.content();
+        this.startAt = event.startAt();
+        this.endAt = event.endAt();
+        this.capacity = event.capacity();
+        this.approveType = event.approveType();
+        this.isOnline = event.isOnline();
+        this.locationDetail = event.locationDetail();
+        this.recurringRules = ObjectUtils.isEmpty(recurringRules) ?
+                null : RecurringRulesEntity.fromDomain(recurringRules);
+    }
 
     @Override
     public boolean equals(Object o) {

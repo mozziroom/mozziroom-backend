@@ -4,11 +4,14 @@ import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "recurring_rules")
 public class RecurringRulesEntity extends BaseTimeEntity {
@@ -38,6 +41,60 @@ public class RecurringRulesEntity extends BaseTimeEntity {
     /** 삭제일시 */
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    private RecurringRulesEntity(Long recurringRulesId,
+                                 RecurringRulesEnums.Type recurringType,
+                                 int recurringInterval,
+                                 LocalDate startDate,
+                                 LocalDate endDate,
+                                 LocalDateTime deletedAt
+    ) {
+        this.recurringRulesId = recurringRulesId;
+        this.recurringType = recurringType;
+        this.recurringInterval = recurringInterval;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.deletedAt = deletedAt;
+    }
+    public static RecurringRulesEntity create(
+            Long recurringRulesId,
+            RecurringRulesEnums.Type recurringType,
+            int recurringInterval,
+            LocalDate startDate,
+            LocalDate endDate,
+            LocalDateTime deletedAt
+    ) {
+        return new RecurringRulesEntity(
+                recurringRulesId,
+                recurringType,
+                recurringInterval,
+                startDate,
+                endDate,
+                deletedAt
+        );
+    }
+
+    public RecurringRules toDomain() {
+        return RecurringRules.create(
+                this.recurringRulesId,
+                this.recurringType,
+                this.recurringInterval,
+                this.startDate,
+                this.endDate,
+                this.deletedAt
+        );
+    }
+
+    public static RecurringRulesEntity fromDomain(RecurringRules recurringRules) {
+        return RecurringRulesEntity.create(
+                recurringRules.recurringRulesId(),
+                recurringRules.recurringType(),
+                recurringRules.recurringInterval(),
+                recurringRules.startDate(),
+                recurringRules.endDate(),
+                recurringRules.deletedAt()
+        );
+    }
 
     @Override
     public boolean equals(Object o) {

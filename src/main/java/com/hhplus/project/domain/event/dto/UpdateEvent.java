@@ -1,56 +1,58 @@
-package com.hhplus.project.interfaces.event;
+package com.hhplus.project.domain.event.dto;
 
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public record UpdateEvent(
-
-) {
-    public record Request(
-            @NotNull
+public record UpdateEvent() {
+    public record Command(
+            @Schema(description = "이벤트 id", example = "1")
+            Long eventId,
             @Schema(description = "카테고리 id", example = "123")
             Long categoryId,
-            @NotNull
             @Schema(description = "이벤트명", example = "서각코 모집")
             String name,
-            @NotNull
             @Schema(description = "스터디 내용", example = "스타벅스에서 모각코 하실 분!")
             String content,
-            @NotNull
             @Schema(description = "이벤트 시작 일시", example = "2025-04-10T14:00:00")
             LocalDateTime startAt,
-            @NotNull
             @Schema(description = "이벤트 종료 일시", example = "2025-04-10T16:00:00")
             LocalDateTime endAt,
-            @NotNull
             @Schema(description = "정원", example = "30")
             int capacity,
-            @NotNull
             @Schema(description = "승인 타입 (AUTO: 자동, MANUAL: 수동)", example = "AUTO")
             EventEnums.ApproveType approveType,
-            @NotNull
             @Schema(description = "온라인 여부", example = "false")
             boolean isOnline,
-
             @Schema(description = "지역 id", example = "12")
             Long locationId,
-            @NotNull
             @Schema(description = "상세 장소", example = "스타벅스 XX지점")
             String locationDetail,
+            @Schema(description = "이벤트 이미지", example = "파일 업로드 예: event.jpg")
+            MultipartFile imageFile,
             @Schema(description = "반복 설정 정보")
             RecurringRules recurringRules
     ) {
-        public com.hhplus.project.domain.event.dto.UpdateEvent.Command toCommand(Long eventId, MultipartFile imageFile) {
-            com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules rules =
-                    recurringRules.toCommand();
-
-            return com.hhplus.project.domain.event.dto.UpdateEvent.Command.create(
+        public static Command create(
+                Long eventId,
+                Long categoryId,
+                String name,
+                String content,
+                LocalDateTime startAt,
+                LocalDateTime endAt,
+                int capacity,
+                EventEnums.ApproveType approveType,
+                boolean isOnline,
+                Long locationId,
+                String locationDetail,
+                MultipartFile imageFile,
+                RecurringRules recurringRules
+        ) {
+            return new Command(
                     eventId,
                     categoryId,
                     name,
@@ -63,9 +65,10 @@ public record UpdateEvent(
                     locationId,
                     locationDetail,
                     imageFile,
-                    rules
-                    );
+                    recurringRules
+            );
         }
+
     }
 
     public record RecurringRules(
@@ -80,8 +83,14 @@ public record UpdateEvent(
             @Schema(description = "반복 종료일", example = "2025-06-10")
             LocalDate endDate
     ) {
-        public com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules toCommand() {
-            return com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules.create(
+        public static RecurringRules create(
+                Long recurringRulesId,
+                RecurringRulesEnums.Type recurringType,
+                int recurringInterval,
+                LocalDate startDate,
+                LocalDate endDate
+        ) {
+            return new RecurringRules(
                     recurringRulesId,
                     recurringType,
                     recurringInterval,
@@ -89,6 +98,5 @@ public record UpdateEvent(
                     endDate
             );
         }
-
     }
 }
