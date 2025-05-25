@@ -1,11 +1,16 @@
 package com.hhplus.project.infra.reservation.entity;
 
+import com.hhplus.project.domain.reservation.Reservation;
+import com.hhplus.project.domain.reservation.ReservationHistory;
 import com.hhplus.project.infra.BaseTimeEntity;
 import com.hhplus.project.domain.reservation.ReservationEnums;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "reservation_history")
 public class ReservationHistoryEntity extends BaseTimeEntity {
@@ -23,6 +28,45 @@ public class ReservationHistoryEntity extends BaseTimeEntity {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ReservationEnums.Status status;
+
+    private ReservationHistoryEntity(
+            Long reservationHistoryId,
+            Long reservationId,
+            ReservationEnums.Status status
+    ){
+        this.reservationHistoryId = reservationHistoryId;
+        this.reservationId = reservationId;
+        this.status = status;
+    }
+
+    public static ReservationHistoryEntity create(
+            Long reservationHistoryId,
+            Long reservationId,
+            ReservationEnums.Status status
+    ) {
+        return new ReservationHistoryEntity(
+                reservationHistoryId,
+                reservationId,
+                status
+        );
+    }
+
+    public ReservationHistory toDomain() {
+        return ReservationHistory.create(
+                this.reservationHistoryId,
+                this.reservationId,
+                this.status
+        );
+    }
+
+    public static ReservationHistoryEntity fromDomain(Reservation reservation){
+        return ReservationHistoryEntity.create(
+                null,
+                reservation.getReservationId(),
+                reservation.getStatus()
+        );
+    }
+
 
     @Override
     public boolean equals(Object o) {
