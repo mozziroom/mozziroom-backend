@@ -5,6 +5,7 @@ import com.hhplus.project.support.BaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 
 @Slf4j
 @Service
@@ -18,5 +19,9 @@ public class EventService {
         EventEntity eventEntity = eventRepository.findById(eventId)
                 .orElseThrow(() -> new BaseException(EventException.EVENT_NOT_FOUND));
         return eventEntity.toDomain();
+    }
+  
+    public Page<Event> findEventList(EventList.Command command) {
+        return eventRepository.findEventList(command);
     }
 }

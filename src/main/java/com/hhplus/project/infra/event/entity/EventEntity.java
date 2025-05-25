@@ -64,7 +64,6 @@ public class EventEntity extends BaseTimeEntity {
     /**
      * 스터디 주최자 (member_id)
      */
-    @Getter
     @Column(name = "host_id", nullable = false)
     private Long hostId;
 
@@ -136,5 +135,4 @@ public class EventEntity extends BaseTimeEntity {
                 this.recurringRules != null ? this.recurringRules.toDomain() : null
         );
     }
-
 }

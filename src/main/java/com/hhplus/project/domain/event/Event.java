@@ -1,7 +1,6 @@
 package com.hhplus.project.domain.event;
 
 import lombok.Builder;
-
 import java.time.LocalDateTime;
 
 @Builder
@@ -20,4 +19,5 @@ public record Event(
         boolean isOnline,
         RecurringRules recurringRules
 ) {
+
 }
