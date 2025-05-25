@@ -25,7 +25,8 @@ public class EventService {
   
     public Page<Event> findEventList(EventList.Command command) {
         return eventRepository.findEventList(command);
-      
+    }
+
     @Transactional
     public Event update(UpdateEvent.Command command) {
         // 이벤트 조회

@@ -15,7 +15,6 @@ import java.util.Objects;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Entity
 @Table(name = "event")
 public class EventEntity extends BaseTimeEntity {
@@ -236,23 +235,5 @@ public class EventEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(eventId);
-    }
-
-    public Event toDomain() {
-        return new Event(
-                this.eventId,
-                this.categoryId,
-                this.locationId,
-                this.locationDetail,
-                this.name,
-                this.content,
-                this.startAt,
-                this.endAt,
-                this.hostId,
-                this.capacity,
-                this.approveType,
-                this.isOnline,
-                this.recurringRules != null ? this.recurringRules.toDomain() : null
-        );
     }
 }
