@@ -108,4 +108,13 @@ public class RecurringRulesEntity extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(recurringRulesId);
     }
+
+    public RecurringRules toDomain() {
+        return new RecurringRules(recurringRulesId,
+                recurringType,
+                recurringInterval,
+                startDate,
+                endDate,
+                deletedAt);
+    }
 }
