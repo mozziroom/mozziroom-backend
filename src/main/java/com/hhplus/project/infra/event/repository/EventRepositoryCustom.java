@@ -1,4 +1,4 @@
-package com.hhplus.project.infra.event;
+package com.hhplus.project.infra.event.repository;
 
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventList;
