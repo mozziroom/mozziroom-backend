@@ -1,10 +1,9 @@
 package com.hhplus.project.infra.event.repository;
 
-import com.hhplus.project.domain.event.Event;
-import com.hhplus.project.domain.event.EventException;
-import com.hhplus.project.domain.event.EventList;
-import com.hhplus.project.domain.event.EventRepository;
+import com.hhplus.project.domain.event.*;
+import com.hhplus.project.infra.event.entity.CategoryEntity;
 import com.hhplus.project.infra.event.entity.EventEntity;
+import com.hhplus.project.infra.event.entity.LocationEntity;
 import com.hhplus.project.support.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,10 +16,22 @@ import java.util.Optional;
 public class EventRepositoryImpl implements EventRepository {
 
     private final EventJpaRepository eventJpaRepository;
+    private final LocationJpaRepository locationJpaRepository;
+    private final CategoryJpaRepository categoryJpaRepository;
     @Override
     public Event getEvent(Long eventId) {
         EventEntity eventEntity = eventJpaRepository.findById(eventId).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
         return eventEntity.toDomain();
+    }
+
+    @Override
+    public Optional<Location> findLocation(Long locationId) {
+        return locationJpaRepository.findById(locationId).map(LocationEntity::toDomain);
+    }
+
+    @Override
+    public Optional<Category> findCategory(Long categoryId) {
+        return categoryJpaRepository.findById(categoryId).map(CategoryEntity::toDomain);
     }
 
     @Override

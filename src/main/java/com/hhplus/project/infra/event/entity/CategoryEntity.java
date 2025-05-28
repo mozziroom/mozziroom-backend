@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.Category;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
 
@@ -40,5 +41,26 @@ public class CategoryEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(categoryId);
+    }
+
+
+    public Category toDomain(){
+        return new Category(
+                categoryId,
+                name,
+                isActive,
+                parentId,
+                sort
+        );
+    }
+
+    public static CategoryEntity fromDomain(Category category){
+        CategoryEntity entity = new CategoryEntity();
+        entity.categoryId = category.categoryId();
+        entity.name       = category.name();
+        entity.isActive   = category.isActive();
+        entity.sort       = category.sort();
+        entity.parentId   = category.parentId();
+        return entity;
     }
 }

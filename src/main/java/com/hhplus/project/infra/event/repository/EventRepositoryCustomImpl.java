@@ -17,6 +17,7 @@ import static com.hhplus.project.infra.event.entity.QCategoryEntity.categoryEnti
 import static com.hhplus.project.infra.event.entity.QEventEntity.eventEntity;
 import static com.hhplus.project.infra.event.entity.QEventImageEntity.eventImageEntity;
 
+
 @Repository
 @RequiredArgsConstructor
 public class EventRepositoryCustomImpl implements EventRepositoryCustom {
