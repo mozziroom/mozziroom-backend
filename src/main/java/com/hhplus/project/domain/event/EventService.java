@@ -46,6 +46,6 @@ public class EventService {
         if( eventRepository.findLocation(command.locationId()).isEmpty() ){
             throw new BaseException(EventException.LOCATION_NOT_FOUND);
         }
-        return CreateEvent.Info.fromDomain(eventRepository.save(command.toDomain()));
+        return CreateEvent.Info.fromDomain(eventRepository.create(command.toDomain()));
     }
 }

@@ -1,6 +1,8 @@
 package com.hhplus.project.fixture;
 
+import com.hhplus.project.domain.event.Category;
 import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.event.Location;
 import com.hhplus.project.infra.event.entity.EventEntity;
 
 import java.time.LocalDate;
@@ -44,4 +46,23 @@ public class EventFixture {
     }
 
 
+    public static Category createCategory(){
+        return new Category(
+                null,
+                "테스트 카테코리",
+                true,
+                null,
+                1
+        );
+    }
+
+    public static Location createLocation(){
+        return new Location(
+                null,
+                "TEST",
+                "경기도 성남시",
+                "황세울로",
+                "건물"
+        );
+    }
 }

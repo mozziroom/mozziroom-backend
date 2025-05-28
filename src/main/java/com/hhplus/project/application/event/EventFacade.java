@@ -25,7 +25,7 @@ public class EventFacade {
     
     public CreateEventFacade.Result createEvent(CreateEventFacade.Criteria criteria){
 
-        // GetHostId
+        // GetHostId - memberId 조회하는 기능 추가
         Long memberId = 1L;
         return CreateEventFacade.Result.fromInfo(eventService.create(criteria.toCommand(memberId)));
     }

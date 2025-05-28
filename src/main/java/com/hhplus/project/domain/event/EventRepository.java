@@ -10,6 +10,8 @@ public interface EventRepository {
     
     Event save(Event event);
 
+    Event create(Event event);
+
     Event getEvent(Long eventId);
 
     Optional<Location> findLocation(Long locationId);

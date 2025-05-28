@@ -45,4 +45,9 @@ public class EventRepositoryImpl implements EventRepository {
         eventEntity.update(event, null);
         return eventJpaRepository.save(eventEntity).toDomain();
     }
+
+    @Override
+    public Event create(Event event) {
+        return eventJpaRepository.save(EventEntity.fromDomain(event,null)).toDomain();
+    }
 }

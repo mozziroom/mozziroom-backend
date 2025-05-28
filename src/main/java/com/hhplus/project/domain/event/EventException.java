@@ -13,7 +13,7 @@ public enum EventException implements ExceptionInterface {
     WRONG_TIME_SETTING("EVENT.WRONG.TIME.SET","이벤트의 시간 설정이 잘못 되었습니다."),
 
     CATEGORY_NOT_FOUND("CATEGORY.NOT.FOUND","카테고리를 찾을 수 없습니다."),
-    LOCATION_NOT_FOUND("LOCATION.NOT.FOUND","장소ㄴ를 찾을 수 없습니다."),
+    LOCATION_NOT_FOUND("LOCATION.NOT.FOUND","장소를 찾을 수 없습니다."),
 
 
     SAMPLE("EVENT.EXCEPTION.SAMPLE", "에러 샘플"),
