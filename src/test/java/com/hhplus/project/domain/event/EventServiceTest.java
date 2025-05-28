@@ -23,14 +23,14 @@ class EventServiceTest extends BaseIntegrationTest {
     @DisplayName("이벤트를 조회하면 이벤트가 조회된다")
     void getEvent() {
         // given
-        EventEntity eventEntity = eventRepository.save(createEvent());
+        Event newEvent = eventRepository.save(createEvent().toDomain());
 
         // when
-        long eventId = eventEntity.getEventId();
+        long eventId = newEvent.eventId();
         Event event = eventService.getEvent(eventId);
 
         // then
-        assertThat(event).isEqualTo(eventEntity.toDomain());
+        assertThat(event).isEqualTo(newEvent);
     }
 
     @Test

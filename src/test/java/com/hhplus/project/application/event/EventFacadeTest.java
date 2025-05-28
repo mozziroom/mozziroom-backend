@@ -1,9 +1,9 @@
 package com.hhplus.project.application.event;
 
 import com.hhplus.project.BaseIntegrationTest;
+import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventRepository;
 import com.hhplus.project.domain.member.MemberRepository;
-import com.hhplus.project.infra.event.entity.EventEntity;
 import com.hhplus.project.infra.member.entity.MemberEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.hhplus.project.fixture.EventFixture.creatEventWithHost;
 import static com.hhplus.project.fixture.MemberFixture.createMember;
+import static com.hhplus.project.infra.event.entity.QEventEntity.eventEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class EventFacadeTest extends BaseIntegrationTest {
@@ -36,10 +37,10 @@ class EventFacadeTest extends BaseIntegrationTest {
     @DisplayName("호스트가 이벤트를 조회하면 isHost는 true이다.")
     void getEventByHost() {
         // given
-        EventEntity eventEntity = eventRepository.save(creatEventWithHost(memberEntity.getMemberId()));
+        Event event = eventRepository.save(creatEventWithHost(memberEntity.getMemberId()).toDomain());
 
         // when
-        long eventId = eventEntity.getEventId();
+        Long eventId = event.eventId();
         long memberId = memberEntity.getMemberId();
         GetEvent.Result eventResult = eventFacade.getEvent(eventId, memberId);
 
