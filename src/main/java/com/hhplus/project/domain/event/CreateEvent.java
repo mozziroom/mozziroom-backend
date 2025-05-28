@@ -24,7 +24,7 @@ public record CreateEvent(
             RecurringRules recurringRules,
             MultipartFile file
     ){
-        public Event toDomain(RecurringRules recurringRules, LocalDateTime startAt, LocalDateTime endAt){
+        public Event toDomain(RecurringRules recurringRules){
             return new Event(
                     null,
                     categoryId,
@@ -43,9 +43,9 @@ public record CreateEvent(
         }
     }
 
-    public record Domain(List<Long> eventIds){
-        public static CreateEvent.Domain fromDomain(List<Event> events) {
-            return new CreateEvent.Domain(events.stream()
+    public record Info(List<Long> eventIds){
+        public static CreateEvent.Info fromDomain(List<Event> events) {
+            return new CreateEvent.Info(events.stream()
                     .map(Event::eventId)
                     .toList());
         }

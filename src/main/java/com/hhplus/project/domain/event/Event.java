@@ -5,6 +5,7 @@ import com.hhplus.project.support.BaseException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public record Event(
@@ -37,4 +38,27 @@ public record Event(
             throw new BaseException(EventException.WRONG_CAPACITY);
         }
     }
+
+    public List<Event> createEvents(){
+        return recurringRules.calculateDates().stream().map(date->{
+            LocalDateTime startAt = LocalDateTime.of(date,startAt().toLocalTime());
+            LocalDateTime endAt   = LocalDateTime.of(date,  endAt().toLocalTime());
+            return new Event(
+                    null,
+                    categoryId,
+                    locationId,
+                    name,
+                    content,
+                    startAt,
+                    endAt,
+                    hostId,
+                    capacity,
+                    approveType,
+                    isOnline,
+                    locationDetail,
+                    recurringRules
+            );
+        }).toList();
+    }
+
 }

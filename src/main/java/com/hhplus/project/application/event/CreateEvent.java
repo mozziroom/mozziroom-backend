@@ -1,7 +1,6 @@
 package com.hhplus.project.application.event;
 
 import com.hhplus.project.domain.event.EventEnums;
-import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.domain.event.RecurringRulesEnums;
 import org.springframework.web.multipart.MultipartFile;
 

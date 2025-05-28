@@ -3,6 +3,8 @@ package com.hhplus.project.domain.event;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public record RecurringRules(
         Long recurringRulesId,
@@ -45,5 +47,22 @@ public record RecurringRules(
             }
             default -> throw new IllegalArgumentException("지원하지 않는 반복 타입입니다.");
         }
+    }
+
+
+    List<LocalDate> calculateDates() {
+        List<LocalDate> result = new ArrayList<>();
+        LocalDate current = startDate;
+
+        while (!current.isAfter(endDate)) {
+            result.add(current);
+            switch (recurringType) {
+                case DAY -> current = current.plusDays(recurringInterval);
+                case WEEK -> current = current.plusWeeks(recurringInterval);
+                case MON -> current = current.plusMonths(recurringInterval);
+                case YEAR -> current = current.plusYears(recurringInterval);
+            }
+        }
+        return result;
     }
 }
