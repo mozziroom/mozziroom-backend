@@ -4,7 +4,7 @@ import com.hhplus.project.domain.event.Event;
 
 import java.time.LocalDateTime;
 
-public record EventResult(
+public record EventListResult(
 
 ) {
 
