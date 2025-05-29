@@ -1,6 +1,8 @@
 package com.hhplus.project.domain.event;
 
+import com.hhplus.project.domain.event.dto.CreateEvent;
 import com.hhplus.project.domain.event.dto.UpdateEvent;
+import com.hhplus.project.support.BaseException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +36,16 @@ public class EventService {
         // TODO 파사드에서 이미지 서비스 만들어서 처리하기
 
         return eventRepository.save(updatedEvent);
+    }
+
+    public CreateEvent.Info create(CreateEvent.Command command){
+        if( eventRepository.findCategory(command.categoryId()).isEmpty() ){
+            throw new BaseException(EventException.CATEGORY_NOT_FOUND);
+        }
+
+        if( eventRepository.findLocation(command.locationId()).isEmpty() ){
+            throw new BaseException(EventException.LOCATION_NOT_FOUND);
+        }
+        return CreateEvent.Info.fromDomain(eventRepository.create(command.toDomain()));
     }
 }

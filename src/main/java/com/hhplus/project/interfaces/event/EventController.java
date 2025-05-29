@@ -52,6 +52,6 @@ public class EventController {
             @RequestHeader("Authorization") String token,
             @Parameter(description = "이벤트 생성 정보")    @RequestPart CreateEvent.Request request,
             @Parameter(description = "이벤트 썸네일 파일")  @RequestPart(value = "image",required = false) MultipartFile imageFile) {
-        return ApiResponse.ok(CreateEvent.Response.create());
+        return ApiResponse.ok(CreateEvent.Response.fromResult(eventFacade.createEvent(request.toCriteria(token))));
     }
 }

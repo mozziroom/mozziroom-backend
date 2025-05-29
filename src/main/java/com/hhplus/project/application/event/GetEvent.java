@@ -1,6 +1,7 @@
 package com.hhplus.project.application.event;
 
 import com.hhplus.project.domain.event.*;
+import com.hhplus.project.interfaces.event.EventDetail;
 import com.hhplus.project.interfaces.member.MemberResponse;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public record GetEvent(
             List<MemberResponse> participants,
             int capacity,
             boolean isOnline,
-            List<EventImage> eventImages,
+            List<EventDetail.EventImage> eventImages,
             RecurringRules recurringRule,
             Boolean isHost,
             String reservationStatus

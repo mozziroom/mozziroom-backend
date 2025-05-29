@@ -1,5 +1,6 @@
 package com.hhplus.project.application.event;
 
+import com.hhplus.project.application.event.dto.CreateEventFacade;
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,12 @@ public class EventFacade {
     public Page<EventResult.Events> findEventList(EventCriteria.Events criteria) {
         Page<Event> events = eventService.findEventList(criteria.toCommand());
         return events.map(EventResult.Events::from);
+    }
+    
+    public CreateEventFacade.Result createEvent(CreateEventFacade.Criteria criteria){
+
+        // GetHostId - memberId 조회하는 기능 추가
+        Long memberId = 1L;
+        return CreateEventFacade.Result.fromInfo(eventService.create(criteria.toCommand(memberId)));
     }
 }

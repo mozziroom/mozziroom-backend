@@ -1,5 +1,6 @@
 package com.hhplus.project.infra.event.entity;
 
+import com.hhplus.project.domain.event.Location;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
 
@@ -41,5 +42,25 @@ public class LocationEntity extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(locationId);
+    }
+
+    public Location toDomain(){
+        return new Location(
+                locationId,
+                regionCode,
+                city,
+                district,
+                neighborhood
+        );
+    }
+
+    public static LocationEntity fromDomain(Location location){
+        LocationEntity entity = new LocationEntity();
+        entity.locationId = location.locationId();
+        entity.city = location.city();
+        entity.regionCode = location.regionCode();
+        entity.district = location.district();
+        entity.neighborhood = location.neighborhood();
+        return entity;
     }
 }

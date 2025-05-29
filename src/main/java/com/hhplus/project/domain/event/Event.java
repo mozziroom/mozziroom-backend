@@ -4,6 +4,8 @@ import com.hhplus.project.domain.event.dto.UpdateEvent;
 import com.hhplus.project.support.BaseException;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.regex.Pattern;
 
 public record Event(
         /** 스터디 id */
@@ -35,6 +37,22 @@ public record Event(
         /** 삭제일시 */
          LocalDateTime deletedAt
 ) {
+    private static final Pattern TITLE_REGEX = Pattern.compile(
+            "^[가-힣A-Za-z0-9_\\-\\(\\)!?,\\[\\]@#\\$%\\^&\\*\\uD83C-\\uDBFF\\uDC00-\\uDFFF]{2,}$"
+    );
+
+    public Event{
+        if (name == null || !TITLE_REGEX.matcher(name).matches()) {
+            throw new BaseException(EventException.TITLE_REGEX);
+        }
+        if (startAt != null && endAt != null && ChronoUnit.HOURS.between(startAt, endAt) < 1 ) {
+            throw new BaseException(EventException.WRONG_TIME_SETTING);
+        }
+        if ( capacity > 30 || capacity < 1 ){
+            throw new BaseException(EventException.WRONG_CAPACITY);
+        }
+    }
+
     public static Event create(
             Long eventId,
             Long categoryId,
