@@ -5,6 +5,8 @@ import com.hhplus.project.infra.member.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepository {
@@ -14,5 +16,10 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public MemberEntity save(MemberEntity memberEntity) {
         return memberJpaRepository.save(memberEntity);
+    }
+
+    @Override
+    public Optional<MemberEntity> findByProviderAndProviderId(String provider, String providerId) {
+        return memberJpaRepository.findByProviderAndProviderId(provider, providerId);
     }
 }
