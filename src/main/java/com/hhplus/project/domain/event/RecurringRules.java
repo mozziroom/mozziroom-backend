@@ -11,4 +11,14 @@ public record RecurringRules(
         LocalDate endDate,
         LocalDateTime deletedAt
 ) {
+    public static RecurringRules create(Long recurringRulesId, RecurringRulesEnums.Type recurringType, int recurringInterval, LocalDate startDate, LocalDate endDate, LocalDateTime deletedAt) {
+        return new RecurringRules(
+                recurringRulesId,
+                recurringType,
+                recurringInterval,
+                startDate,
+                endDate,
+                deletedAt
+        );
+    }
 }
