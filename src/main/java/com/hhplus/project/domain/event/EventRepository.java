@@ -14,6 +14,8 @@ public interface EventRepository {
 
     Event getEvent(Long eventId);
 
+    Event findEventWithLock(Long eventId);
+
     Optional<Location> findLocation(Long locationId);
 
     Optional<Category> findCategory(Long categoryId);

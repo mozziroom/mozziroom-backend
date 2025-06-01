@@ -25,6 +25,12 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
+    public Event findEventWithLock(Long eventId) {
+        return eventJpaRepository.findByIdWithLock(eventId)
+                .orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT)).toDomain();
+    }
+
+    @Override
     public Optional<Location> findLocation(Long locationId) {
         return locationJpaRepository.findById(locationId).map(LocationEntity::toDomain);
     }
