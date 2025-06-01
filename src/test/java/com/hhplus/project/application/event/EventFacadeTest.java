@@ -12,22 +12,18 @@ import com.hhplus.project.infra.event.repository.CategoryJpaRepository;
 import com.hhplus.project.infra.event.repository.EventJpaRepository;
 import com.hhplus.project.infra.event.repository.LocationJpaRepository;
 import com.hhplus.project.infra.member.entity.MemberEntity;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.hhplus.project.fixture.EventFixture.creatEventWithHost;
 import static com.hhplus.project.fixture.MemberFixture.createMember;
-import static com.hhplus.project.infra.event.entity.QEventEntity.eventEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EventFacadeTest extends BaseIntegrationTest {
 
@@ -65,7 +61,7 @@ class EventFacadeTest extends BaseIntegrationTest {
         // when
         Long eventId = event.eventId();
         long memberId = memberEntity.getMemberId();
-        GetEvent.Result eventResult = eventFacade.getEvent(eventId, memberId);
+        EventDetailResult.EventDetail eventResult = eventFacade.getEvent(eventId, memberId);
 
         // then
         assertThat(eventResult.isHost()).isTrue();

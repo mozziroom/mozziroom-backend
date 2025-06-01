@@ -1,15 +1,14 @@
 package com.hhplus.project.infra.member.entity;
 
+import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Builder
 @Entity
 @Table(name = "member")
-public class MemberEntity {
+public class MemberEntity extends BaseTimeEntity {
     /** 멤버 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +20,7 @@ public class MemberEntity {
     private String name;
 
     /** 닉네임 */
-    @Column(name = "닉네임", nullable = false)
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     /** 프로필 사진 PATH */
@@ -32,13 +31,16 @@ public class MemberEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    /** 생성일 */
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    public MemberEntity() {
 
-    /** 수정일 */
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    }
+
+    public MemberEntity(String name, String nickname, String profileImgPath, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.name = name;
+        this.nickname = nickname;
+        this.profileImgPath = profileImgPath;
+        this.email = email;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,7 +55,7 @@ public class MemberEntity {
         return Objects.hash(memberId);
     }
 
-    public long getMemberId() {
+    public Long getMemberId() {
         return this.memberId;
     }
 }

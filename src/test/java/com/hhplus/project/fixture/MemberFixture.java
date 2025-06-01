@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 public class MemberFixture {
 
     public static MemberEntity createMember() {
-        return MemberEntity.builder()
-                .name("김회원")
-                .nickname("멤바")
-                .profileImgPath("/image/profile.jpg")
-                .email("member@google.com")
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        return new MemberEntity(
+                "김회원",
+                "멤바",
+                "/image/profile.jpg",
+                "member@google.com",
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
     }
 }
