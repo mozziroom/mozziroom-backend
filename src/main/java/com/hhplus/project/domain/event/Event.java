@@ -37,10 +37,6 @@ public record Event(
         /** 삭제일시 */
          LocalDateTime deletedAt
 ) {
-    private static final Pattern TITLE_REGEX = Pattern.compile(
-            "^[가-힣A-Za-z0-9_\\-\\(\\)!?,\\[\\]@#\\$%\\^&\\*\\uD83C-\\uDBFF\\uDC00-\\uDFFF]{2,}$"
-    );
-
     public Event{
         if (name == null || !TITLE_REGEX.matcher(name).matches()) {
             throw new BaseException(EventException.TITLE_REGEX);
@@ -152,4 +148,8 @@ public record Event(
                 this.deletedAt
         );
     }
+
+    private static final Pattern TITLE_REGEX = Pattern.compile(
+            "^[가-힣A-Za-z0-9 _\\-()!?.,\\[\\]@#$%^&*\\uD83C-\\uDBFF\\uDC00-\\uDFFF]{2,}$"
+    );
 }

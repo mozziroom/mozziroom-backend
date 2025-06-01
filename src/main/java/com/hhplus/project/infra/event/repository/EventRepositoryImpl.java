@@ -41,19 +41,30 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Page<Event> findEventList(EventList.Command pageable) {
-        return eventJpaRepository.findEventList(pageable);
+    public Page<Event> findEventList(EventList.Command command) {
+        return eventJpaRepository.findEventList(command);
     }
 
     @Override
     public Event save(Event event) {
-        EventEntity eventEntity = eventJpaRepository.findById(event.eventId()).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
-        eventEntity.update(event, null);
-        return eventJpaRepository.save(eventEntity).toDomain();
+        // TODO 이거 머지...
+//        EventEntity eventEntity = eventJpaRepository.findById(event.eventId()).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
+//        eventEntity.update(event, null);
+        return eventJpaRepository.save(EventEntity.fromDomain(event, null)).toDomain();
     }
 
     @Override
     public Event create(Event event) {
         return eventJpaRepository.save(EventEntity.fromDomain(event,null)).toDomain();
+    }
+
+    @Override
+    public Category save(Category category) {
+        return categoryJpaRepository.save(CategoryEntity.fromDomain(category)).toDomain();
+    }
+
+    @Override
+    public Location save(Location location) {
+        return locationJpaRepository.save(LocationEntity.fromDomain(location)).toDomain();
     }
 }

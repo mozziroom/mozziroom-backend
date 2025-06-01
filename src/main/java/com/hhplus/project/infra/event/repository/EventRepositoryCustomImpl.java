@@ -2,7 +2,9 @@ package com.hhplus.project.infra.event.repository;
 
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventList;
+import com.hhplus.project.infra.common.utils.BooleanBuilderUtil;
 import com.hhplus.project.infra.event.entity.EventEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +42,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
                 .leftJoin(categoryEntity).on(eventEntity.categoryId.eq(categoryEntity.categoryId))
                 .leftJoin(eventImageEntity).on(eventEntity.eventId.eq(eventImageEntity.eventImageId)
                         .and(eventImageEntity.imageType.eq(THUMBNAIL)))
-                .where(eventEntity.locationId.eq(command.locationId()))
-                .where(categoryEntity.categoryId.eq(command.categoryId()))
-                .where(eventEntity.startAt.goe(command.startAt()))
-                .where(eventEntity.endAt.loe(command.endAt()))
-                .where(eventEntity.name.containsIgnoreCase(command.keyword()))
+                .where(eventListFilter(command))
                 .orderBy(order)
                 .offset(command.pageable().getOffset())
                 .limit(command.pageable().getPageSize())
@@ -52,11 +50,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
 
         Long total = queryFactory.select(eventEntity.eventId.count())
                 .from(eventEntity)
-                .where(eventEntity.locationId.eq(command.locationId()))
-                .where(eventEntity.categoryId.eq(command.categoryId()))
-                .where(eventEntity.startAt.goe(command.startAt()))
-                .where(eventEntity.endAt.loe(command.endAt()))
-                .where(eventEntity.name.containsIgnoreCase(command.keyword()))
+                .where(eventListFilter(command))
                 .fetchOne();
 
         return new PageImpl<>(content.stream()
@@ -64,5 +58,18 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
                 .toList(),
                 command.pageable(),
                 total == null ? 0L : total);
+    }
+
+    private BooleanBuilder eventListFilter(EventList.Command command) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.locationId.eq(command.locationId())));
+        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> categoryEntity.categoryId.eq(command.categoryId())));
+        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.startAt.goe(command.startAt())));
+        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.endAt.loe(command.endAt())));
+        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.name.containsIgnoreCase(command.keyword())));
+        if (command.keyword() != null && !command.keyword().isEmpty()) {
+            builder.and(eventEntity.name.containsIgnoreCase(command.keyword()));
+        }
+        return builder;
     }
 }

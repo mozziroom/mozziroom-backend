@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface EventRepository {
 
     Page<Event> findEventList(EventList.Command pageable);
-    
+
     Event save(Event event);
 
     Event create(Event event);
@@ -20,4 +20,7 @@ public interface EventRepository {
 
     Optional<Category> findCategory(Long categoryId);
 
+    Category save(Category category);
+
+    Location save(Location location);
 }
