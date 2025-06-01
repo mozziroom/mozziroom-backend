@@ -20,7 +20,7 @@ public class EventService {
     public Event getEvent(long eventId) {
         return eventRepository.getEvent(eventId);
     }
-  
+
     public Page<Event> findEventList(EventList.Command command) {
         return eventRepository.findEventList(command);
     }

@@ -1,5 +1,8 @@
 package com.hhplus.project.domain.member;
 
+
+import com.hhplus.project.support.security.oauth2.ProviderType;
+
 public record Member(
         /** 회원 id */
         Long memberId,
@@ -11,6 +14,9 @@ public record Member(
         String profileImageUrl,
         /** 이메일 주소 */
         String email
+        String profileImgPath,
+        ProviderType providerType,
+        String providerId
 ) {
 
     public static Member create(
@@ -18,13 +24,23 @@ public record Member(
             String name,
             String nickname,
             String profileImageUrl,
-            String email
+            String email,
+            ProviderType providerType,
+            String providerId
+    public static Member create(String name,
+                                String nickname,
+                                String profileImgPath,
+                                String email,
+                                ProviderType providerType,
+                                String providerId
     ) {
         return new Member(memberId,
                 name,
                 nickname,
-                profileImageUrl,
-                email
+                profileImgPath,
+                email,
+                providerType,
+                providerId
         );
     }
 }

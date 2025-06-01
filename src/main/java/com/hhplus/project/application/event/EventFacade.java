@@ -22,7 +22,7 @@ public class EventFacade {
         Page<Event> events = eventService.findEventList(criteria.toCommand());
         return events.map(EventResult.Events::from);
     }
-    
+
     public CreateEventFacade.Result createEvent(CreateEventFacade.Criteria criteria){
 
         // GetHostId - memberId 조회하는 기능 추가

@@ -2,13 +2,21 @@ package com.hhplus.project.infra.member.entity;
 
 import com.hhplus.project.domain.member.Member;
 import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.support.security.oauth2.ProviderType;
+import com.hhplus.project.domain.member.Member;
+import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "member")
+public class MemberEntity extends BaseTimeEntity {
+    /** 멤버 id */
 public class MemberEntity extends BaseTimeEntity {
     /**
      * 멤버 id
@@ -24,6 +32,8 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    /** 닉네임 */
+    @Column(name = "nickname", nullable = false)
     /**
      * 닉네임
      */
@@ -42,10 +52,54 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    /** 로그인 플랫폼 */
+    @Column(name = "provider")
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
+
+    /** 로그인 플랫폼 고유 식별값 */
+    @Column(name = "providerId")
+    private String providerId;
     public MemberEntity() {
 
     }
 
+    @Builder
+    private MemberEntity(Long memberId,
+                         String name,
+                         String nickname,
+                         String profileImgPath,
+                         String email,
+                         ProviderType providerType,
+                         String providerId
+    ) {
+        this.memberId = memberId;
+        this.name = name;
+        this.nickname = nickname;
+        this.profileImgPath = profileImgPath;
+        this.email = email;
+        this.providerType = providerType;
+        this.providerId = providerId;
+    }
+
+    public static MemberEntity create(
+            String name,
+            String nickname,
+            String profileImgPath,
+            String email,
+            ProviderType providerType,
+            String providerId
+    ) {
+        return new MemberEntity(
+                null,
+                name,
+                nickname,
+                profileImgPath,
+                email,
+                providerType,
+                providerId
+        );
+    }
     public MemberEntity(String name, String nickname, String profileImgPath, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.name = name;
         this.nickname = nickname;
@@ -114,5 +168,29 @@ public class MemberEntity extends BaseTimeEntity {
 
     public Long getMemberId() {
         return this.memberId;
+    }
+
+    public Member toDomain() {
+        return new Member(
+                this.memberId,
+                this.name,
+                this.nickname,
+                this.profileImgPath,
+                this.email,
+                this.providerType,
+                this.providerId
+        );
+    }
+
+    public static MemberEntity fromDomain(Member member) {
+        return new MemberEntity(
+                member.memberId(),
+                member.name(),
+                member.nickname(),
+                member.profileImgPath(),
+                member.email(),
+                member.providerType(),
+                member.providerId()
+        );
     }
 }

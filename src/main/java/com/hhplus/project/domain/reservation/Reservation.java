@@ -46,4 +46,11 @@ public class Reservation {
     public void cancel(){
         this.status = ReservationEnums.Status.CANCELED;
     }
+
+    /**
+     * 예약이 이미 Update된 상태인지 확인한다.
+     */
+    public boolean isUpdated(ReservationEnums.Status status) {
+        return this.status == status;
+    }
 }
