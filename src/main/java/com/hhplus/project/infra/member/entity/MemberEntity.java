@@ -1,18 +1,14 @@
 package com.hhplus.project.infra.member.entity;
 
 import com.hhplus.project.domain.member.Member;
-import com.hhplus.project.support.security.oauth2.ProviderType;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-@Builder
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "member")
@@ -48,6 +44,7 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "providerId")
     private String providerId;
 
+    @Builder
     private MemberEntity(Long memberId,
                          String name,
                          String nickname,
