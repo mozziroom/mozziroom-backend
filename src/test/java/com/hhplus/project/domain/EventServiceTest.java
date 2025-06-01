@@ -94,7 +94,7 @@ public class EventServiceTest extends BaseIntegrationTest {
                 "메가커피에서 모각코 하실 분!",
                 LocalDateTime.of(2025, 12, 31, 20, 0),
                 LocalDateTime.of(2025, 12, 31, 22, 0),
-                50,
+                30,
                 EventEnums.ApproveType.AUTO,
                 false,
                 1L,

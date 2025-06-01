@@ -38,14 +38,14 @@ public class EventService {
         return eventRepository.save(updatedEvent);
     }
 
-    public CreateEvent.Info create(CreateEvent.Command command){
-        if( eventRepository.findCategory(command.categoryId()).isEmpty() ){
+    public CreateEvent.Info create(CreateEvent.Command command) {
+        if (eventRepository.findCategory(command.categoryId()).isEmpty()) {
             throw new BaseException(EventException.CATEGORY_NOT_FOUND);
         }
 
-        if( eventRepository.findLocation(command.locationId()).isEmpty() ){
+        if (eventRepository.findLocation(command.locationId()).isEmpty()) {
             throw new BaseException(EventException.LOCATION_NOT_FOUND);
         }
-        return CreateEvent.Info.fromDomain(eventRepository.create(command.toDomain()));
+        return CreateEvent.Info.fromDomain(eventRepository.save(command.toDomain()));
     }
 }
