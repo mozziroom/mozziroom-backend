@@ -1,15 +1,5 @@
 package com.hhplus.project.domain.member;
 
-import com.hhplus.project.domain.event.EventEnums;
-import com.hhplus.project.domain.event.EventException;
-import com.hhplus.project.domain.event.RecurringRules;
-import com.hhplus.project.domain.event.dto.UpdateEvent;
-import com.hhplus.project.support.BaseException;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.regex.Pattern;
-
 public record Member(
         /** 회원 id */
         Long memberId,
@@ -22,9 +12,6 @@ public record Member(
         /** 이메일 주소 */
         String email
 ) {
-    public Member {
-
-    }
 
     public static Member create(
             Long memberId,
