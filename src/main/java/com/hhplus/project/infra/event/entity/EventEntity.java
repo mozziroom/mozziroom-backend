@@ -108,19 +108,19 @@ public class EventEntity extends BaseTimeEntity {
     private LocalDateTime deletedAt;
 
     private EventEntity(Long eventId,
-                       Long categoryId,
-                       Long locationId,
-                       String name,
-                       String content,
-                       LocalDateTime startAt,
-                       LocalDateTime endAt,
-                       Long hostId,
-                       int capacity,
-                       EventEnums.ApproveType approveType,
-                       boolean isOnline,
-                       String locationDetail,
-                       RecurringRulesEntity recurringRules,
-                       LocalDateTime deletedAt
+                        Long categoryId,
+                        Long locationId,
+                        String name,
+                        String content,
+                        LocalDateTime startAt,
+                        LocalDateTime endAt,
+                        Long hostId,
+                        int capacity,
+                        EventEnums.ApproveType approveType,
+                        boolean isOnline,
+                        String locationDetail,
+                        RecurringRulesEntity recurringRules,
+                        LocalDateTime deletedAt
     ) {
         this.eventId = eventId;
         this.categoryId = categoryId;
@@ -191,7 +191,8 @@ public class EventEntity extends BaseTimeEntity {
     }
 
     public static EventEntity fromDomain(Event event, RecurringRulesEntity recurringRulesEntity) {
-        return EventEntity.create(
+        return new EventEntity(
+                event.eventId(),
                 event.categoryId(),
                 event.locationId(),
                 event.name(),

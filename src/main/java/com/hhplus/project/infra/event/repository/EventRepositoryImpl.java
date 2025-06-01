@@ -18,6 +18,7 @@ public class EventRepositoryImpl implements EventRepository {
     private final EventJpaRepository eventJpaRepository;
     private final LocationJpaRepository locationJpaRepository;
     private final CategoryJpaRepository categoryJpaRepository;
+    
     @Override
     public Event getEvent(Long eventId) {
         EventEntity eventEntity = eventJpaRepository.findById(eventId).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
@@ -47,15 +48,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Event save(Event event) {
-        // TODO 이거 머지...
-//        EventEntity eventEntity = eventJpaRepository.findById(event.eventId()).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
-//        eventEntity.update(event, null);
         return eventJpaRepository.save(EventEntity.fromDomain(event, null)).toDomain();
-    }
-
-    @Override
-    public Event create(Event event) {
-        return eventJpaRepository.save(EventEntity.fromDomain(event,null)).toDomain();
     }
 
     @Override

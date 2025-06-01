@@ -5,13 +5,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hhplus.project.BaseIntegrationTest;
+import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.member.Member;
+import com.hhplus.project.fixture.EventFixture;
+import com.hhplus.project.fixture.MemberFixture;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,11 +29,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class EventControllerTest extends BaseIntegrationTest {
 
+    @Autowired
+    EventFixture eventFixture;
+
+    @Autowired
+    MemberFixture memberFixture;
+
+    private Event event;
+
+    @BeforeEach
+    void setUp() {
+        Member member = memberFixture.create();
+        event = eventFixture.create(member.memberId());
+    }
+
     @Test
     @DisplayName("이벤트 상세 조회 API 호출 시 정상적으로 응답이 오는지 확인한다.")
     void getEventDetail() {
         // given
-        long eventId = 1L;
+        long eventId = event.eventId();
         EventDetail.Response expectedResponse = EventDetail.Response.create();
 
         // when
@@ -85,10 +105,8 @@ class EventControllerTest extends BaseIntegrationTest {
     @DisplayName("이벤트 정보 수정 API 호출 시, 정상 응답(HTTP 200)이 반환되는지 확인한다.")
     void updateEvent() throws JsonProcessingException {
         // given
-        long eventId = 1L;
-
         UpdateEvent.Request request = new UpdateEvent.Request(
-                1L,
+                event.categoryId(),
                 "서각코 모집",
                 "스타벅스에서 모각코 하실 분!",
                 LocalDateTime.of(2025, 4, 10, 14, 0),
@@ -96,7 +114,7 @@ class EventControllerTest extends BaseIntegrationTest {
                 30,
                 EventEnums.ApproveType.AUTO,
                 false,
-                1L,
+                event.locationId(),
                 "스타벅스 XX지점",
                 null
         );
@@ -113,7 +131,7 @@ class EventControllerTest extends BaseIntegrationTest {
                 .multiPart("request", "request.json", json, "application/json")
                 .contentType(ContentType.MULTIPART)
                 .when()
-                .patch("/events/" + eventId)
+                .patch("/events/" + event.eventId())
                 .then()
                 .log().all()
                 .extract();
