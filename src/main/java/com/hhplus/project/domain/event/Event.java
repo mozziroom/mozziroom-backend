@@ -110,4 +110,46 @@ public record Event(
                 this.deletedAt
         );
     }
+
+    // TODO - 이벤트 예약 시, capacity가 --되는 구조? 현재 인원을 받아와서 계산 해야되는지...
+    /** 이벤트 예약 승인 */
+    public Event decreaseCapacity() {
+        return new Event(
+                this.eventId,
+                this.categoryId,
+                this.locationId,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity - 1,
+                this.approveType,
+                this.isOnline,
+                this.locationDetail,
+                this.recurringRules,
+                this.deletedAt
+        );
+    }
+
+    // TODO - 이벤트 나가기 기능 시, capacity가 ++되는 구조?
+    public Event increaseCapacity() {
+        // 좌석 최댓값 제한 로직이 필요하면 추가
+        return new Event(
+                this.eventId,
+                this.categoryId,
+                this.locationId,
+                this.name,
+                this.content,
+                this.startAt,
+                this.endAt,
+                this.hostId,
+                this.capacity + 1,
+                this.approveType,
+                this.isOnline,
+                this.locationDetail,
+                this.recurringRules,
+                this.deletedAt
+        );
+    }
 }
