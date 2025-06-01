@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface MemberRepository {
 
-    MemberEntity save(MemberEntity memberEntity);
-
     Member save(Member member);
 
     Optional<MemberEntity> findByProviderTypeAndProviderId(ProviderType providerType, String providerId);

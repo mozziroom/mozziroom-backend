@@ -62,7 +62,7 @@ class EventFacadeTest extends BaseIntegrationTest {
         // when
         Long eventId = event.eventId();
         long memberId = memberEntity.getMemberId();
-        GetEvent.Result eventResult = eventFacade.getEvent(eventId, memberId);
+        EventDetailResult.EventDetail eventResult = eventFacade.getEvent(eventId, memberId);
 
         // then
         assertThat(eventResult.isHost()).isTrue();

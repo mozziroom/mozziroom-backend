@@ -1,6 +1,6 @@
 package com.hhplus.project.support.security.oauth2;
 
-import com.hhplus.project.infra.member.entity.MemberEntity;
+import com.hhplus.project.domain.member.Member;
 
 import java.util.Map;
 
@@ -28,8 +28,8 @@ public abstract class OAuth2UserInfo {
     public abstract String getProviderId();
 
 
-    public MemberEntity toEntity() {
-        return MemberEntity.create(
+    public Member toDomain() {
+        return Member.create(
                 this.getName(),
                 this.getNickname(),
                 this.getProfileImgPath(),

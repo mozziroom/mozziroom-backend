@@ -1,5 +1,6 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.application.event.EventDetailResult;
 import com.hhplus.project.application.event.EventFacade;
 import com.hhplus.project.application.event.EventResult;
 import com.hhplus.project.domain.event.EventService;
@@ -25,7 +26,7 @@ public class EventController {
     @GetMapping("/{eventId}")
     public ApiResponse<EventDetail.Response> getEventDetail(@Parameter(description = "이벤트ID") @PathVariable long eventId
             , @Parameter(description = "회원ID") @RequestParam(required = false) Long memberId) {
-
+        EventDetailResult.EventDetail event = eventFacade.getEvent(eventId, memberId);
         return ApiResponse.ok(EventDetail.Response.create());
     }
 

@@ -14,34 +14,48 @@ import java.util.Objects;
 @Entity
 @Table(name = "member")
 public class MemberEntity extends BaseTimeEntity {
-    /** 멤버 id */
+    /**
+     * 멤버 id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long memberId;
 
-    /** 이름 */
+    /**
+     * 이름
+     */
     @Column(name = "name", nullable = false)
     private String name;
 
-    /** 닉네임 */
+    /**
+     * 닉네임
+     */
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    /** 프로필 사진 PATH */
+    /**
+     * 프로필 사진 PATH
+     */
     @Column(name = "profile_img_path")
     private String profileImgPath;
 
-    /** 이메일 */
+    /**
+     * 이메일
+     */
     @Column(name = "email", nullable = false)
     private String email;
 
-    /** 로그인 플랫폼 */
+    /**
+     * 로그인 플랫폼
+     */
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
 
-    /** 로그인 플랫폼 고유 식별값 */
+    /**
+     * 로그인 플랫폼 고유 식별값
+     */
     @Column(name = "providerId")
     private String providerId;
 
@@ -82,21 +96,32 @@ public class MemberEntity extends BaseTimeEntity {
         );
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MemberEntity member = (MemberEntity) o;
-        return Objects.equals(memberId, member.memberId);
+    @Builder
+    private MemberEntity(Long memberId,
+                         String name,
+                         String nickname,
+                         String profileImgPath,
+                         String email) {
+        this.memberId = memberId;
+        this.name = name;
+        this.nickname = nickname;
+        this.profileImgPath = profileImgPath;
+        this.email = email;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(memberId);
-    }
-
-    public long getMemberId() {
-        return this.memberId;
+    public static MemberEntity create(
+            String name,
+            String nickname,
+            String profileImgPath,
+            String email
+    ) {
+        return new MemberEntity(
+                null,
+                name,
+                nickname,
+                profileImgPath,
+                email
+        );
     }
 
     public Member toDomain() {
@@ -116,10 +141,27 @@ public class MemberEntity extends BaseTimeEntity {
                 member.memberId(),
                 member.name(),
                 member.nickname(),
-                member.profileImgPath(),
+                member.profileImageUrl(),
                 member.email(),
                 member.providerType(),
                 member.providerId()
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MemberEntity member = (MemberEntity) o;
+        return Objects.equals(memberId, member.memberId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(memberId);
+    }
+
+    public Long getMemberId() {
+        return this.memberId;
     }
 }

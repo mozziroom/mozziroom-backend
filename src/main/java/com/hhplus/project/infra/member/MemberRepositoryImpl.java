@@ -17,11 +17,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     private final MemberJpaRepository memberJpaRepository;
 
     @Override
-    public MemberEntity save(MemberEntity memberEntity) {
-        return memberJpaRepository.save(memberEntity);
-    }
-
-    @Override
     public Member save(Member member) {
         return memberJpaRepository.save(MemberEntity.fromDomain(member)).toDomain();
     }
