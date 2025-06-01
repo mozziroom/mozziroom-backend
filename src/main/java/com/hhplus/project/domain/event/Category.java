@@ -6,4 +6,9 @@ public record Category(
         boolean isActive,
         Long parentId,
         int sort
-) {}
+) {
+
+    public static Category create(String name, boolean isActive, Long parentId, int sort) {
+        return new Category(null, name, isActive, parentId, sort);
+    }
+}

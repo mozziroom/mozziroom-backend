@@ -18,4 +18,7 @@ public interface EventRepository {
 
     Optional<Category> findCategory(Long categoryId);
 
+    Category save(Category category);
+
+    Location save(Location location);
 }
