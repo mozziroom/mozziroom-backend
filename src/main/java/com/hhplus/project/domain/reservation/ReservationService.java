@@ -2,7 +2,6 @@ package com.hhplus.project.domain.reservation;
 
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
-import com.hhplus.project.domain.event.EventException;
 import com.hhplus.project.domain.event.EventRepository;
 import com.hhplus.project.domain.reservation.dto.CreateReservationCommand;
 import com.hhplus.project.domain.reservation.dto.UpdateReservationCommand;
@@ -24,31 +23,17 @@ public class ReservationService {
      */
     @Transactional
     public Reservation reserve(CreateReservationCommand.Command command) {
-        /**
-         * 이벤트 정원 초과 여부 확인
-         */
-        Event event = eventRepository.findEventWithLock(command.eventId());
-        if (event.capacity() <= 0) { throw new BaseException(EventException.EVENT_CAPACITY_EXCEEDED); }
-
-        /**
-         * 이벤트 예약 신청
-         */
+        // 이벤트 예약 신청
         Reservation reservation = command.toDomain();
-        reservation.pending();
-        reservation = reservationRepository.save(reservation);
 
-        reservationHistoryRepository.save(reservation);
-
-        /**
-         * 이벤트 자동승인 여부에 따라 예약 승인 처리
-         */
-        if (event.approveType() == EventEnums.ApproveType.AUTO) {
-            UpdateReservationCommand.Command autoApproveCmd = new UpdateReservationCommand.Command(
-                    reservation.getReservationId(),
-                    reservation.getMemberId()
-            );
-            reservation = approve(autoApproveCmd);
+        if (command.approveType().equals(EventEnums.ApproveType.MANUAL)) {
+            reservation.pending();
+        } else {
+            reservation.approve();
         }
+
+        reservation = reservationRepository.save(reservation);
+        reservationHistoryRepository.save(reservation);
 
         return reservation;
     }
