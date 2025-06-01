@@ -1,15 +1,18 @@
 package com.hhplus.project.infra.member.entity;
 
+import com.hhplus.project.domain.member.Member;
+import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "member")
-public class MemberEntity {
+public class MemberEntity extends BaseTimeEntity {
     /** 멤버 id */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +35,6 @@ public class MemberEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    /** 생성일 */
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    /** 수정일 */
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,6 +46,39 @@ public class MemberEntity {
     @Override
     public int hashCode() {
         return Objects.hash(memberId);
+    }
+
+    @Builder
+    public MemberEntity(Long memberId,
+                        String name,
+                        String nickname,
+                        String profileImgPath,
+                        String email) {
+        this.memberId = memberId;
+        this.name = name;
+        this.nickname = nickname;
+        this.profileImgPath = profileImgPath;
+        this.email = email;
+    }
+
+    public Member toDomain() {
+        return new Member(
+                this.memberId,
+                this.name,
+                this.nickname,
+                this.profileImgPath,
+                this.email
+        );
+    }
+
+    public static MemberEntity fromDomain(Member member) {
+        return new MemberEntity(
+                member.memberId(),
+                member.name(),
+                member.nickname(),
+                member.profileImgPath(),
+                member.email()
+        );
     }
 
     public long getMemberId() {
