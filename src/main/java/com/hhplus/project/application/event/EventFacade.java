@@ -13,9 +13,9 @@ public class EventFacade {
 
     private final EventService eventService;
 
-    public GetEvent.Result getEvent(long eventId, long memberId) {
+    public EventDetailResult.EventDetail getEvent(long eventId, long memberId) {
         Event event = eventService.getEvent(eventId);
-        return GetEvent.Result.fromDomain(event, memberId);
+        return EventDetailResult.EventDetail.from(event, memberId);
     }
 
     public Page<EventResult.Events> findEventList(EventCriteria.Events criteria) {

@@ -1,5 +1,6 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.application.event.EventDetailResult;
 import com.hhplus.project.interfaces.member.MemberResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -31,15 +32,14 @@ public class EventDetail {
             RecurringRule recurringRule,
             @Schema(description = "카테고리")
             Category category,
-            // TODO 장소의 존재여부에 따라 온라인여부 체크하는 것은 별로인가?
             @Schema(description = "온라인 여부")
-            String isOnline,
+            Boolean isOnline,
             @Schema(description = "장소")
             Location location,
             @Schema(description = "이벤트 이미지 목록")
             List<EventImage> eventImages,
             @Schema(description = "호스트 여부")
-            String isHost,
+            Boolean isHost,
             @Schema(description = "예약상태", example = "PENDING")
             String reservationStatus
     ) {
@@ -59,11 +59,28 @@ public class EventDetail {
                     participants,
                     EventDetail.RecurringRule.create(),
                     Category.create(),
-                    "N",
+                    false,
                     Location.create(),
                     eventImages,
-                    "N",
+                    false,
                     "PENDING"
+            );
+        }
+
+        public static EventDetail.Response from(EventDetailResult.EventDetail eventDetail) {
+            return new EventDetail.Response(
+                    eventDetail.startAt(),
+                    eventDetail.endAt(),
+                    null,
+                    eventDetail.content(),
+                    eventDetail.participants(),
+                    null,
+                    null,
+                    eventDetail.isOnline(),
+                    null,
+                    null,
+                    eventDetail.isHost(),
+                    eventDetail.reservationStatus()
             );
         }
     }
