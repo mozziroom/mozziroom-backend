@@ -5,31 +5,28 @@ import com.hhplus.project.application.event.dto.CreateEventFacade;
 import com.hhplus.project.domain.event.*;
 import com.hhplus.project.domain.member.MemberRepository;
 import com.hhplus.project.fixture.EventFixture;
-import com.hhplus.project.infra.event.entity.CategoryEntity;
 import com.hhplus.project.infra.event.entity.EventEntity;
-import com.hhplus.project.infra.event.entity.LocationEntity;
 import com.hhplus.project.infra.event.repository.CategoryJpaRepository;
 import com.hhplus.project.infra.event.repository.EventJpaRepository;
 import com.hhplus.project.infra.event.repository.LocationJpaRepository;
 import com.hhplus.project.infra.member.entity.MemberEntity;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.hhplus.project.fixture.EventFixture.creatEventWithHost;
 import static com.hhplus.project.fixture.MemberFixture.createMember;
-import static com.hhplus.project.infra.event.entity.QEventEntity.eventEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EventFacadeTest extends BaseIntegrationTest {
+
+    @Autowired
+    EventFixture eventFixture;
 
     @Autowired
     EventFacade eventFacade;
@@ -85,9 +82,8 @@ class EventFacadeTest extends BaseIntegrationTest {
         """)
     void shouldCreateEventAndRetrieveSameEventById() {
         // given: 테스트용 카테고리와 장소 생성
-        Location location = locationJpaRepository.save(LocationEntity.fromDomain(EventFixture.createLocation())).toDomain();
-        Category category = categoryJpaRepository.save(CategoryEntity.fromDomain(EventFixture.createCategory())).toDomain();
-
+        Location location = eventFixture.createLocation();
+        Category category = eventFixture.createCategory();
 
         // 그리고: 이벤트 생성 조건 정의
         String expectedTitle = "test";
