@@ -1,8 +1,9 @@
 package com.hhplus.project.interfaces.event;
 
-import com.hhplus.project.support.ApiResponse;
 import com.hhplus.project.application.event.EventFacade;
 import com.hhplus.project.application.event.EventResult;
+import com.hhplus.project.domain.event.EventService;
+import com.hhplus.project.support.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
