@@ -3,32 +3,30 @@ package com.hhplus.project.domain.member;
 
 import com.hhplus.project.support.security.oauth2.ProviderType;
 
-public record Member() {
+public record Member(
+        Long memberId,
+        String name,
+        String nickname,
+        String profileImgPath,
+        String email,
+        ProviderType providerType,
+        String providerId
+) {
 
-    public record Info(
-            Long memberId,
-            String name,
-            String nickname,
-            String profileImgPath,
-            String email,
-            ProviderType providerType
+    public static Member create(String name,
+                                String nickname,
+                                String profileImgPath,
+                                String email,
+                                ProviderType providerType,
+                                String providerId
     ) {
-
-        public static Member.Info create(
-                Long memberId,
-                String name,
-                String nickname,
-                String profileImgPath,
-                String email,
-                ProviderType providerType
-        ) {
-            return new Member.Info(memberId,
-                    name,
-                    nickname,
-                    profileImgPath,
-                    email,
-                    providerType
-            );
-        }
+        return new Member(null,
+                name,
+                nickname,
+                profileImgPath,
+                email,
+                providerType,
+                providerId
+        );
     }
 }

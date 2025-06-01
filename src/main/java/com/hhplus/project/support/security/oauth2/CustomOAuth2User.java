@@ -15,7 +15,7 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User {
 
     @Getter
-    private final Member.Info member;
+    private final Member member;
     private final Map<String, Object> attributes;
     @Override
     public Map<String, Object> getAttributes() {

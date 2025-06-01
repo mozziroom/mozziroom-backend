@@ -2,6 +2,7 @@ package com.hhplus.project.infra.member.entity;
 
 import com.hhplus.project.domain.member.Member;
 import com.hhplus.project.infra.BaseTimeEntity;
+import com.hhplus.project.support.security.oauth2.ProviderType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -98,14 +99,27 @@ public class MemberEntity extends BaseTimeEntity {
         return this.memberId;
     }
 
-    public Member.Info toDomain() {
-        return Member.Info.create(
+    public Member toDomain() {
+        return new Member(
                 this.memberId,
                 this.name,
                 this.nickname,
                 this.profileImgPath,
                 this.email,
-                this.providerType
+                this.providerType,
+                this.providerId
+        );
+    }
+
+    public static MemberEntity fromDomain(Member member) {
+        return new MemberEntity(
+                member.memberId(),
+                member.name(),
+                member.nickname(),
+                member.profileImgPath(),
+                member.email(),
+                member.providerType(),
+                member.providerId()
         );
     }
 }
