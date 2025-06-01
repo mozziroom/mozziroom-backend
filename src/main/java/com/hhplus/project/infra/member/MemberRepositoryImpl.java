@@ -22,11 +22,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Member save(Member member) {
-        return memberJpaRepository.save(MemberEntity.fromDomain(member)).toDomain();
-    }
-
-    @Override
     public Optional<MemberEntity> findByProviderTypeAndProviderId(ProviderType providerType, String providerId) {
         return memberJpaRepository.findByProviderTypeAndProviderId(providerType, providerId);
     }

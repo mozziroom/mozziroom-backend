@@ -1,5 +1,6 @@
 package com.hhplus.project.interfaces.event;
 
+import com.hhplus.project.application.event.EventDetailResult;
 import com.hhplus.project.application.event.EventFacade;
 import com.hhplus.project.application.event.EventResult;
 import com.hhplus.project.domain.event.EventService;

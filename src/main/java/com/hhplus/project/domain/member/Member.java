@@ -13,31 +13,22 @@ public record Member(
         /** 이미지 url */
         String profileImageUrl,
         /** 이메일 주소 */
-        String email
-        String profileImgPath,
+        String email,
         ProviderType providerType,
         String providerId
 ) {
 
-    public static Member create(
-            Long memberId,
-            String name,
-            String nickname,
-            String profileImageUrl,
-            String email,
-            ProviderType providerType,
-            String providerId
     public static Member create(String name,
                                 String nickname,
-                                String profileImgPath,
+                                String profileImageUrl,
                                 String email,
                                 ProviderType providerType,
                                 String providerId
     ) {
-        return new Member(memberId,
+        return new Member(null,
                 name,
                 nickname,
-                profileImgPath,
+                profileImageUrl,
                 email,
                 providerType,
                 providerId
