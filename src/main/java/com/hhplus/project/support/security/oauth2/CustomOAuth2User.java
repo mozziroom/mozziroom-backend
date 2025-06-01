@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import com.hhplus.project.domain.member.Member;
 import lombok.Getter;
@@ -30,5 +30,9 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public String getName() {
         return member.name();
+    }
+
+    public Long getMemberId() {
+        return member.memberId();
     }
 }

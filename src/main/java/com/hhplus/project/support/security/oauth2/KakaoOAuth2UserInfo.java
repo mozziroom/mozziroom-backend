@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import java.util.Map;
 
@@ -9,23 +9,22 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getName() {
-        // (임시) 닉네임
-        return (String) ((Map)((Map) attributes.get("kakao_account")).get("profile")).get("nickname");
+        return get("kakao_account", "profile", "nickname").toString();
     }
 
     @Override
     public String getNickname() {
-        return (String) ((Map)((Map) attributes.get("kakao_account")).get("profile")).get("nickname");
+        return get("kakao_account", "profile", "nickname").toString();
     }
 
     @Override
     public String getProfileImgPath() {
-        return (String) ((Map)((Map) attributes.get("kakao_account")).get("profile")).get("profile_image_url");
+        return get("kakao_account", "profile", "profile_image_url").toString();
     }
 
     @Override
     public String getEmail() {
-        return (String) ((Map) attributes.get("kakao_account")).get("email");
+        return get("kakao_account", "email").toString();
     }
 
     @Override
@@ -35,6 +34,6 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getProviderId() {
-        return (String)attributes.get("id");
+        return get("id").toString();
     }
 }

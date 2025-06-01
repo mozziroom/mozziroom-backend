@@ -1,7 +1,7 @@
 package com.hhplus.project.infra.member.entity;
 
 import com.hhplus.project.domain.member.Member;
-import com.hhplus.project.domain.member.oauth2.ProviderType;
+import com.hhplus.project.support.security.oauth2.ProviderType;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -28,7 +28,7 @@ public class MemberEntity extends BaseTimeEntity {
     private String name;
 
     /** 닉네임 */
-    @Column(name = "닉네임", nullable = false)
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     /** 프로필 사진 PATH */

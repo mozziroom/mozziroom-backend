@@ -1,7 +1,9 @@
 package com.hhplus.project.infra.member;
 
 import com.hhplus.project.domain.member.MemberRepository;
+import com.hhplus.project.support.security.oauth2.ProviderType;
 import com.hhplus.project.infra.member.entity.MemberEntity;
+import com.hhplus.project.infra.member.jpa.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +21,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberEntity> findByProviderAndProviderId(String provider, String providerId) {
-        return memberJpaRepository.findByProviderAndProviderId(provider, providerId);
+    public Optional<MemberEntity> findByProviderTypeAndProviderId(ProviderType providerType, String providerId) {
+        return memberJpaRepository.findByProviderTypeAndProviderId(providerType, providerId);
     }
 }

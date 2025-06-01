@@ -1,7 +1,7 @@
 package com.hhplus.project.domain.member;
 
 
-import com.hhplus.project.domain.member.oauth2.ProviderType;
+import com.hhplus.project.support.security.oauth2.ProviderType;
 
 public record Member() {
 

@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import java.util.Map;
 
@@ -9,22 +9,22 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getName() {
-        return (String)attributes.get("name");
+        return get("response", "name").toString();
     }
 
     @Override
     public String getNickname() {
-        return (String)attributes.get("nickname");
+        return get("response", "nickname").toString();
     }
 
     @Override
     public String getProfileImgPath() {
-        return (String)attributes.get("profile_image");
+        return get("response", "profile_image").toString();
     }
 
     @Override
     public String getEmail() {
-        return (String)attributes.get("email");
+        return get("response", "email").toString();
     }
 
     @Override
@@ -34,6 +34,6 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getProviderId() {
-        return (String)attributes.get("id");
+        return get("response", "id").toString();
     }
 }

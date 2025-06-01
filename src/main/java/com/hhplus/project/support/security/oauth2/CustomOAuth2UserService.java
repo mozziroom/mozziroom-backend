@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import com.hhplus.project.domain.member.Member;
 import com.hhplus.project.domain.member.MemberRepository;
@@ -20,11 +20,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
+        ProviderType providerType = ProviderType.from(provider);
 
-        OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(provider, oAuth2User.getAttributes());
+        OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes());
 
-        // provider와 providerId(sub)으로 존재하는 회원인지 조회, 미존재면 등록
-        Member.Info member = memberRepository.findByProviderAndProviderId(provider, oAuth2UserInfo.getProviderId())
+        Member.Info member = memberRepository.findByProviderTypeAndProviderId(providerType, oAuth2UserInfo.getProviderId())
                 .orElseGet(() -> memberRepository.save(oAuth2UserInfo.toEntity()))
                 .toDomain();
 

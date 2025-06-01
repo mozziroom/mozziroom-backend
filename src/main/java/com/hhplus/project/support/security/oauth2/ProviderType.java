@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

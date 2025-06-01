@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import com.hhplus.project.infra.member.entity.MemberEntity;
 
@@ -9,6 +9,15 @@ public abstract class OAuth2UserInfo {
 
     public OAuth2UserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
+    }
+
+    protected Object get(String... keys) {
+        Object current = attributes;
+        for (String key : keys) {
+            if (!(current instanceof Map)) return null;
+            current = ((Map<?, ?>) current).get(key);
+        }
+        return current;
     }
 
     public abstract String getName();

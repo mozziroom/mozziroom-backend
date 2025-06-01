@@ -1,4 +1,4 @@
-package com.hhplus.project.domain.member.oauth2;
+package com.hhplus.project.support.security.oauth2;
 
 import java.util.Map;
 
@@ -9,23 +9,23 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getName() {
-        return (String)attributes.get("name");
+        return attributes.get("name").toString();
     }
 
     @Override
     public String getNickname() {
         // (임시) 이름을 닉네임으로 설정
-        return (String)attributes.get("given_name");
+        return attributes.get("given_name").toString();
     }
 
     @Override
     public String getProfileImgPath() {
-        return (String)attributes.get("picture");
+        return attributes.get("picture").toString();
     }
 
     @Override
     public String getEmail() {
-        return (String)attributes.get("email");
+        return attributes.get("email").toString();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getProviderId() {
-        return (String)attributes.get("sub");
+        return attributes.get("sub").toString();
     }
 
 }
