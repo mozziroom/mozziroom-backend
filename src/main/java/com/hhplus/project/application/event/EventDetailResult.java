@@ -1,6 +1,7 @@
 package com.hhplus.project.application.event;
 
 import com.hhplus.project.domain.event.*;
+import com.hhplus.project.domain.reservation.ReservationEnums;
 import com.hhplus.project.interfaces.member.MemberResponse;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ public record EventDetailResult(
             List<EventImage> eventImages,
             RecurringRules recurringRule,
             Boolean isHost,
-            String reservationStatus
+            ReservationEnums.Status reservationStatus
     ) {
 
         public record Location(
@@ -53,8 +54,8 @@ public record EventDetailResult(
             }
         }
 
-        public static EventDetail from(Event event, long memberId) {
-            boolean isHost = event.hostId().equals(memberId);
+        public static EventDetail from(Event event, long memberId, ReservationEnums.Status status) {
+            Boolean isHost = event.hostId().equals(memberId);
             return new EventDetail(
                     null,
                     event.name(),
@@ -68,7 +69,7 @@ public record EventDetailResult(
                     null,
                     null,
                     isHost,
-                    null
+                    status
             );
         }
     }

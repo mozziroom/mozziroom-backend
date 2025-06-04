@@ -16,7 +16,6 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    // 이벤트 상세 조회
     public Event getEvent(long eventId) {
         return eventRepository.getEvent(eventId);
     }
