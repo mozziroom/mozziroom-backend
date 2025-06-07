@@ -10,7 +10,7 @@ event ||--o{ event_history : "1:N"
 member ||--o{ event : "1:N"
 event ||--o{ category : "1:1"
 event ||--o{ location : "1:1"
-event ||--o{ eventImage : "1:1"
+event ||--o{ event_image : "1:1"
 
 %% 멤버
 member {
