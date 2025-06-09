@@ -1,6 +1,7 @@
 package com.hhplus.project.support.security;
 
 import com.hhplus.project.support.security.oauth2.CustomOAuth2UserService;
+import com.hhplus.project.support.security.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final OAuth2SuccessHandler successHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
@@ -26,6 +28,8 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)
                         )
+                        .successHandler(successHandler)
+                        .failureUrl("/")
                 );
         return http.build();
     }
