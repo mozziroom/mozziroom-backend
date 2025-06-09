@@ -18,7 +18,6 @@ public enum EventException implements ExceptionInterface {
 
     SAMPLE("EVENT.EXCEPTION.SAMPLE", "에러 샘플"),
     ALREADY_ENDED_EVENT("ALREADY.ENDED.EVENT", "이미 종료된 이벤트입니다."),
-    NOT_EXISTS_EVENT("NOT.EXISTS.EVENT", "이벤트가 존재하지 않습니다."),
     EVENT_NOT_FOUND("EVENT.NOT.FOUND", "이벤트를 찾을 수 없습니다"),
 
     EVENT_CAPACITY_EXCEEDED("EVENT.CAPACITY.EXCEEDED", "이벤트의 예약 가능 인원이 초과되었습니다."),
