@@ -43,7 +43,7 @@ public class EventController {
             @Parameter(description = "이벤트ID") @PathVariable Long eventId
             , @Parameter(description = "이벤트 변경 정보") @RequestPart UpdateEvent.Request request
             , @Parameter(description = "이벤트 썸네일 파일") @RequestPart(value = "image",required = false) MultipartFile imageFile) {
-        // eventService.update(request.toCommand(eventId, imageFile));
+        eventService.update(request.toCommand(eventId, imageFile));
         return ApiResponse.ok();
     }
 

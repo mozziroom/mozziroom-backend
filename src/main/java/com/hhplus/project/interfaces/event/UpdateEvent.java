@@ -47,8 +47,8 @@ public record UpdateEvent(
             RecurringRules recurringRules
     ) {
         public com.hhplus.project.domain.event.dto.UpdateEvent.Command toCommand(Long eventId, MultipartFile imageFile) {
-            com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules rules =
-                    recurringRules.toCommand();
+            com.hhplus.project.domain.event.dto.UpdateEvent.RecurringRules rules = recurringRules == null ?
+                    null : recurringRules.toCommand();
 
             return com.hhplus.project.domain.event.dto.UpdateEvent.Command.create(
                     eventId,

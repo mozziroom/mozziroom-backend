@@ -32,9 +32,6 @@ public class EventService {
         // 이벤트 도메인 모델 정보 변경
         Event updatedEvent = event.update(command, null);
 
-        // TODO 반복룰 설계 수정 후 구현
-        // TODO 파사드에서 이미지 서비스 만들어서 처리하기
-
         return eventRepository.save(updatedEvent);
     }
 
