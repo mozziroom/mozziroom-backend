@@ -37,16 +37,18 @@ class EventControllerTest extends BaseIntegrationTest {
 
     private Event event;
 
+    private Member member;
+
     @BeforeEach
     void setUp() {
-        Member member = memberFixture.create();
-        event = eventFixture.create(member.memberId());
+        member = memberFixture.create();
     }
 
     @Test
     @DisplayName("이벤트 상세 조회 API 호출 시 정상적으로 응답이 오는지 확인한다.")
     void getEventDetail() {
         // given
+        event = eventFixture.create(member.memberId());
         long eventId = event.eventId();
         EventDetail.Response expectedResponse = EventDetail.Response.create();
 
@@ -105,12 +107,15 @@ class EventControllerTest extends BaseIntegrationTest {
     @DisplayName("이벤트 정보 수정 API 호출 시, 정상 응답(HTTP 200)이 반환되는지 확인한다.")
     void updateEvent() throws JsonProcessingException {
         // given
+        LocalDateTime startAt = LocalDateTime.of(2999, 12, 31, 0, 0);
+        LocalDateTime endAt = LocalDateTime.of(2999, 12, 31, 3, 0);
+        event = eventFixture.createWithDate(member.memberId(), startAt, endAt);
         UpdateEvent.Request request = new UpdateEvent.Request(
                 event.categoryId(),
                 "서각코 모집",
                 "스타벅스에서 모각코 하실 분!",
-                LocalDateTime.of(2025, 4, 10, 14, 0),
-                LocalDateTime.of(2025, 4, 10, 16, 0),
+                LocalDateTime.of(2999, 12, 31, 10, 0),
+                LocalDateTime.of(2999, 12, 31, 11, 0),
                 30,
                 EventEnums.ApproveType.AUTO,
                 false,
