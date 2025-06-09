@@ -27,7 +27,7 @@ public class EventController {
     public ApiResponse<EventDetail.Response> getEventDetail(@Parameter(description = "이벤트ID") @PathVariable long eventId
             , @Parameter(description = "회원ID") @RequestParam(required = false) Long memberId) {
         EventDetailResult.EventDetail event = eventFacade.getEvent(eventId, memberId);
-        return ApiResponse.ok(EventDetail.Response.create());
+        return ApiResponse.ok(EventDetail.Response.from(event));
     }
 
     @Operation(summary = "이벤트 목록 조회", description = "이벤트 목록을 반환 합니다.")

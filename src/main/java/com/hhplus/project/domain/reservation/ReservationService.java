@@ -102,4 +102,9 @@ public class ReservationService {
     }
 
     // TODO - 이벤트 나가기 기능 구현?
+
+    public Reservation getReservation(Long eventId, Long memberId) {
+        return reservationRepository.findByEventIdAndMemberId(eventId, memberId);
+    }
+
 }
