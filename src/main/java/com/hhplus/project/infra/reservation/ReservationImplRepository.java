@@ -24,4 +24,9 @@ public class ReservationImplRepository implements ReservationRepository {
     public Reservation save(Reservation reservation) {
         return reservationJpaRepository.save(ReservationEntity.fromDomain(reservation)).toDomain();
     }
+
+    @Override
+    public Reservation findByEventIdAndMemberId(Long eventId, Long memberId) {
+        return reservationJpaRepository.findByEventIdAndMemberId(eventId, memberId);
+    }
 }

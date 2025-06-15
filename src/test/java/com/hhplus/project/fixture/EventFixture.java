@@ -39,6 +39,28 @@ public class EventFixture {
     }
 
     @Transactional(rollbackFor = {Exception.class})
+    public Event createWithDate(Long hostId, LocalDateTime startAt, LocalDateTime endAt) {
+        Category category = createCategory();
+        Location location = createLocation();
+
+        return eventRepository.save(Event.create(null,
+                category.categoryId(),
+                location.locationId(),
+                "29cm 투어. 👍",
+                "허재와 함께하는 29투어입니다.",
+                startAt,
+                endAt,
+                hostId,
+                10,
+                EventEnums.ApproveType.MANUAL,
+                false,
+                "29cm 앞",
+                null,
+                null
+        ));
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
     public Category createCategory() {
         return eventRepository.save(Category.create("테스트 카테고리",
                 true,

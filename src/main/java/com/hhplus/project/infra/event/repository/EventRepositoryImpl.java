@@ -21,14 +21,14 @@ public class EventRepositoryImpl implements EventRepository {
     
     @Override
     public Event getEvent(Long eventId) {
-        EventEntity eventEntity = eventJpaRepository.findById(eventId).orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT));
-        return eventEntity.toDomain();
+        return eventJpaRepository.findById(eventId)
+                .orElseThrow(() -> new BaseException(EventException.EVENT_NOT_FOUND)).toDomain();
     }
 
     @Override
     public Event findEventWithLock(Long eventId) {
         return eventJpaRepository.findByIdWithLock(eventId)
-                .orElseThrow(() -> new BaseException(EventException.NOT_EXISTS_EVENT)).toDomain();
+                .orElseThrow(() -> new BaseException(EventException.EVENT_NOT_FOUND)).toDomain();
     }
 
     @Override

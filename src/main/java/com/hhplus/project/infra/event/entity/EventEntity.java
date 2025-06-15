@@ -221,7 +221,7 @@ public class EventEntity extends BaseTimeEntity {
         this.approveType = event.approveType();
         this.isOnline = event.isOnline();
         this.locationDetail = event.locationDetail();
-        this.recurringRules = ObjectUtils.isEmpty(recurringRules) ?
+        this.recurringRules = recurringRules == null ?
                 null : RecurringRulesEntity.fromDomain(recurringRules);
     }
 

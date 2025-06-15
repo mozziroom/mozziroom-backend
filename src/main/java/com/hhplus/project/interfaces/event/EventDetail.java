@@ -80,7 +80,7 @@ public class EventDetail {
                     null,
                     null,
                     eventDetail.isHost(),
-                    eventDetail.reservationStatus()
+                    eventDetail.reservationStatus().name()
             );
         }
     }

@@ -8,33 +8,33 @@ import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
 
 public record Event(
-        /** 스터디 id */
+        /* 스터디 id */
         Long eventId,
-        /** 카테고리 id */
+        /* 카테고리 id */
          Long categoryId,
-        /** 지역 id */
+        /* 지역 id */
          Long locationId,
-        /** 스터디명 */
+        /* 스터디명 */
          String name,
-        /** 스터디 내용 */
+        /* 스터디 내용 */
          String content,
-        /** 스터디 시작시간 */
+        /* 스터디 시작시간 */
          LocalDateTime startAt,
-        /** 스터디 종료시간 */
+        /* 스터디 종료시간 */
          LocalDateTime endAt,
-        /** 스터디 주최자 (member_id) */
+        /* 스터디 주최자 (member_id) */
          Long hostId,
-        /** 정원 */
+        /* 정원 */
          int capacity,
-        /** 이벤트 승인 타입 */
+        /* 이벤트 승인 타입 */
          EventEnums.ApproveType approveType,
-        /** 온라인 여부 */
+        /* 온라인 여부 */
          boolean isOnline,
-        /** 상세 장소 */
+        /* 상세 장소 */
          String locationDetail,
-        /** 스터디 반복 규칙 */
+        /* 스터디 반복 규칙 */
          RecurringRules recurringRules,
-        /** 삭제일시 */
+        /* 삭제일시 */
          LocalDateTime deletedAt
 ) {
     public Event{
@@ -108,7 +108,7 @@ public record Event(
     }
 
     // TODO - 이벤트 예약 시, capacity가 --되는 구조? 현재 인원을 받아와서 계산 해야되는지...
-    /** 이벤트 예약 승인 */
+    /* 이벤트 예약 승인 */
     public Event decreaseCapacity() {
         return new Event(
                 this.eventId,
