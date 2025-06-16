@@ -1,5 +1,7 @@
 package com.hhplus.project.support.security.oauth2;
 
+import com.hhplus.project.domain.member.MemberException;
+import com.hhplus.project.support.BaseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,6 @@ public enum ProviderType {
         return Arrays.stream(ProviderType.values())
                 .filter(type -> type.getProvider().equalsIgnoreCase(provider))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("unknown provider : " + provider));
+                .orElseThrow(() -> new BaseException(MemberException.PROVIDER_TYPE_NOT_FOUND));
     }
 }

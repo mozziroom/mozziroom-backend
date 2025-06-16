@@ -22,7 +22,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<MemberEntity> findByProviderTypeAndProviderId(ProviderType providerType, String providerId) {
-        return memberJpaRepository.findByProviderTypeAndProviderId(providerType, providerId);
+    public Optional<Member> findByProviderTypeAndProviderId(ProviderType providerType, String providerId) {
+        return memberJpaRepository.findByProviderTypeAndProviderId(providerType, providerId)
+                .map(MemberEntity::toDomain);
     }
 }
