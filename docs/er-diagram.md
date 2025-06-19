@@ -11,6 +11,21 @@ member ||--o{ event : "1:N"
 event ||--o{ category : "1:1"
 event ||--o{ location : "1:1"
 event ||--o{ event_image : "1:1"
+event_time_slot }o--|| event : "N:1"
+event_time_slot }o--|| time_slot : "N:1"
+ 	
+time_slot {
+        bigint id PK "타임슬롯 id"
+        time   start_time "시작시간"
+        time   end_time "종료시간"
+}
+
+event_time_slot {
+        bigint id PK "이벤트 타임슬롯 id"
+        bigint event_id FK "이벤트 id"
+        date   event_date "이벤트 일자"
+        bigint slot_id FK "타임슬롯 id"
+}
 
 %% 멤버
 member {
