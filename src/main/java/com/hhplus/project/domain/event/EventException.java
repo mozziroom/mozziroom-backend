@@ -14,6 +14,9 @@ public enum EventException implements ExceptionInterface {
 
     CATEGORY_NOT_FOUND("CATEGORY.NOT.FOUND","카테고리를 찾을 수 없습니다."),
     LOCATION_NOT_FOUND("LOCATION.NOT.FOUND","장소를 찾을 수 없습니다."),
+    REGION_CODE_DUPLICATE("REGION.CODE.DUPLICATE","중복된 지역 코드가 존재합니다."),
+    ALREADY_EXIST_REGION_CODE("ALREADY.EXIST.REGION.CODE","이미 사용중인 지역코드가 존재합니다."),
+    INVALID_PARENT_CATEGORY("INVALID.PARENT.CATEGORY","유효하지 않은 카테고리 입니다."),
 
 
     SAMPLE("EVENT.EXCEPTION.SAMPLE", "에러 샘플"),
