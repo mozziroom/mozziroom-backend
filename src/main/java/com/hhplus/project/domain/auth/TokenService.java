@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class RefreshTokenService {
+public class TokenService {
 
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenRepository refreshTokenRepository;
 
     public void saveOrUpdate(RefreshToken refreshTokenDto) {
         RefreshToken refreshToken = refreshTokenRepository.findRefreshToken(refreshTokenDto.memberId())
