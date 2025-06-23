@@ -30,7 +30,7 @@ public class AuthController {
         if (tokenProvider.isInvalidateRefreshToken(refreshToken)) {
             ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "")
                     .httpOnly(true)
-                    .secure(true)
+                    .secure(false)
                     .path("/")
                     .sameSite("None")
                     .maxAge(0)
