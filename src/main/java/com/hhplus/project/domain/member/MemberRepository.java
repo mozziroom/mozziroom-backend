@@ -9,5 +9,5 @@ public interface MemberRepository {
 
     Member save(Member member);
 
-    Optional<MemberEntity> findByProviderTypeAndProviderId(ProviderType providerType, String providerId);
+    Optional<Member> findByProviderTypeAndProviderId(ProviderType providerType, String providerId);
 }
