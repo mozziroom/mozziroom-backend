@@ -10,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Controller("/auth")
+@RequestMapping("/auth")
+@Controller
 public class AuthController {
 
     private final TokenProvider tokenProvider;
