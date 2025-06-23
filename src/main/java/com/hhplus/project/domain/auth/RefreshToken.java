@@ -10,8 +10,12 @@ public record RefreshToken(
         String token,
         LocalDateTime expiredAt
 ) {
-    public RefreshToken(Long refreshTokenId, Long memberId, String token, Date expiredAt) {
+    private RefreshToken(Long refreshTokenId, Long memberId, String token, Date expiredAt) {
         this(refreshTokenId, memberId, token, toLocalDateTime(expiredAt));
+    }
+
+    public static RefreshToken create(Long memberId, String token, Date expiredAt) {
+        return new RefreshToken(null, memberId, token, expiredAt);
     }
 
     public RefreshToken update(String token, LocalDateTime expiredAt) {

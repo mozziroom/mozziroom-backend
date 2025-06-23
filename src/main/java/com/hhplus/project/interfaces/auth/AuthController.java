@@ -21,9 +21,12 @@ public class AuthController {
     private final TokenProvider tokenProvider;
 
     @PostMapping("/reissue")
-    public ResponseEntity<Map<String, String>> reissue(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
-        if (!tokenProvider.validateRefreshToken(refreshToken)) {
-            ResponseCookie deleteCookie = ResponseCookie.from("refreshToken", "")
+    public ResponseEntity<Map<String, String>> reissue(@CookieValue(value = "refreshToken", required = false) String refreshToken, HttpServletResponse response) {
+        if(refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        if (tokenProvider.isInvalidateRefreshToken(refreshToken)) {
+            ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "")
                     .httpOnly(true)
                     .secure(true)
                     .path("/")
@@ -31,13 +34,14 @@ public class AuthController {
                     .maxAge(0)
                     .build();
 
-            response.setHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+            response.setHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Long memberId = tokenProvider.getMemberId(refreshToken);
-        String accessToken = tokenProvider.generateAccessToken(memberId);
+        Long memberId = tokenProvider.getMemberIdOfRefreshToken(refreshToken);
+        String role = tokenProvider.getRoleOfRefreshToken(refreshToken);
+        String accessToken = tokenProvider.generateAccessToken(memberId, role);
 
         Map<String, String> body = new HashMap<>();
         body.put("accessToken", accessToken);

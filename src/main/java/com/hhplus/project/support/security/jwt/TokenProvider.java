@@ -1,8 +1,11 @@
 package com.hhplus.project.support.security.jwt;
 
+import com.hhplus.project.domain.auth.RefreshToken;
+import com.hhplus.project.domain.auth.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
@@ -12,6 +15,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+@RequiredArgsConstructor
 @Component
 public class TokenProvider {
 
@@ -27,51 +31,61 @@ public class TokenProvider {
     @Value("${jwt.refresh.expiration}")
     private long refreshExpiration;
 
-    public String generateAccessToken(Long memberId) {
+    private final TokenService refreshTokenService;
+
+    public String generateAccessToken(Long memberId, String role) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + accessExpiration);
 
         return Jwts.builder()
-                .setSubject(String.valueOf(memberId))
+                .setClaims(createClaims(memberId, role))
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(getSigningKey(accessSecret))
                 .compact();
     }
 
-    public String generateRefreshToken(Long memberId) {
+    public String generateRefreshToken(Long memberId, String role) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + refreshExpiration);
+        Date expiredAt = new Date(now.getTime() + refreshExpiration);
 
-        return Jwts.builder()
-                .setSubject(String.valueOf(memberId))
+        String refreshToken = Jwts.builder()
+                .setClaims(createClaims(memberId, role))
                 .setIssuedAt(now)
-                .setExpiration(expiry)
+                .setExpiration(expiredAt)
                 .signWith(getSigningKey(refreshSecret))
                 .compact();
+
+        refreshTokenService.saveOrUpdate(RefreshToken.create(memberId, refreshToken, expiredAt));
+
+        return refreshToken;
     }
 
-    public Date getExpiration(String refreshToken) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey(refreshSecret))
-                .build()
-                .parseClaimsJws(refreshToken)
-                .getBody()
-                .getExpiration();
+    private static Claims createClaims(Long memberId, String role) {
+        Claims claims = Jwts.claims();
+        claims.setSubject(String.valueOf(memberId));
+        claims.put("role", role);
+        return claims;
     }
 
-    public Long getMemberId(String accessToken) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey(accessSecret))
-                .build()
-                .parseClaimsJws(accessToken)
-                .getBody();
+    public Long getMemberIdOfAccessToken(String accessToken) {
+        Claims claims = parseClaims(accessSecret, accessToken);
         return Long.parseLong(claims.getSubject());
     }
 
-    private Key getSigningKey(String secret) {
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
-        return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+    public Long getMemberIdOfRefreshToken(String refreshToken) {
+        Claims claims = parseClaims(refreshSecret, refreshToken);
+        return Long.parseLong(claims.getSubject());
+    }
+
+    public String getRoleOfAccessToken(String accessToken) {
+        Claims claims = parseClaims(accessSecret, accessToken);
+        return claims.get("role").toString();
+    }
+
+    public String getRoleOfRefreshToken(String refreshToken) {
+        Claims claims = parseClaims(refreshSecret, refreshToken);
+        return claims.get("role").toString();
     }
 
     public boolean validateAccessToken(String accessToken) {
@@ -96,5 +110,30 @@ public class TokenProvider {
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public boolean isInvalidateRefreshToken(String refreshToken) {
+        return !validateRefreshToken(refreshToken);
+    }
+
+    public boolean isInvalidAccessToken(String accessToken) {
+        return !validateAccessToken(accessToken);
+    }
+
+    public long convertRefreshExpirationToSeconds() {
+        return refreshExpiration / 1000L;
+    }
+
+    private Key getSigningKey(String secret) {
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+    }
+
+    private Claims parseClaims(String secret, String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey(secret))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
