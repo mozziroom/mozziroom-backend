@@ -3,6 +3,7 @@ package com.hhplus.project.support.security.jwt;
 import com.hhplus.project.domain.auth.RefreshToken;
 import com.hhplus.project.domain.auth.TokenService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -15,23 +16,28 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
-@RequiredArgsConstructor
 @Component
 public class TokenProvider {
 
-    @Value("${jwt.access.secret}")
-    private String accessSecret;
+    private final String accessSecret;
+    private final long accessExpiration;
+    private final String refreshSecret;
+    private final long refreshExpiration;
+    private final TokenService tokenService;
 
-    @Value("${jwt.access.expiration}")
-    private long accessExpiration;
-
-    @Value("${jwt.refresh.secret}")
-    private String refreshSecret;
-
-    @Value("${jwt.refresh.expiration}")
-    private long refreshExpiration;
-
-    private final TokenService refreshTokenService;
+    public TokenProvider (
+            @Value("${jwt.access.secret}") String accessSecret,
+            @Value("${jwt.access.expiration}") long accessExpiration,
+            @Value("${jwt.refresh.secret}") String refreshSecret,
+            @Value("${jwt.refresh.expiration}") long refreshExpiration,
+            TokenService tokenService
+    ) {
+        this.accessSecret = accessSecret;
+        this.accessExpiration = accessExpiration;
+        this.refreshSecret = refreshSecret;
+        this.refreshExpiration = refreshExpiration;
+        this.tokenService = tokenService;
+    }
 
     public String generateAccessToken(Long memberId, String role) {
         Date now = new Date();
@@ -56,7 +62,7 @@ public class TokenProvider {
                 .signWith(getSigningKey(refreshSecret))
                 .compact();
 
-        refreshTokenService.saveOrUpdate(RefreshToken.create(memberId, refreshToken, expiredAt));
+        tokenService.saveOrUpdate(RefreshToken.create(memberId, refreshToken, expiredAt));
 
         return refreshToken;
     }
@@ -95,7 +101,7 @@ public class TokenProvider {
                     .build()
                     .parseClaimsJws(accessToken);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (ExpiredJwtException | JwtException | IllegalArgumentException e) {
             return false;
         }
     }
@@ -107,7 +113,7 @@ public class TokenProvider {
                     .build()
                     .parseClaimsJws(refreshToken);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (ExpiredJwtException | JwtException | IllegalArgumentException e) {
             return false;
         }
     }
