@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     public static final List<String> EXCLUDE_PATH = List.of(
-            "/", "/login", "/auth/reissue", "/auth/success"
+            "/", "/auth/reissue"
     );
 
     @Override

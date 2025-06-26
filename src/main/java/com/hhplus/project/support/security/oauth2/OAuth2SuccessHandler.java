@@ -20,7 +20,8 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
-    private static final String AUTH_SUCCESS_URL = "/auth/success";
+    private static final String CLIENT_BASE_URL = "http://localhost:3000";
+    private static final String AUTH_SUCCESS_URL = CLIENT_BASE_URL + "/login/success";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
