@@ -1,6 +1,5 @@
 package com.hhplus.project.fixture;
 
-import com.hhplus.project.domain.auth.TokenService;
 import com.hhplus.project.support.security.jwt.TokenProvider;
 
 public class TokenProviderFixture {
@@ -10,15 +9,13 @@ public class TokenProviderFixture {
 
     public static TokenProvider create(
             long accessExpiration,
-            long refreshExpiration,
-            TokenService tokenService
+            long refreshExpiration
     ) {
         return new TokenProvider(
                 ACCESS_SECRET,
                 accessExpiration,
                 REFRESH_SECRET,
-                refreshExpiration,
-                tokenService
+                refreshExpiration
         );
     }
 }

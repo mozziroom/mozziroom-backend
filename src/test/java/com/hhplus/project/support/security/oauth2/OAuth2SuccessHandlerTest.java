@@ -1,8 +1,9 @@
 package com.hhplus.project.support.security.oauth2;
 
+import com.hhplus.project.domain.auth.TokenService;
+import com.hhplus.project.domain.auth.dto.Issue;
 import com.hhplus.project.domain.member.MemberException;
 import com.hhplus.project.support.BaseException;
-import com.hhplus.project.support.security.jwt.TokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +37,7 @@ class OAuth2SuccessHandlerTest {
     Authentication authentication;
 
     @Mock
-    TokenProvider tokenProvider;
+    TokenService tokenService;
 
     @Mock
     CustomOAuth2User oAuth2User;
@@ -52,7 +53,7 @@ class OAuth2SuccessHandlerTest {
         String role = "ROLE_USER";
         String accessToken = "access-token";
         String refreshToken = "refresh-token";
-        Long convertedRefreshExpiration = 1000L;
+        Long refreshExpirationSeconds = 1000L;
 
         when(authentication.getPrincipal()).thenReturn(oAuth2User);
         when(oAuth2User.getMemberId()).thenReturn(memberId);
@@ -60,9 +61,8 @@ class OAuth2SuccessHandlerTest {
                 List.of(new SimpleGrantedAuthority(role));
         doReturn(authorities).when(oAuth2User).getAuthorities();
 
-        when(tokenProvider.generateAccessToken(memberId, role)).thenReturn(accessToken);
-        when(tokenProvider.generateRefreshToken(memberId, role)).thenReturn(refreshToken);
-        when(tokenProvider.convertRefreshExpirationToSeconds()).thenReturn(convertedRefreshExpiration);
+        when(tokenService.issue(memberId, role)).thenReturn(new Issue.Info(accessToken, refreshToken));
+        when(tokenService.getRefreshExpirationSeconds()).thenReturn(refreshExpirationSeconds);
 
         // void 메서드 스터빙
         doNothing().when(response).sendRedirect(anyString());
@@ -72,8 +72,8 @@ class OAuth2SuccessHandlerTest {
         oAuth2SuccessHandler.onAuthenticationSuccess(request, response, authentication);
 
         // then
-        verify(tokenProvider, times(1)).generateAccessToken(memberId, role);
-        verify(tokenProvider, times(1)).generateRefreshToken(memberId, role);
+        verify(tokenService, times(1)).issue(memberId, role);
+        verify(tokenService, times(1)).getRefreshExpirationSeconds();
         verify(response, times(1)).setHeader(anyString(), contains(refreshToken));
         verify(response, times(1)).sendRedirect(contains(accessToken));
     }
@@ -91,8 +91,8 @@ class OAuth2SuccessHandlerTest {
         assertThatThrownBy(() -> oAuth2SuccessHandler.onAuthenticationSuccess(request, response, authentication))
                 .isInstanceOf(BaseException.class)
                 .hasMessage(MemberException.ROLE_NOT_FOUND.getMessage());
-        verify(tokenProvider, times(0)).generateAccessToken(anyLong(), anyString());
-        verify(tokenProvider, times(0)).generateRefreshToken(anyLong(), anyString());
+        verify(tokenService, times(0)).issue(anyLong(), anyString());
+        verify(tokenService, times(0)).getRefreshExpirationSeconds();
         verify(response, times(0)).setHeader(anyString(), anyString());
         verify(response, times(0)).sendRedirect(anyString());
     }
