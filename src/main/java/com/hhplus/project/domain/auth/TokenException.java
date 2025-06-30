@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TokenException implements ExceptionInterface {
 
-    ACCESS_TOKEN_NOT_FOUND("ACCESS.TOKEN.NOT.FOUND","Access Token을 찾을 수 없습니다."),
     ACCESS_TOKEN_EXPIRED("ACCESS.TOKEN.EXPIRED","Access Token이 만료되었습니다."),
+    REFRESH_TOKEN_NOT_FOUND("REFRESH.TOKEN.NOT.FOUND","Refresh Token을 찾을 수 없습니다."),
+    REFRESH_TOKEN_EXPIRED("REFRESH.TOKEN.EXPIRED","Refresh Token이 만료되었습니다."),
     ;
-
 
     private final String code;
     private final String message;

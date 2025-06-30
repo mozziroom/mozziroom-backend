@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,11 +21,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     public static final List<String> EXCLUDE_PATH = List.of(
-            "/", "/login", "/auth/reissue"
+            "/", "/auth/reissue"
     );
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         return EXCLUDE_PATH.contains(path);
     }
@@ -38,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if(accessToken != null) {
                 if(tokenProvider.isInvalidAccessToken(accessToken)) {
-                    throw new BadCredentialsException(TokenException.ACCESS_TOKEN_EXPIRED.getMessage());
+                    throw new JwtAuthenticationException(TokenException.ACCESS_TOKEN_EXPIRED);
                 }
 
                 Long memberId = tokenProvider.getMemberIdOfAccessToken(accessToken);

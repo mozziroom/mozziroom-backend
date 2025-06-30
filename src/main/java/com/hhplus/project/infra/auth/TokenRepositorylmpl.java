@@ -21,8 +21,8 @@ public class TokenRepositorylmpl implements TokenRepository {
     }
 
     @Override
-    public RefreshToken save(RefreshToken refreshToken) {
-        return tokenJpaRepository.save(RefreshTokenEntity.from(refreshToken)).toDomain();
+    public void save(RefreshToken refreshToken) {
+        tokenJpaRepository.save(RefreshTokenEntity.from(refreshToken)).toDomain();
     }
 }
 

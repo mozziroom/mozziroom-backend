@@ -1,5 +1,6 @@
 package com.hhplus.project.support;
 
+import com.hhplus.project.support.security.jwt.JwtAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -40,5 +41,11 @@ public class ApiExceptionHandler {
         // TODO: 공통 로그 포멧 적용
         log.warn(e.getMessage());
         return ApiResponse.fail(e);
+    }
+
+    @ExceptionHandler(value = JwtAuthenticationException.class)
+    public ApiResponse<Void> jwtAuthenticationExceptionHandler(JwtAuthenticationException e) {
+        log.warn(e.getMessage());
+        return ApiResponse.unauthorized(e);
     }
 }
