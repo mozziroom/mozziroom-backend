@@ -44,8 +44,11 @@ public record Event(
         if (startAt != null && endAt != null && ChronoUnit.HOURS.between(startAt, endAt) < 1 ) {
             throw new BaseException(EventException.WRONG_TIME_SETTING);
         }
-        if ( capacity > 30 || capacity < 1 ){
-            throw new BaseException(EventException.WRONG_CAPACITY);
+//        if ( capacity > 30 || capacity < 1 ){
+//            throw new BaseException(EventException.WRONG_CAPACITY);
+//        }
+        if(capacity < 0){
+            throw new BaseException(EventException.EVENT_CAPACITY_EXCEEDED);
         }
     }
 
