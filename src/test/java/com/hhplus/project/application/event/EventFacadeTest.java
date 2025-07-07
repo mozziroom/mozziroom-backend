@@ -50,7 +50,7 @@ class EventFacadeTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        memberEntity = memberRepository.save(createMember());
+        memberEntity = createMember();
     }
 
     @Test

@@ -23,13 +23,18 @@ public class ReservationService {
      */
     @Transactional
     public Reservation reserve(CreateReservationCommand.Command command) {
+        Event event = eventRepository.findEventWithLock(command.eventId());
+
         // 이벤트 예약 신청
         Reservation reservation = command.toDomain();
 
         if (command.approveType().equals(EventEnums.ApproveType.MANUAL)) {
             reservation.pending();
         } else {
+            // 자동 승인인 경우 즉시 승인 처리 및 정원 감소
             reservation.approve();
+            Event updatedEvent = event.decreaseCapacity();
+            eventRepository.save(updatedEvent);
         }
 
         reservation = reservationRepository.save(reservation);
