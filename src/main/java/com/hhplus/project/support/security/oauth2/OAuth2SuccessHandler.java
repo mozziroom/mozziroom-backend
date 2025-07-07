@@ -1,8 +1,9 @@
 package com.hhplus.project.support.security.oauth2;
 
+import com.hhplus.project.domain.auth.TokenService;
+import com.hhplus.project.domain.auth.dto.Issue;
 import com.hhplus.project.domain.member.MemberException;
 import com.hhplus.project.support.BaseException;
-import com.hhplus.project.support.security.jwt.TokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,10 @@ import java.time.Duration;
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
-    private final TokenProvider tokenProvider;
-    private static final String AUTH_SUCCESS_URL = "/auth/success";
+    private final TokenService tokenService;
+
+    private static final String CLIENT_BASE_URL = "http://localhost:3000";
+    private static final String AUTH_SUCCESS_URL = CLIENT_BASE_URL + "/login/success";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -31,22 +34,21 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .orElseThrow(() -> new BaseException(MemberException.ROLE_NOT_FOUND))
                 .getAuthority();
 
-        // JWT 발급
-        String accessToken = tokenProvider.generateAccessToken(memberId, role);
-        String refreshToken = tokenProvider.generateRefreshToken(memberId, role);
+        // 토큰 발급
+        Issue.Info tokens = tokenService.issue(memberId, role);
 
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokens.refreshToken())
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
                 .sameSite("None")
-                .maxAge(Duration.ofSeconds(tokenProvider.convertRefreshExpirationToSeconds()))
+                .maxAge(Duration.ofSeconds(tokenService.getRefreshExpirationSeconds()))
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         String redirectUri = UriComponentsBuilder
                 .fromUriString(AUTH_SUCCESS_URL)
-                .queryParam("accessToken", accessToken)
+                .queryParam("accessToken", tokens.accessToken())
                 .build()
                 .toUriString();
         response.sendRedirect(redirectUri);

@@ -1,12 +1,10 @@
 package com.hhplus.project.support.security.jwt;
 
 import com.hhplus.project.domain.auth.RefreshToken;
-import com.hhplus.project.domain.auth.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
@@ -16,6 +14,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+// TODO TokenProvider 인터페이스를 만들어서 도메인 계층에 두고 구현체는 인프라 계층에 두는게 맞을지?
 @Component
 public class TokenProvider {
 
@@ -23,23 +22,20 @@ public class TokenProvider {
     private final long accessExpiration;
     private final String refreshSecret;
     private final long refreshExpiration;
-    private final TokenService tokenService;
 
     public TokenProvider (
             @Value("${jwt.access.secret}") String accessSecret,
             @Value("${jwt.access.expiration}") long accessExpiration,
             @Value("${jwt.refresh.secret}") String refreshSecret,
-            @Value("${jwt.refresh.expiration}") long refreshExpiration,
-            TokenService tokenService
+            @Value("${jwt.refresh.expiration}") long refreshExpiration
     ) {
         this.accessSecret = accessSecret;
         this.accessExpiration = accessExpiration;
         this.refreshSecret = refreshSecret;
         this.refreshExpiration = refreshExpiration;
-        this.tokenService = tokenService;
     }
 
-    public String generateAccessToken(Long memberId, String role) {
+    public String issueAccessToken(Long memberId, String role) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + accessExpiration);
 
@@ -51,7 +47,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    public String generateRefreshToken(Long memberId, String role) {
+    public RefreshToken issueRefreshToken(Long memberId, String role) {
         Date now = new Date();
         Date expiredAt = new Date(now.getTime() + refreshExpiration);
 
@@ -62,16 +58,7 @@ public class TokenProvider {
                 .signWith(getSigningKey(refreshSecret))
                 .compact();
 
-        tokenService.saveOrUpdate(RefreshToken.create(memberId, refreshToken, expiredAt));
-
-        return refreshToken;
-    }
-
-    private static Claims createClaims(Long memberId, String role) {
-        Claims claims = Jwts.claims();
-        claims.setSubject(String.valueOf(memberId));
-        claims.put("role", role);
-        return claims;
+        return RefreshToken.create(memberId, refreshToken, expiredAt);
     }
 
     public Long getMemberIdOfAccessToken(String accessToken) {
@@ -133,6 +120,13 @@ public class TokenProvider {
     private Key getSigningKey(String secret) {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+    }
+
+    private static Claims createClaims(Long memberId, String role) {
+        Claims claims = Jwts.claims();
+        claims.setSubject(String.valueOf(memberId));
+        claims.put("role", role);
+        return claims;
     }
 
     private Claims parseClaims(String secret, String token) {

@@ -1,6 +1,7 @@
 package com.hhplus.project.support;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hhplus.project.support.security.jwt.JwtAuthenticationException;
 import org.springframework.http.HttpStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -30,6 +31,10 @@ public record ApiResponse<T>(
         return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, Error.create(baseException));
     }
 
+    public static <T> ApiResponse<T> unauthorized(JwtAuthenticationException jwtAuthenticationException) {
+        return new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), null, Error.create(jwtAuthenticationException));
+    }
+
     private record Error(
             String errorCode,
             String message
@@ -45,6 +50,10 @@ public record ApiResponse<T>(
 
         private static Error create(BaseException baseException) {
             return create(baseException.getCode(), baseException.getMessage());
+        }
+
+        private static Error create(JwtAuthenticationException jwtAuthenticationException) {
+            return create(jwtAuthenticationException.getCode(), jwtAuthenticationException.getMessage());
         }
     }
 }
