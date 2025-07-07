@@ -31,9 +31,16 @@ public class EventService {
         // 이벤트 도메인 모델 정보 변경
         Event updatedEvent = event.update(command, null);
 
+        EventTimeSlot eventTimeSlot = eventRepository.findEventTimeSlot(command.eventId());
+        TimeSlot timeSlot = eventRepository.getTimeSlot(eventTimeSlot.timeSlotId());
+
+        eventRepository.save(eventTimeSlot.update(command));
+        eventRepository.save(timeSlot.update(command));
+
         return eventRepository.save(updatedEvent);
     }
 
+    @Transactional
     public CreateEvent.Info create(CreateEvent.Command command) {
         if (eventRepository.findCategory(command.categoryId()).isEmpty()) {
             throw new BaseException(EventException.CATEGORY_NOT_FOUND);
@@ -42,6 +49,11 @@ public class EventService {
         if (eventRepository.findLocation(command.locationId()).isEmpty()) {
             throw new BaseException(EventException.LOCATION_NOT_FOUND);
         }
-        return CreateEvent.Info.fromDomain(eventRepository.save(command.toDomain()));
+
+        Event event = eventRepository.save(command.toDomain());
+        TimeSlot timeSlot = eventRepository.save(command.toTimeSlotDomain());
+        eventRepository.save(command.toEventTimeSlotDomain(event, timeSlot));
+
+        return CreateEvent.Info.fromDomain(event);
     }
 }

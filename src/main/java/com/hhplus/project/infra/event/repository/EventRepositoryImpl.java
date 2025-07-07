@@ -1,9 +1,7 @@
 package com.hhplus.project.infra.event.repository;
 
 import com.hhplus.project.domain.event.*;
-import com.hhplus.project.infra.event.entity.CategoryEntity;
-import com.hhplus.project.infra.event.entity.EventEntity;
-import com.hhplus.project.infra.event.entity.LocationEntity;
+import com.hhplus.project.infra.event.entity.*;
 import com.hhplus.project.support.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +14,11 @@ import java.util.Optional;
 public class EventRepositoryImpl implements EventRepository {
 
     private final EventJpaRepository eventJpaRepository;
+    private final EventTimeSlotJpaRepository eventTimeSlotJpaRepository;
+    private final TimeSlotJpaRepository timeSlotJpaRepository;
     private final LocationJpaRepository locationJpaRepository;
     private final CategoryJpaRepository categoryJpaRepository;
-    
+
     @Override
     public Event getEvent(Long eventId) {
         return eventJpaRepository.findById(eventId)
@@ -42,6 +42,18 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
+    public EventTimeSlot findEventTimeSlot(Long eventId) {
+        return eventTimeSlotJpaRepository.findByEventTimeSlotEntityByEvent_eventId(eventId).toDomain();
+    }
+
+    @Override
+    public TimeSlot getTimeSlot(Long timeSlotId) {
+        return timeSlotJpaRepository.findById(timeSlotId)
+                .map(TimeSlotEntity::toDomain)
+                .orElseThrow(() -> new BaseException(EventException.EVENT_NOT_FOUND));
+    }
+
+    @Override
     public Page<Event> findEventList(EventList.Command command) {
         return eventJpaRepository.findEventList(command);
     }
@@ -59,5 +71,15 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public Location save(Location location) {
         return locationJpaRepository.save(LocationEntity.fromDomain(location)).toDomain();
+    }
+
+    @Override
+    public EventTimeSlot save(EventTimeSlot eventTimeSlot) {
+        return eventTimeSlotJpaRepository.save(EventTimeSlotEntity.fromDomain(eventTimeSlot)).toDomain();
+    }
+
+    @Override
+    public TimeSlot save(TimeSlot timeSlot) {
+        return timeSlotJpaRepository.save(TimeSlotEntity.fromDomain(timeSlot)).toDomain();
     }
 }

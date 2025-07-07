@@ -3,7 +3,8 @@ package com.hhplus.project.application.event.dto;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.dto.CreateEvent;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record CreateEventFacade() {
     public record Criteria(
@@ -11,8 +12,9 @@ public record CreateEventFacade() {
             Long locationId,
             String name,
             String content,
-            LocalDateTime startAt,
-            LocalDateTime endAt,
+            LocalDate eventDate,
+            LocalTime startTime,
+            LocalTime endTime,
             String token,
             Integer capacity,
             EventEnums.ApproveType approveType,
@@ -26,8 +28,9 @@ public record CreateEventFacade() {
                     locationId,
                     name,
                     content,
-                    startAt,
-                    endAt,
+                    eventDate,
+                    startTime,
+                    endTime,
                     hostId,
                     capacity,
                     approveType,

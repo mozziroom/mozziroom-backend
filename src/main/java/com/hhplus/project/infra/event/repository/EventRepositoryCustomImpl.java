@@ -64,8 +64,8 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.locationId.eq(command.locationId())));
         builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> categoryEntity.categoryId.eq(command.categoryId())));
-        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.startAt.goe(command.startAt())));
-        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.endAt.loe(command.endAt())));
+//        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.startAt.goe(command.startAt())));
+//        builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.endAt.loe(command.endAt())));
         builder.and(BooleanBuilderUtil.nullSafeBuilder(() -> eventEntity.name.containsIgnoreCase(command.keyword())));
         if (command.keyword() != null && !command.keyword().isEmpty()) {
             builder.and(eventEntity.name.containsIgnoreCase(command.keyword()));

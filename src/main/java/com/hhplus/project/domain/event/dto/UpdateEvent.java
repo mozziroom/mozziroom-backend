@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public record UpdateEvent() {
     public record Command(
@@ -18,10 +18,12 @@ public record UpdateEvent() {
             String name,
             @Schema(description = "스터디 내용", example = "스타벅스에서 모각코 하실 분!")
             String content,
-            @Schema(description = "이벤트 시작 일시", example = "2025-04-10T14:00:00")
-            LocalDateTime startAt,
-            @Schema(description = "이벤트 종료 일시", example = "2025-04-10T16:00:00")
-            LocalDateTime endAt,
+            @Schema(description = "이벤트 시작 일", example = "2025-04-10")
+            LocalDate eventDate,
+            @Schema(description = "이벤트 시작 시간", example = "14:00:00")
+            LocalTime startTime,
+            @Schema(description = "이벤트 종료 시간", example = "16:00:00")
+            LocalTime endTime,
             @Schema(description = "정원", example = "30")
             int capacity,
             @Schema(description = "승인 타입 (AUTO: 자동, MANUAL: 수동)", example = "AUTO")
@@ -42,8 +44,9 @@ public record UpdateEvent() {
                 Long categoryId,
                 String name,
                 String content,
-                LocalDateTime startAt,
-                LocalDateTime endAt,
+                LocalDate eventDate,
+                LocalTime startTime,
+                LocalTime endTime,
                 int capacity,
                 EventEnums.ApproveType approveType,
                 boolean isOnline,
@@ -57,8 +60,9 @@ public record UpdateEvent() {
                     categoryId,
                     name,
                     content,
-                    startAt,
-                    endAt,
+                    eventDate,
+                    startTime,
+                    endTime,
                     capacity,
                     approveType,
                     isOnline,

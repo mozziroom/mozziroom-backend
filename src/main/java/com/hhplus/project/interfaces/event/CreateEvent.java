@@ -2,12 +2,11 @@ package com.hhplus.project.interfaces.event;
 
 import com.hhplus.project.application.event.dto.CreateEventFacade;
 import com.hhplus.project.domain.event.EventEnums;
-import com.hhplus.project.domain.event.RecurringRulesEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public record CreateEvent() {
     public record Request (
@@ -28,12 +27,16 @@ public record CreateEvent() {
             String content,
 
             @NotNull
-            @Schema(description = "이벤트 시작 일시", example = "2025-04-10T14:00:00")
-            LocalDateTime endAt,
+            @Schema(description = "이벤트 일", example = "2025-04-10")
+            LocalDate eventDate,
 
             @NotNull
-            @Schema(description = "이벤트 종료 일시", example = "2025-04-10T16:00:00")
-            LocalDateTime startAt,
+            @Schema(description = "이벤트 시작 시간", example = "14:00:00")
+            LocalTime endTime,
+
+            @NotNull
+            @Schema(description = "이벤트 종료 시간", example = "16:00:00")
+            LocalTime startTime,
 
             @NotNull
             @Schema(description = "정원", example = "30")
@@ -58,8 +61,9 @@ public record CreateEvent() {
                     locationId,
                     name,
                     content,
-                    startAt,
-                    endAt,
+                    eventDate,
+                    startTime,
+                    endTime,
                     token,
                     capacity,
                     approveType,

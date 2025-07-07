@@ -1,14 +1,15 @@
 package com.hhplus.project.infra.event.entity;
 
 import com.hhplus.project.domain.event.Event;
-import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.event.RecurringRules;
 import com.hhplus.project.infra.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.ObjectUtils;
-import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -50,18 +51,6 @@ public class EventEntity extends BaseTimeEntity {
     @Lob
     @Column(name = "content", nullable = false, columnDefinition = "LONGTEXT")
     private String content;
-
-    /**
-     * 스터디 시작시간
-     */
-    @Column(name = "start_at", nullable = false)
-    private LocalDateTime startAt;
-
-    /**
-     * 스터디 종료시간
-     */
-    @Column(name = "end_at", nullable = false)
-    private LocalDateTime endAt;
 
     /**
      * 스터디 주최자 (member_id)
@@ -112,8 +101,6 @@ public class EventEntity extends BaseTimeEntity {
                         Long locationId,
                         String name,
                         String content,
-                        LocalDateTime startAt,
-                        LocalDateTime endAt,
                         Long hostId,
                         int capacity,
                         EventEnums.ApproveType approveType,
@@ -127,8 +114,6 @@ public class EventEntity extends BaseTimeEntity {
         this.locationId = locationId;
         this.name = name;
         this.content = content;
-        this.startAt = startAt;
-        this.endAt = endAt;
         this.hostId = hostId;
         this.capacity = capacity;
         this.approveType = approveType;
@@ -143,8 +128,6 @@ public class EventEntity extends BaseTimeEntity {
             Long locationId,
             String name,
             String content,
-            LocalDateTime startAt,
-            LocalDateTime endAt,
             Long hostId,
             int capacity,
             EventEnums.ApproveType approveType,
@@ -159,8 +142,6 @@ public class EventEntity extends BaseTimeEntity {
                 locationId,
                 name,
                 content,
-                startAt,
-                endAt,
                 hostId,
                 capacity,
                 approveType,
@@ -178,8 +159,6 @@ public class EventEntity extends BaseTimeEntity {
                 this.locationId,
                 this.name,
                 this.content,
-                this.startAt,
-                this.endAt,
                 this.hostId,
                 this.capacity,
                 this.approveType,
@@ -197,8 +176,6 @@ public class EventEntity extends BaseTimeEntity {
                 event.locationId(),
                 event.name(),
                 event.content(),
-                event.startAt(),
-                event.endAt(),
                 event.hostId(),
                 event.capacity(),
                 event.approveType(),
@@ -215,8 +192,6 @@ public class EventEntity extends BaseTimeEntity {
         this.locationId = event.locationId();
         this.name = event.name();
         this.content = event.content();
-        this.startAt = event.startAt();
-        this.endAt = event.endAt();
         this.capacity = event.capacity();
         this.approveType = event.approveType();
         this.isOnline = event.isOnline();

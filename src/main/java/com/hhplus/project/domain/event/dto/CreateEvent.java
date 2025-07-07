@@ -2,8 +2,11 @@ package com.hhplus.project.domain.event.dto;
 
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.event.EventTimeSlot;
+import com.hhplus.project.domain.event.TimeSlot;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record CreateEvent() {
 
@@ -12,8 +15,9 @@ public record CreateEvent() {
             Long locationId,
             String name,
             String content,
-            LocalDateTime startAt,
-            LocalDateTime endAt,
+            LocalDate eventDate,
+            LocalTime startTime,
+            LocalTime endTime,
             Long hostId,
             Integer capacity,
             EventEnums.ApproveType approveType,
@@ -28,8 +32,6 @@ public record CreateEvent() {
                     locationId,
                     name,
                     content,
-                    startAt,
-                    endAt,
                     hostId,
                     capacity,
                     approveType,
@@ -38,6 +40,19 @@ public record CreateEvent() {
                     null,
                     null
             );
+        }
+
+        public EventTimeSlot toEventTimeSlotDomain(Event event, TimeSlot timeSlot) {
+            return new EventTimeSlot(
+                    null,
+                    event,
+                    eventDate,
+                    timeSlot.timeSlotId()
+            );
+        }
+
+        public TimeSlot toTimeSlotDomain() {
+            return new TimeSlot(null, startTime, endTime);
         }
     }
 

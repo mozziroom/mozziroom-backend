@@ -18,7 +18,15 @@ public interface EventRepository {
 
     Optional<Category> findCategory(Long categoryId);
 
+    EventTimeSlot findEventTimeSlot(Long eventId);
+
+    TimeSlot getTimeSlot(Long timeSlotId);
+
     Category save(Category category);
 
     Location save(Location location);
+
+    EventTimeSlot save(EventTimeSlot eventTimeSlot);
+
+    TimeSlot save(TimeSlot timeSlot);
 }
