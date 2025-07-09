@@ -57,7 +57,16 @@ public class TokenService {
         return new Reissue.Info(accessToken);
     }
 
+    public Long getMemberIdOfAccessToken(String accessToken) {
+        return tokenProvider.getMemberIdOfAccessToken(accessToken);
+    }
+
     public long getRefreshExpirationSeconds() {
         return tokenProvider.convertRefreshExpirationToSeconds();
+    }
+
+    // Authorization 헤더 문자열에서 Bearer 토큰 추출
+    public String extractTokenFromHeader(String authorization) {
+        return tokenProvider.extractTokenFromHeader(authorization);
     }
 }
