@@ -13,7 +13,7 @@ public record ReservationData(
         LocalDateTime startAt,
         LocalDateTime endAt,
         ReservationEnums.Status status,
-        Long hostName
+        String hostName
 ) {
     public FindReservationListInfo.Info toInfo() {
         return new FindReservationListInfo.Info(

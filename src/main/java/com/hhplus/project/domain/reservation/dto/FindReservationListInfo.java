@@ -14,7 +14,7 @@ public record FindReservationListInfo() {
             LocalDateTime startAt,
             LocalDateTime endAt,
             ReservationEnums.Status status,
-            Long hostName
+            String hostName
     ) {
         // 파라미터로 받은 일자시간과 비교해서 이벤트 시작 시간 전이면 예약 취소 가능
         public boolean isCancellable(LocalDateTime dateTime) {

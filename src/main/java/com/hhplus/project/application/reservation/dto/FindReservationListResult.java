@@ -14,7 +14,7 @@ public record FindReservationListResult() {
             LocalDateTime startAt,
             LocalDateTime endAt,
             ReservationEnums.Status status,
-            Long hostName,
+            String hostName,
             boolean cancellable
     ) {
         public static Result from(FindReservationListInfo.Info info, LocalDateTime dateTime) {
