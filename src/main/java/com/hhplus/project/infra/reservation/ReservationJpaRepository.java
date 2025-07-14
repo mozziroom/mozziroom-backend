@@ -4,6 +4,6 @@ import com.hhplus.project.domain.reservation.Reservation;
 import com.hhplus.project.infra.reservation.entity.ReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Long> {
+public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Long>, ReservationRepositoryCustom {
     Reservation findByEventIdAndMemberId(Long eventId, Long memberId);
 }

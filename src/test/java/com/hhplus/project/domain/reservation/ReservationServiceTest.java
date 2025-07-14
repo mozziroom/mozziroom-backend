@@ -1,15 +1,24 @@
 package com.hhplus.project.domain.reservation;
 
 import com.hhplus.project.BaseIntegrationTest;
+import com.hhplus.project.domain.event.Event;
+import com.hhplus.project.domain.event.EventEnums;
+import com.hhplus.project.domain.member.Member;
 import com.hhplus.project.domain.reservation.dto.CreateReservationCommand;
+import com.hhplus.project.domain.reservation.dto.FindReservationListInfo;
 import com.hhplus.project.domain.reservation.dto.UpdateReservationCommand;
+import com.hhplus.project.fixture.EventFixture;
+import com.hhplus.project.fixture.MemberFixture;
 import com.hhplus.project.support.BaseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReservationServiceTest extends BaseIntegrationTest {
@@ -22,6 +31,12 @@ public class ReservationServiceTest extends BaseIntegrationTest {
 
     @Autowired
     private ReservationHistoryRepository reservationHistoryRepository;
+
+    @Autowired
+    private EventFixture eventFixture;
+
+    @Autowired
+    private MemberFixture memberFixture;
 
     @Test
     @DisplayName("🟢 이벤트 예약 시, 이벤트가 생성되고 History에 반영된다.")
@@ -80,5 +95,30 @@ public class ReservationServiceTest extends BaseIntegrationTest {
                 () -> reservationService.cancel(badCmd), "존재하지 않는 예약 ID로 취소 호출 시 예외가 발생해야 한다");
         assertEquals(ReservationException.NOT_MATCHED_RESERVATION.getCode(),
                 ex.getCode());
+    }
+
+    @Test
+    @DisplayName("🟢 예약을 한번 수행 후 예약 목록을 조회하면 한 개가 조회된다.")
+    void findReservationList() {
+        // given
+        Member host = memberFixture.create();
+        Member member = memberFixture.create();
+        Event event = eventFixture.create(host.memberId());
+
+        CreateReservationCommand.Command command = new CreateReservationCommand.Command(
+                event.eventId(),
+                member.memberId(),
+                EventEnums.ApproveType.AUTO
+        );
+        reservationService.reserve(command);
+
+        // when
+        Page<FindReservationListInfo.Info> reservationList = reservationService.findReservationList(
+                member.memberId(),
+                PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(reservationList.getTotalElements()).isEqualTo(1L);
     }
 }

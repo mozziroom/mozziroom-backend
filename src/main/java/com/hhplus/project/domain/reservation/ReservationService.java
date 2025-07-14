@@ -4,9 +4,12 @@ import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.EventRepository;
 import com.hhplus.project.domain.reservation.dto.CreateReservationCommand;
+import com.hhplus.project.domain.reservation.dto.FindReservationListInfo;
 import com.hhplus.project.domain.reservation.dto.UpdateReservationCommand;
 import com.hhplus.project.support.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,4 +110,10 @@ public class ReservationService {
         return reservationRepository.findByEventIdAndMemberId(eventId, memberId);
     }
 
+    /**
+     * 예약 리스트 조회
+     */
+    public Page<FindReservationListInfo.Info> findReservationList(Long memberId, Pageable pageable) {
+        return reservationRepository.findReservationList(memberId, pageable);
+    }
 }
