@@ -111,4 +111,21 @@ public class EventFixture {
                 .build();
     }
 
+    public static EventEntity creatEventApproveTypeIsAUTO() {
+        return EventEntity.builder()
+                .categoryId(1L)
+                .locationId(1L)
+                .name("29cm 투어?")
+                .content("허재와 함께하는 29투어일수도?")
+                .startAt(LocalDateTime.of(LocalDate.of(2025, 10, 10), LocalTime.of(18, 0, 0)))
+                .endAt(LocalDateTime.of(LocalDate.of(2025, 10, 10), LocalTime.of(23, 59, 59)))
+                .hostId(1L)
+                .capacity(1)
+                .approveType(EventEnums.ApproveType.AUTO)
+                .hostId(1L)
+                .isOnline(false)
+                .locationDetail("29cm 앞일수도 있고 아닐수도 있습니다.")
+                .build();
+    }
+
 }
