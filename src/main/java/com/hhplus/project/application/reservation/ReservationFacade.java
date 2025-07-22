@@ -1,12 +1,19 @@
 package com.hhplus.project.application.reservation;
 
 import com.hhplus.project.application.reservation.dto.CreateReservationCriteria;
+import com.hhplus.project.application.reservation.dto.FindReservationListResult;
 import com.hhplus.project.application.reservation.dto.UpdateReservationCriteria;
+import com.hhplus.project.domain.auth.TokenService;
 import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventService;
 import com.hhplus.project.domain.reservation.ReservationService;
+import com.hhplus.project.domain.reservation.dto.FindReservationListInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -14,6 +21,7 @@ public class ReservationFacade {
 
     private final EventService eventService;
     private final ReservationService reservationService;
+    private final TokenService tokenService;
 
     /**
      * 이벤트 예약 신청
@@ -46,5 +54,15 @@ public class ReservationFacade {
      */
     public void rejectReservation(UpdateReservationCriteria.Criteria criteria) {
         reservationService.reject(criteria.toCommand());
+    }
+
+    /**
+     * 예약 리스트 조회
+     */
+    public Page<FindReservationListResult.Result> findReservationList(String authorization, Pageable pageable) {
+        String accessToken = tokenService.extractTokenFromHeader(authorization);
+        Long memberId = tokenService.getMemberIdOfAccessToken(accessToken);
+        Page<FindReservationListInfo.Info> info = reservationService.findReservationList(memberId, pageable);
+        return info.map(item -> FindReservationListResult.Result.from(item, LocalDateTime.now()));
     }
 }

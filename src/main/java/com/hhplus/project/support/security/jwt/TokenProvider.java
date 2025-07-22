@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
@@ -111,6 +112,20 @@ public class TokenProvider {
 
     public boolean isInvalidAccessToken(String accessToken) {
         return !validateAccessToken(accessToken);
+    }
+
+    // HttpServletRequest에서 토큰 추출
+    public String extractTokenFromRequest(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        return extractTokenFromHeader(authorization);
+    }
+
+    // Authorization 헤더 값에서 토큰 추출
+    public String extractTokenFromHeader(String authorization) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7);
+        }
+        return null;
     }
 
     public long convertRefreshExpirationToSeconds() {

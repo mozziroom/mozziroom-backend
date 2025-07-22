@@ -1,10 +1,17 @@
 package com.hhplus.project.domain.reservation;
 
 import com.hhplus.project.BaseIntegrationTest;
+
+import com.hhplus.project.domain.member.Member;
+import com.hhplus.project.domain.event.Event;
 import com.hhplus.project.domain.event.EventEnums;
 import com.hhplus.project.domain.event.EventRepository;
+
 import com.hhplus.project.domain.reservation.dto.CreateReservationCommand;
+import com.hhplus.project.domain.reservation.dto.FindReservationListInfo;
 import com.hhplus.project.domain.reservation.dto.UpdateReservationCommand;
+import com.hhplus.project.fixture.EventFixture;
+import com.hhplus.project.fixture.MemberFixture;
 import com.hhplus.project.support.BaseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -19,6 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static com.hhplus.project.fixture.EventFixture.creatEventApproveTypeIsAUTO;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +45,11 @@ public class ReservationServiceTest extends BaseIntegrationTest {
     private ReservationHistoryRepository reservationHistoryRepository;
 
     @Autowired
+    private EventFixture eventFixture;
+
+    @Autowired
+    private MemberFixture memberFixture;
+  
     EventRepository eventRepository;
 
     @BeforeEach
@@ -100,8 +115,7 @@ public class ReservationServiceTest extends BaseIntegrationTest {
         assertEquals(ReservationException.NOT_MATCHED_RESERVATION.getCode(),
                 ex.getCode());
     }
-
-    @Test
+  
     @DisplayName("🔴 [동시성 테스트] 정원이 1명인 이벤트에 10명이 동시에 예약을 시도하면 1명만 성공해야 한다.")
     void reserve_concurrency_test() throws InterruptedException {
         // given
@@ -132,5 +146,30 @@ public class ReservationServiceTest extends BaseIntegrationTest {
 
         // then
         assertEquals(1, successCount.get(), "정확히 1개의 예약만 성공해야 합니다.");
+    }
+  
+    @Test
+    @DisplayName("🟢 예약을 한번 수행 후 예약 목록을 조회하면 한 개가 조회된다.")
+    void findReservationList() {
+        // given
+        Member host = memberFixture.create();
+        Member member = memberFixture.create();
+        Event event = eventFixture.create(host.memberId());
+
+        CreateReservationCommand.Command command = new CreateReservationCommand.Command(
+                event.eventId(),
+                member.memberId(),
+                EventEnums.ApproveType.AUTO
+        );
+        reservationService.reserve(command);
+
+        // when
+        Page<FindReservationListInfo.Info> reservationList = reservationService.findReservationList(
+                member.memberId(),
+                PageRequest.of(0, 10)
+        );
+
+        // then
+        assertThat(reservationList.getTotalElements()).isEqualTo(1L);
     }
 }

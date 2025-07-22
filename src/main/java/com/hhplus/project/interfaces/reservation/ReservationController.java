@@ -1,13 +1,17 @@
 package com.hhplus.project.interfaces.reservation;
 
 import com.hhplus.project.application.reservation.ReservationFacade;
+import com.hhplus.project.application.reservation.dto.FindReservationListResult;
 import com.hhplus.project.interfaces.reservation.dto.CreateReservationRequest;
+import com.hhplus.project.interfaces.reservation.dto.FindReservationListResponse;
 import com.hhplus.project.interfaces.reservation.dto.UpdateReservationRequest;
 import com.hhplus.project.support.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Reservation API", description = "이벤트 예약을 관리합니다.")
@@ -55,5 +59,11 @@ public class ReservationController {
     ) {
         reservationFacade.rejectReservation((new UpdateReservationRequest.Request(reservationId, hostId)).toCriteria());
         return ApiResponse.ok();
+    }
+    @Operation(summary = "이벤트 예약 리스트 조회 API", description = "예약한 이벤트 리스트를 조회합니다.")
+    @GetMapping("/list")
+    public ApiResponse<Page<FindReservationListResponse.Response>> findReservationList(@RequestHeader("Authorization") String authorization, Pageable pageable) {
+        Page<FindReservationListResult.Result> result = reservationFacade.findReservationList(authorization, pageable);
+        return ApiResponse.ok(result.map(FindReservationListResponse.Response::from));
     }
 }

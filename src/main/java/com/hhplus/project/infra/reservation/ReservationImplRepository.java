@@ -3,9 +3,12 @@ package com.hhplus.project.infra.reservation;
 import com.hhplus.project.domain.reservation.Reservation;
 import com.hhplus.project.domain.reservation.ReservationException;
 import com.hhplus.project.domain.reservation.ReservationRepository;
+import com.hhplus.project.domain.reservation.dto.FindReservationListInfo;
 import com.hhplus.project.infra.reservation.entity.ReservationEntity;
 import com.hhplus.project.support.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,5 +31,10 @@ public class ReservationImplRepository implements ReservationRepository {
     @Override
     public Reservation findByEventIdAndMemberId(Long eventId, Long memberId) {
         return reservationJpaRepository.findByEventIdAndMemberId(eventId, memberId);
+    }
+
+    @Override
+    public Page<FindReservationListInfo.Info> findReservationList(Long memberId, Pageable pageable) {
+        return reservationJpaRepository.findReservationList(memberId, pageable);
     }
 }
