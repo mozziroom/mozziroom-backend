@@ -22,8 +22,8 @@ import java.time.Duration;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenService tokenService;
 
-    private static final String CLIENT_BASE_URL = "http://localhost:3000";
-    private static final String AUTH_SUCCESS_URL = CLIENT_BASE_URL + "/login/success";
+    private static final String CLIENT_BASE_URL = "http://localhost:5173";
+    private static final String AUTH_SUCCESS_URL = CLIENT_BASE_URL + "/";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
